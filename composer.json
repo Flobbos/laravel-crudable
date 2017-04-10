@@ -1,7 +1,7 @@
 {
-    "name": "flobbos/laravel-translatable-db",
-    "description": "A Laravel package for multilingual models",
-    "keywords": ["laravel", "translation", "language", "database"],
+    "name": "flobbos/laravel-crudable",
+    "description": "A Laravel package for saving time on crud operations",
+    "keywords": ["laravel", "crud", "database"],
     "license": "MIT",
     "authors": [
         {
@@ -14,13 +14,9 @@
         "php": ">=5.6.0",
         "illuminate/support": "5.4.*"
     },
-    "require-dev": {
-        "orchestra/testbench": "3.4.*",
-        "phpunit/phpunit": "~5.7"
-    },
     "autoload": {
         "psr-4": {
-            "Flobbos\\TranslatableDB\\": "src/TranslatableDB/"
+            "Flobbos\\Crudable\\": "src/Crudable/"
         },
         "classmap": [
         ]
