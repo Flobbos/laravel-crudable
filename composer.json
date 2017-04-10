@@ -1,0 +1,30 @@
+{
+    "name": "flobbos/laravel-translatable-db",
+    "description": "A Laravel package for multilingual models",
+    "keywords": ["laravel", "translation", "language", "database"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexej Krzewitzki",
+            "email": "alexej@helloo.it",
+            "homepage": "http://helloo.it"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "illuminate/support": "5.4.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.4.*",
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flobbos\\TranslatableDB\\": "src/TranslatableDB/"
+        },
+        "classmap": [
+        ]
+    },
+
+    "minimum-stability": "dev"
+}
