@@ -1,0 +1,2 @@
+# laravel-crudable
+Crud Trait
