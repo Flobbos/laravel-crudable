@@ -2,6 +2,15 @@
 
 ### v. 0.4
 
+- added automated binding feature
+- fixed issues with automated binding
+
+### v. 0.32
+
+- fixed issue with config
+
+### v. 0.31
+
 - added contract
 - added config file
 - updated service provider

@@ -26,8 +26,8 @@ return [
     'implementations' => [
         //User service example
         //[
-        //    'when' => '\App\Http\Controllers\Admin\UserController::class',
-        //    'give' => '\App\Services\UserService::class'
+        //    'when' => \App\Http\Controllers\Admin\UserController::class,
+        //    'give' => \App\Services\UserService::class
         //]
     ]
     

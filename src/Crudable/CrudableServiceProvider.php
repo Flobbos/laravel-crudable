@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 class CrudableServiceProvider extends ServiceProvider{
     
+    protected $defer = true;
+
     public function boot(){
         $this->publishes([
             __DIR__.'/../config/crudable.php' => config_path('crudable.php'),
@@ -24,7 +26,7 @@ class CrudableServiceProvider extends ServiceProvider{
         if($config->get('crudable.use_auto_binding')){
             foreach($config->get('crudable.implementations') as $imp){
                 $this->app->when($imp['when'])
-                    ->needs(\App\Contracts\Crud::class)
+                    ->needs(\Flobbos\Crudable\Contracts\Crud::class)
                     ->give($imp['give']);
             }
         }

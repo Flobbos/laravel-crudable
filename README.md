@@ -11,18 +11,27 @@ combination with Repositories or Services.
 
 ###Docs
 
-* [Installation](#installation-in-4-steps)
+* [Installation](#installation)
+* [Configuration](#configuration)
 
 ## Installation 
 
-### Step 1: Install package
+### Install package
 
 Add the package in your composer.json by executing the command.
 
 ```bash
 composer require flobbos/laravel-crudable
 ```
-### Step 2: Use the package
+
+Next, if you plan on using the Contract with automated binding,
+add the service provider to `app/config/app.php`
+
+```
+Flobbos\Crudable\CrudableServiceProvider::class,
+```
+
+### Use the package
 
 Add the package to the repository or service where you want the trait to be used.
 
@@ -45,3 +54,28 @@ class CountryService {
 By injecting the model into the service or repository and assigning it to 
 the protected $this->model, the trait now has access to your model and can work
 its magic.
+
+## Configuration
+
+Laravel 5.*
+```bash
+php artisan vendor:publish 
+```
+
+Update the configuration according to your needs. A sample configuration is
+provided in the config file.
+
+```php
+return [
+    'implementations' => [
+        [
+            //This is where you set the requesting class
+            'when' => \App\Http\Controllers\Admin\UserController::class,
+            //This is where you send out the implementation
+            'give' => \App\Services\UserService::class
+        ]
+    ]
+];
+```
+
+Have fun CRUDding! :-)
