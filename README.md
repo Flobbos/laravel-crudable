@@ -6,7 +6,9 @@
 **If you want to save time on your crud operations**
 
 This Laravel package is for saving time on CRUD operations when used in 
-combination with Repositories or Services.
+combination with Repositories or Services. The trait covers the basics needed
+for running simple CRUD operations. It also comes with a Contract that you
+can bind to your services via automated contextual binding. 
 
 
 ### Docs
