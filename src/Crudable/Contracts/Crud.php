@@ -5,14 +5,15 @@ namespace Flobbos\Crudable\Contracts;
 interface Crud {
     
     /**
-     * Get a single item or a collection of items
+     * Get a single item or a collection of items.
+     * Alias of find method when used with ID
      * @param int $id
      */
     public function get($id = null);
     
     /**
      * Get a single item
-     * @param int $id
+     * @param int $id 
      */
     public function find($id);
     
