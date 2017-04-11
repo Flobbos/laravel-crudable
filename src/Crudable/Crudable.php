@@ -19,6 +19,15 @@ trait Crudable {
     }
     
     /**
+     * Get paginated collection
+     * @param int $perPage
+     * @return Collection
+     */
+    public function paginate($perPage){
+        return $this->model->with($this->relation)->paginate($perPage);
+    }
+    
+    /**
      * Alias of model find
      * @param int $id
      * @return Model
@@ -58,6 +67,12 @@ trait Crudable {
         return $this;
     }
     
+    /**
+     * Create new database entry including related models
+     * @param array $data
+     * @param string $relationName
+     * @return Model
+     */
     public function create(array $data, $relationName = null){
         $model = $this->model->create($data);
         //check for hasMany
@@ -71,10 +86,21 @@ trait Crudable {
         return $model;
     }
     
+    /**
+     * Update Model
+     * @param array $data
+     * @return bool
+     */
     public function udpate(array $data){
         return $this->model->update($data);
     }
     
+    /**
+     * Delete model either soft or hard delete
+     * @param int $id
+     * @param bool $hardDelete
+     * @return bool
+     */
     public function delete($id, $hardDelete = false){
         $model = $this->model->find($id);
         if($hardDelete){
@@ -83,6 +109,13 @@ trait Crudable {
         return $model->delete($id);
     }
     
+    /**
+     * Set related models that need to be created
+     * for a hasMany relationship
+     * @param array $data
+     * @param string $relatedModel
+     * @return self
+     */
     public function withHasMany(array $data, $relatedModel){
         $this->withHasMany = [];
         foreach($data as $k=>$v){
@@ -91,6 +124,11 @@ trait Crudable {
         return $this;
     }
     
+    /**
+     * Set related models for belongsToMany relationship
+     * @param array $data
+     * @return self
+     */
     public function withBelongsToMany(array $data){
         $this->withBelongsToMany = $data;
         return $this;
