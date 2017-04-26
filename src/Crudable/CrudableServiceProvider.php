@@ -6,8 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class CrudableServiceProvider extends ServiceProvider{
     
-    protected $defer = true;
-
     public function boot(){
         $this->publishes([
             __DIR__.'/../config/crudable.php' => config_path('crudable.php'),
