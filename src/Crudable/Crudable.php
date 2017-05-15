@@ -91,8 +91,9 @@ trait Crudable {
      * @param array $data
      * @return bool
      */
-    public function udpate(array $data){
-        return $this->model->update($data);
+    public function udpate($id, array $data){
+        $model = $this->find($id);
+        return $model->update($data);
     }
     
     /**

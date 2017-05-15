@@ -52,7 +52,7 @@ interface Crud {
      * Update model. make sure fillable is set on the model
      * @param array $data
      */
-    public function udpate(array $data);
+    public function udpate($id,array $data);
     
     /**
      * Delete item either by softdelete or harddelete
