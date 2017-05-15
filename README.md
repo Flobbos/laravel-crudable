@@ -87,9 +87,6 @@ return [
 :---------|:----------
  5.4      | 0.4
  5.3      | 0.4
- 5.2      | 0.4
- 5.1      | 0.4
- 5.0      | 0.4
 
 **Notice**: If you're planning on using automated binding in Laravel <5.3 you 
 need to update the config file to reflect the correct usage. Please refer to

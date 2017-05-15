@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 0.41
+
+- fixed update function
+
 ### v. 0.4
 
 - added automated binding feature
