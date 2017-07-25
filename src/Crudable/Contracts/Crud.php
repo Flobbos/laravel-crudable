@@ -49,10 +49,12 @@ interface Crud {
     public function create(array $data, $relationName = null);
     
     /**
-     * Update model. make sure fillable is set on the model
-     * @param array $data
+     * Update model. Make sure fillable is set on the model
+     * @param int $id of model you want to update
+     * @param array $data of model data that should be updated
+     * @param bool $return_model set to true if you need a model instance back
      */
-    public function udpate($id,array $data);
+    public function udpate($id,array $data,$return_model = false);
     
     /**
      * Delete item either by softdelete or harddelete
