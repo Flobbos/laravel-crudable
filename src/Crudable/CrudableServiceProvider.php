@@ -7,8 +7,12 @@ use Illuminate\Support\ServiceProvider;
 class CrudableServiceProvider extends ServiceProvider{
     
     public function boot(){
+        //Translations
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'crud');
+        //Publish config
         $this->publishes([
             __DIR__.'/../config/crudable.php' => config_path('crudable.php'),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/crudable')
         ]);
     }
 
@@ -21,6 +25,7 @@ class CrudableServiceProvider extends ServiceProvider{
         );
         //Load config
         $config = $this->app->make('config');
+        //Check for auto binding
         if($config->get('crudable.use_auto_binding')){
             foreach($config->get('crudable.implementations') as $imp){
                 $this->app->when($imp['when'])

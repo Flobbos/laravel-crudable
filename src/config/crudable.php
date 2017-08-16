@@ -8,6 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | With this setting you can enable the use of auto binding or disable it.
+    | The auto bindings need to be set below
     */
     'use_auto_binding' => false,
     
@@ -29,6 +30,6 @@ return [
         //    'when' => \App\Http\Controllers\Admin\UserController::class,
         //    'give' => \App\Services\UserService::class
         //]
-    ]
+    ],
     
 ];
