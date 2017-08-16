@@ -54,7 +54,7 @@ interface Crud {
      * @param array $data of model data that should be updated
      * @param bool $return_model set to true if you need a model instance back
      */
-    public function udpate($id,array $data,$return_model = false);
+    public function update($id,array $data,$return_model = false);
     
     /**
      * Delete item either by softdelete or harddelete

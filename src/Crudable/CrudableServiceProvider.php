@@ -7,12 +7,10 @@ use Illuminate\Support\ServiceProvider;
 class CrudableServiceProvider extends ServiceProvider{
     
     public function boot(){
-        //Translations
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'crud');
-        //Publish config
+        //Publish config and translations
         $this->publishes([
             __DIR__.'/../config/crudable.php' => config_path('crudable.php'),
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/crudable')
+            __DIR__.'/../resources/lang' => resource_path('lang')
         ]);
     }
 
