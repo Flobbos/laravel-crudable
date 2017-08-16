@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 0.5
+
+- added standard translation file
+- fixed udpate to update method
+
 ### v. 0.41
 
 - fixed update function
