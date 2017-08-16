@@ -1,9 +1,13 @@
 ## Version History
 
-### v. 0.5
+### v. 0.6
 
 - added standard translation file
 - fixed udpate to update method
+
+### v. 0.5
+
+- lowered minimum requirements for Laravel
 
 ### v. 0.41
 
