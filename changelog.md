@@ -1,5 +1,12 @@
 ## Version History
 
+### v. 0.7.0
+
+- added custom contracts in auto binding
+- extended language file
+- removed clutter
+- updated readme file
+
 ### v. 0.6
 
 - added standard translation file

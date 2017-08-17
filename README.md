@@ -14,8 +14,8 @@ can bind to your services via automated contextual binding.
 ### Docs
 
 * [Installation](#installation)
-* [Configuration](#configuration)
 * [Usage](#usage)
+* [Configuration](#configuration)
 * [Laravel compatibility](#laravel-compatibility)
 
 ## Installation 
