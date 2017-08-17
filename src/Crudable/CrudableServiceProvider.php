@@ -27,7 +27,7 @@ class CrudableServiceProvider extends ServiceProvider{
         if($config->get('crudable.use_auto_binding')){
             foreach($config->get('crudable.implementations') as $imp){
                 $this->app->when($imp['when'])
-                    ->needs(\Flobbos\Crudable\Contracts\Crud::class)
+                    ->needs(isset($imp['needs'])?$imp['needs']:\Flobbos\Crudable\Contracts\Crud::class)
                     ->give($imp['give']);
             }
         }
