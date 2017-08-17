@@ -19,4 +19,6 @@ return [
     'record_created' => 'A new entry has been successfully created.',
     'record_updated' => 'The entry has been successfully updated.',
     'record_deleted' => 'The entry was removed successfully',
+    //File error
+    'invalid_file_upload' => 'A problem was encountered during the file upload'
 ];
