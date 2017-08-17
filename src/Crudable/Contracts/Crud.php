@@ -62,4 +62,15 @@ interface Crud {
      * @param bool $hardDelete
      */
     public function delete($id, $hardDelete = false);
+    
+    /**
+     * Handle a file or photo upload
+     * @param \Illuminate\Http\Request $request
+     * @param string $field_name upload field name
+     * @param string $folder storage folder
+     * @param string $storage_disk storage disk to be used
+     * @return string filename
+     */
+    public function handleUpload(\Illuminate\Http\Request $request, $field_name = 'photo', $folder = 'images', $storage_disk = 'public');
+    
 }
