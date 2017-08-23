@@ -5,7 +5,7 @@ namespace Flobbos\Crudable;
 trait Crudable {
     
     protected $relation = [];
-    protected $withHasMany,$withBelongsToMany;
+    protected $withHasMany,$withBelongsToMany,$orderBy,$orderDirection;
     /**
      * Get a single item or collection
      * @param int $id
@@ -14,6 +14,9 @@ trait Crudable {
     public function get($id = null){
         if(!is_null($id)){
             return $this->find($id);
+        }
+        if(!is_null($this->orderBy)){
+            return $this->model->with($this->relation)->orderBy($this->orderBy,$this->orderDirection)->get();
         }
         return $this->model->with($this->relation)->get();
     }
@@ -24,6 +27,9 @@ trait Crudable {
      * @return Collection
      */
     public function paginate($perPage){
+        if(!is_null($this->orderBy)){
+            return $this->model->with($this->relation)->orderBy($this->orderBy)->paginate($perPage);
+        }
         return $this->model->with($this->relation)->paginate($perPage);
     }
     
@@ -64,6 +70,17 @@ trait Crudable {
      */
     public function setRelation(array $relation){
         $this->relation = $relation;
+        return $this;
+    }
+    
+    /**
+     * Order the collection you pull
+     * @param string $field
+     * @param string $order default asc
+     */
+    public function orderBy($field, $order = 'asc'){
+        $this->orderBy = $field;
+        $this->orderDirection = $order;
         return $this;
     }
     

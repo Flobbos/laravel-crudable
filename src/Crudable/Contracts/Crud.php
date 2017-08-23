@@ -42,6 +42,13 @@ interface Crud {
     public function setRelation(array $relation);
     
     /**
+     * Use ordering in your query
+     * @param string $field ordering field
+     * @param string $order ordering direction asc is default
+     */
+    public function orderBy($field, $order = 'asc');
+    
+    /**
      * Create new entry with optional related data
      * @param array $data
      * @param string $relationName
@@ -62,6 +69,19 @@ interface Crud {
      * @param bool $hardDelete
      */
     public function delete($id, $hardDelete = false);
+    
+    /**
+     * Set hasMany relationship by adding the related model and data
+     * @param array $data
+     * @param type $relatedModel
+     */
+    public function withHasMany(array $data, $relatedModel);
+    
+    /**
+     * Add the belongsToMany relationship data to be synced on create/edit
+     * @param array $data
+     */
+    public function withBelongsToMany(array $data);
     
     /**
      * Handle a file or photo upload

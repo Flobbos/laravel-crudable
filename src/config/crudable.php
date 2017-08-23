@@ -28,6 +28,7 @@ return [
         //User service example
         //[
         //    'when' => \App\Http\Controllers\Admin\UserController::class,
+        //    'needs' => \Your\Custom\Contract::class
         //    'give' => \App\Services\UserService::class
         //]
     ],

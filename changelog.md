@@ -1,5 +1,13 @@
 ## Version History
 
+### v. 1.2
+
+- added orderBy method to include in your query
+
+### v. 1.1
+
+- fixed major version release
+
 ### v. 0.7.0
 
 - added custom contracts in auto binding
