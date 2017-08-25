@@ -165,7 +165,7 @@ trait Crudable {
      * @return string filename
      */
     public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public'){
-        if(!$requet->file($fieldname)->isValid()){
+        if(!$request->file($fieldname)->isValid()){
             throw new \Exception(trans('crud.invalid_file_upload'));
         }
         //Get filename

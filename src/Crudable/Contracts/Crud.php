@@ -5,6 +5,16 @@ namespace Flobbos\Crudable\Contracts;
 interface Crud {
     
     /**
+     * Return the Eloquent model from the service
+     */
+    public function raw();
+    
+    /**
+     * Include your where-statement here
+     */
+    public function where();
+    
+    /**
      * Get a single item or a collection of items.
      * Alias of find method when used with ID
      * @param int $id
