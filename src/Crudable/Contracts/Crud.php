@@ -59,11 +59,10 @@ interface Crud {
     public function orderBy($field, $order = 'asc');
     
     /**
-     * Create new entry with optional related data
+     * Create new entry 
      * @param array $data
-     * @param string $relationName
      */
-    public function create(array $data, $relationName = null);
+    public function create(array $data);
     
     /**
      * Update model. Make sure fillable is set on the model
@@ -81,17 +80,21 @@ interface Crud {
     public function delete($id, $hardDelete = false);
     
     /**
-     * Set hasMany relationship by adding the related model and data
+     * Set hasMany relationship by adding the related model, data and 
+     * relation name
      * @param array $data
-     * @param type $relatedModel
+     * @param string $relatedModel
+     * @param string $relation
      */
-    public function withHasMany(array $data, $relatedModel);
+    public function withHasMany(array $data, $relatedModel, $relation);
     
     /**
-     * Add the belongsToMany relationship data to be synced on create/edit
+     * Add the belongsToMany relationship data to be synced and define
+     * the relationship name
      * @param array $data
+     * @param string $relation
      */
-    public function withBelongsToMany(array $data);
+    public function withBelongsToMany(array $data, $relation);
     
     /**
      * Handle a file or photo upload
@@ -99,8 +102,9 @@ interface Crud {
      * @param string $field_name upload field name
      * @param string $folder storage folder
      * @param string $storage_disk storage disk to be used
+     * @param bool $randomize to randomize the filename
      * @return string filename
      */
-    public function handleUpload(\Illuminate\Http\Request $request, $field_name = 'photo', $folder = 'images', $storage_disk = 'public');
+    public function handleUpload(\Illuminate\Http\Request $request, $field_name = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true);
     
 }

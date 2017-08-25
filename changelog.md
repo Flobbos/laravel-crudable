@@ -1,5 +1,12 @@
 ## Version History
 
+
+### v. 2.0
+
+- new and improved code base
+- added new features like where statements
+- ordering implemented
+
 ### v. 1.2
 
 - added orderBy method to include in your query

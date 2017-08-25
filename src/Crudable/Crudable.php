@@ -4,8 +4,17 @@ namespace Flobbos\Crudable;
 
 trait Crudable {
     
-    protected $relation = [];
-    protected $withHasMany,$withBelongsToMany,$orderBy,$orderDirection;
+    protected   $relation = [];
+    protected   $withHasMany,$withBelongsToMany,$model;
+    
+    /**
+     * Retrieve the Eloquent model
+     * @return Eloquent model
+     */
+    public function raw(){
+        return $this->model;
+    }
+    
     /**
      * Get a single item or collection
      * @param int $id
@@ -15,22 +24,27 @@ trait Crudable {
         if(!is_null($id)){
             return $this->find($id);
         }
-        if(!is_null($this->orderBy)){
-            return $this->model->with($this->relation)->orderBy($this->orderBy,$this->orderDirection)->get();
-        }
-        return $this->model->with($this->relation)->get();
+        return $this->model->get();
     }
     
+    /**
+     * Adds a chainable where statement
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @return self
+     */
+    public function where($column, $operator = null, $value = null){
+        $this->model = $this->model->where(...func_get_args());
+        return $this;
+    }
     /**
      * Get paginated collection
      * @param int $perPage
      * @return Collection
      */
     public function paginate($perPage){
-        if(!is_null($this->orderBy)){
-            return $this->model->with($this->relation)->orderBy($this->orderBy)->paginate($perPage);
-        }
-        return $this->model->with($this->relation)->paginate($perPage);
+        return $this->model->paginate($perPage);
     }
     
     /**
@@ -39,7 +53,7 @@ trait Crudable {
      * @return Model
      */
     public function find($id){
-        return $this->model->with($this->relation)->find($id);
+        return $this->model->find($id);
     }
     
     /**
@@ -51,7 +65,7 @@ trait Crudable {
         if(!is_null($id)){
             return $this->getTrashedItem($id);
         }
-        return $this->model->onlyTrashed()->with($this->relation)->get();
+        return $this->model->onlyTrashed()->get();
     }
     
     /**
@@ -60,7 +74,7 @@ trait Crudable {
      * @return Model
      */
     public function getTrashedItem($id){
-        return $this->model->withTrashed()->with($this->relation)->find($id);
+        return $this->model->withTrashed()->find($id);
     }
     
     /**
@@ -69,7 +83,7 @@ trait Crudable {
      * @return self
      */
     public function setRelation(array $relation){
-        $this->relation = $relation;
+        $this->model = $this->model->with($relation);
         return $this;
     }
     
@@ -79,26 +93,24 @@ trait Crudable {
      * @param string $order default asc
      */
     public function orderBy($field, $order = 'asc'){
-        $this->orderBy = $field;
-        $this->orderDirection = $order;
+        $this->model = $this->model->orderBy(...func_get_args());
         return $this;
     }
     
     /**
      * Create new database entry including related models
      * @param array $data
-     * @param string $relationName
      * @return Model
      */
-    public function create(array $data, $relationName = null){
+    public function create(array $data){
         $model = $this->model->create($data);
         //check for hasMany
-        if(!is_null($this->withHasMany) && !is_null($relationName)){
-            $model->{$relationName}()->saveMany($this->withHasMany);
+        if(!is_null($this->withHasMany)){
+            $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
         }
         //check for belongsToMany
-        if(!is_null($this->withBelongsToMany) && !is_null($relationName)){
-            $model->{$relationName}()->sync($this->withBelongsToMany);
+        if(!is_null($this->withBelongsToMany)){
+            $model->{$this->withBelongsToMany['relation']}()->sync($this->withBelongsToMany['data']);
         }
         return $model;
     }
@@ -138,10 +150,10 @@ trait Crudable {
      * @param string $relatedModel
      * @return self
      */
-    public function withHasMany(array $data, $relatedModel){
-        $this->withHasMany = [];
+    public function withHasMany(array $data, $relatedModel, $relation_name){
+        $this->withHasMany['relation'] = $relation_name;
         foreach($data as $k=>$v){
-            $this->withHasMany[] = new $relatedModel($v);
+            $this->withHasMany['data'][] = new $relatedModel($v);
         }
         return $this;
     }
@@ -151,8 +163,11 @@ trait Crudable {
      * @param array $data
      * @return self
      */
-    public function withBelongsToMany(array $data){
-        $this->withBelongsToMany = $data;
+    public function withBelongsToMany(array $data, $relation){
+        $this->withBelongsToMany = [
+                    'data' => $data,
+                    'relation' => $relation
+                ];
         return $this;
     }
     
@@ -164,13 +179,18 @@ trait Crudable {
      * @param type $storage_disk
      * @return string filename
      */
-    public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public'){
+    public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true){
         if(!$request->file($fieldname)->isValid()){
             throw new \Exception(trans('crud.invalid_file_upload'));
         }
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(),'.'.$request->file($fieldname)->getClientOriginalExtension());
-        $filename = str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
+        if($randomize){
+            $filename = uniqid().'_'.str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
+        }
+        else{
+            $filename = str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
+        }
         //Move file to location
         $request->file($fieldname)->storeAs($folder,$filename,$storage_disk);
         return $filename;
