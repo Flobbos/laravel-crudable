@@ -34,8 +34,8 @@ trait Crudable {
      * @param mixed $value
      * @return self
      */
-    public function where($column, $operator = null, $value = null){
-        $this->model = $this->model->where(...func_get_args());
+    public function where(...$params){
+        $this->model = $this->model->where(...$params);
         return $this;
     }
     /**

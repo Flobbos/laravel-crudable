@@ -10,9 +10,10 @@ interface Crud {
     public function raw();
     
     /**
-     * Include your where-statement here
+     * Include your where statement here with variable parameters
+     * @param mixed $params
      */
-    public function where();
+    public function where(...$params);
     
     /**
      * Get a single item or a collection of items.
