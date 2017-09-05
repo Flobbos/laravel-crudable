@@ -16,6 +16,7 @@ can bind to your services via automated contextual binding.
 * [Installation](#installation)
 * [Usage](#usage)
 * [Configuration](#configuration)
+* [Functions](#functions)
 * [Laravel compatibility](#laravel-compatibility)
 
 ## Installation 
@@ -97,6 +98,62 @@ interface MyOwnContract extends Crud{
 
 By simply extending the Crud contract you can define your own logic without
 needing to redeclare everything that Crudable already provides. 
+
+## Functions
+
+### Where
+
+The where function accepts parameters and passes them along to the Eloquent
+where method. It returns $this so you can chain it onto other methods.
+
+```php
+    return $yourService->where();
+```
+
+### setRelation
+
+The setRelation method acts like the with() statement you are used to from
+Eloquent. Just pass in an array of eager loading statements complete with
+callbacks an everything else. Can also be chained.
+
+```php
+    return $yourService->setRelation(['some_stuff'])->get();
+```
+
+### orderBy
+
+This method just passes along your orderBy statement to Eloquent.
+
+### withHasMany
+
+The method adds hasMany data to your create statement. 
+
+```php
+    return $yourService->withHasMany($data,'App\YourRelatedModel','related_model')->create($model);
+```
+
+### withBelongsToMany
+
+With this method you can automatically save related data in a many-to-many
+relationship. Just pass an array of the data to be synced and the relation
+name from your model as the second parameter.
+
+```php
+    return $yourService->withBelongsToMany($data,'some_relation')->create($model);
+```
+
+### handleUpload
+
+Processing uploads is somewhat cumbersome so I thought I'd include an easy to
+use function for handling single file image uploads. You just pass in the 
+request object, the fieldname for the photo upload, the folder where the 
+photo is supposed to go, the storage disk and you can optionally have the photo
+name randomized by that function so files don't get overwritten. Defaults are 
+below. 
+
+```php
+    $yourService->handleUpload($request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true);
+```
 
 ## Configuration
 
