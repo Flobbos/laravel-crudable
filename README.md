@@ -107,7 +107,7 @@ The where function accepts parameters and passes them along to the Eloquent
 where method. It returns $this so you can chain it onto other methods.
 
 ```php
-    return $yourService->where();
+    return $yourService->where('some_field','some_value');
 ```
 
 ### setRelation
