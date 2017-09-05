@@ -49,7 +49,7 @@ class CountryService {
     
     use \Flobbos\Crudable\Crudable;
     
-    protected $model;
+    //protected $model; in version 2.0 and higher this no longer needs to be set
 
     public function __construct(Country $country){
         $this->model = $country;
