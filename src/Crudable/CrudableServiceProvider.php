@@ -18,6 +18,14 @@ class CrudableServiceProvider extends ServiceProvider{
      * Register the service provider.
      */
     public function register(){
+        //register commands
+        $this->commands([
+            Commands\CrudCommand::class,
+            Commands\ControllerCommand::class,
+            Commands\ServiceCommand::class,
+            Commands\ContractCommand::class
+        ]);
+        //Merge config
         $this->mergeConfigFrom(
             __DIR__.'/../config/crudable.php', 'crudable'
         );

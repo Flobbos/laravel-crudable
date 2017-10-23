@@ -1,0 +1,17 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceDummyModel;
+use Flobbos\Crudable\Contracts\Crud;
+use Flobbos\Crudable;
+
+class DummyClass implements Crud {
+    
+    use Crudable\Crudable;
+    
+    public function __construct(DummyModel $DummyServiceVar) {
+        $this->model = $DummyServiceVar;
+    }
+    
+}

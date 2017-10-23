@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use Flobbos\Crudable\Contracts\Crud;
+use Exception;
+
+class DummyClass extends Controller{
+    
+    protected $DummyServiceVar;
+
+    public function __construct(Crud $DummyServiceVar) {
+        $this->DummyServiceVar = $DummyServiceVar;
+    }
+
+}
+

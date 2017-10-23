@@ -1,5 +1,8 @@
 ## Version History
 
+### v. 2.2
+
+- new generator commands available
 
 ### v. 2.0
 

@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Contracts;
+
+use Flobbos\Crudable\Contracts\Crud;
+
+interface DummyContract extends Crud{
+    //place your custom code here
+}
+

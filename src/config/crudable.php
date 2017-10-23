@@ -14,6 +14,28 @@ return [
     
     /*
     |--------------------------------------------------------------------------
+    | Namespace for Services
+    |--------------------------------------------------------------------------
+    |
+    | Here you can set the default namespace for generating Service classes.
+    | Simply change this if you wanna put your classes in a different location.
+    | The App\ part is assumed automatically. 
+    */
+    'default_namespace' => 'Services',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Namespace for resource controllers
+    |--------------------------------------------------------------------------
+    |
+    | You may with to define a default namespace for your resource controllers
+    | like App\Http\Controllers\Admin or something similar. Leave blank for 
+    | keeping all the controllers in the Contollers namespace. 
+    */
+    'default_resource' => 'Admin',
+    
+    /*
+    |--------------------------------------------------------------------------
     | Array for automatic contextual binding
     |--------------------------------------------------------------------------
     |
