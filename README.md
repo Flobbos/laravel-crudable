@@ -14,8 +14,9 @@ can bind to your services via automated contextual binding.
 ### Docs
 
 * [Installation](#installation)
-* [Usage](#usage)
 * [Configuration](#configuration)
+* [Generators](#generators)
+* [Usage](#usage)
 * [Functions](#functions)
 * [Laravel compatibility](#laravel-compatibility)
 
@@ -34,6 +35,238 @@ add the service provider to `app/config/app.php`
 
 ```
 Flobbos\Crudable\CrudableServiceProvider::class,
+```
+
+## Configuration
+
+### Publish configuration file
+
+Laravel 5.*
+```bash
+php artisan vendor:publish 
+```
+
+### Auto binding
+
+Auto binding is used to run through the implementation list explained below.
+If this is set to true the auto binding feature will be used.
+
+```php
+'use_auto_binding' => false
+```
+
+### Namespace for services
+
+Here you can set your default namespace for your service or repository classes.
+
+```php
+'default_namespace' => 'Services'
+```
+
+### Namespace for resource controllers
+
+If you wish to set a default namespace for resource controllers use this option.
+Which will be used when in silent mode in the resource generator.
+
+```php
+'default_resource' => 'Admin',
+```
+
+### Implementations
+
+Update the configuration according to your needs. A sample configuration is
+provided in the config file.
+
+```php
+return [
+    'implementations' => [
+        [
+            //This is where you set the requesting class
+            'when' => \App\Http\Controllers\Admin\UserController::class,
+            //This is where you can define your own contracts
+            'needs' => \Your\Own\Contract::class,
+            //This is where you send out the implementation
+            'give' => \App\Services\UserService::class
+        ]
+    ]
+];
+```
+
+## Generators
+
+### Service Generator
+
+You can generate your own service/repository classes that implement the model
+and already use the Crudable trait. So easy. 
+
+```php
+php artisan crud:service CountryService
+```
+
+The above command will generate a service class in App\Services (depending on
+your configuration setting mentioned above) that looks like this:
+
+```php
+
+namespace App\Services;
+
+use App\Country;
+use Flobbos\Crudable\Contracts\Crud;
+use Flobbos\Crudable;
+
+class CountryService implements Crud {
+    
+    use Crudable\Crudable;
+    
+    public function __construct(Country $country) {
+        $this->model = $country;
+    }
+    
+}
+
+```
+
+### Controller Generator
+
+You can generate either a blank controller or a complete resource controller. 
+
+```php
+php artisan crud:controller 
+```
+This will generate the resource controllers with all necessary basic functions
+already filled in for you based on the Crudable functionality. 
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Flobbos\Crudable\Contracts\Crud;
+use Exception;
+
+class CountryController extends Controller{
+    
+    protected $country;
+
+    public function __construct(Crud $country) {
+        $this->country = $country;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
+        return view('admin.countries.index')->with(['country'=>$this->country->get()]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(){
+        return view('admin.countries.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request){
+        $this->validate($request, []);
+        
+        try{
+            $this->country->create($request->all());
+            return redirect()->route('')->withMessage(trans('crud.record_created'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withErrors($ex->getMessage())->withInput();
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id){
+        return view('admin.countries.show')->with(['country'=>$this->country->find($id)]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id){
+        return view('admin.countries.edit')->with(['country'=>$this->country->find($id)]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id){
+        $this->validate($request, []);
+        
+        try{
+            $this->country->update($id, $request->all());
+            return redirect()->route('admin.countries.index')->withMessage(trans('crud.record_updated'));
+        } catch (Exception $ex) {
+            return redirect()->back()->withInput()->withErrors($ex->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id){
+        try{
+            $this->country->delete($id);
+            return redirect()->route('admin.countries.index')->withMessage(trans('crud.record_deleted'));
+        } catch (Exception $ex) {
+            return redirect()->route('admin.countries.index')->withErrors($ex->getMessage());
+        }
+    }
+}
+```
+
+This of course only covers the very basic functions but saves you from 
+writing the same boiler plate code over and over again. 
+
+If you just need a blank controller with just the services implemented use the
+blank option like so:
+
+```php
+php artisan crud:controller --blank
+```
+
+
+### Resource Generator
+
+If you're starting out fresh you may wish to generate the entire resource 
+including the model, service and resource controller.
+
+```php
+php artisan crud:resource Country
+```
+
+All necessary suffixes (Controller, Service) will be added automatically. The
+generator will ask you which parts to create. If you just want to generate 
+everything without interruptions use silent mode:
+
+```php
+php artisan crud:resource Country --silent
 ```
 
 ## Usage
@@ -153,31 +386,6 @@ below.
 
 ```php
     $yourService->handleUpload($request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true);
-```
-
-## Configuration
-
-Laravel 5.*
-```bash
-php artisan vendor:publish 
-```
-
-Update the configuration according to your needs. A sample configuration is
-provided in the config file.
-
-```php
-return [
-    'implementations' => [
-        [
-            //This is where you set the requesting class
-            'when' => \App\Http\Controllers\Admin\UserController::class,
-            //This is where you can define your own contracts
-            'needs' => \Your\Own\Contract::class,
-            //This is where you send out the implementation
-            'give' => \App\Services\UserService::class
-        ]
-    ]
-];
 ```
 
 ## Laravel compatibility
