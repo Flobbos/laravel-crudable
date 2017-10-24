@@ -1,6 +1,7 @@
 <?php
 
 //Standard CRUD 
+//English - EN
 
 return [
     //buttons
