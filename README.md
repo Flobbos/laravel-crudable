@@ -91,6 +91,20 @@ return [
     ]
 ];
 ```
+### Fixed bindings
+
+If you are using your own contracts you may want to use fixed bindings instead
+of the contextual binding mentioned above. This automatically binds your
+implementation to your specifically designed contract.
+
+```php
+
+'bindings' => [
+        //'contract' => \App\Contracts\YourContract,
+        //'target' => \App\Services\YourService
+    ]
+
+```
 
 ## Generators
 

@@ -67,6 +67,6 @@ return [
     'bindings' => [
         //'contract' => \App\Contracts\YourContract,
         //'target' => \App\Services\YourService
-    ]
+    ],
     
 ];

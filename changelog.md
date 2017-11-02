@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.4
+
+- added fixed bindings via configuration
+
 ### v. 2.3
 
 - added generator commands
