@@ -55,4 +55,18 @@ return [
         //]
     ],
     
+    /*
+    |--------------------------------------------------------------------------
+    | Fixed bindings 
+    |--------------------------------------------------------------------------
+    |
+    | Here you can set your fixed bindings for using specific contracts instead
+    | of conextual binding seen above 
+    |
+    */
+    'bindings' => [
+        //'contract' => \App\Contracts\YourContract,
+        //'target' => \App\Services\YourService
+    ]
+    
 ];

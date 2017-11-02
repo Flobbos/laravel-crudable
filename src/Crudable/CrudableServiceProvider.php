@@ -33,10 +33,15 @@ class CrudableServiceProvider extends ServiceProvider{
         $config = $this->app->make('config');
         //Check for auto binding
         if($config->get('crudable.use_auto_binding')){
+            //Run contextual binding first
             foreach($config->get('crudable.implementations') as $usage){
                 $this->app->when($usage['when'])
                     ->needs(isset($usage['needs'])?$usage['needs']:\Flobbos\Crudable\Contracts\Crud::class)
                     ->give($usage['give']);
+            }
+            //Run fixed bindings
+            foreach($config->get('crudable.bindings') as $binding){
+                $this->app->bind($binding['contract'],$binding['target']);
             }
         }
     }
