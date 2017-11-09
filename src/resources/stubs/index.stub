@@ -1,0 +1,47 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 class="panel-title"><!-- insert title here --></h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-default btn-small pull-right">
+                                <i class="glyphicon glyphicon-plus"></i> @lang('crud.create_button')
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    {{-- @include('admin.notifications') --}}
+                    @if($DummyServiceVars->isEmpty())
+                    @lang('crud.no_entries')
+                    @else
+                    <table class="table table-striped">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            @foreach($DummyServiceVars as $DummyServiceVar)
+                            <tr>
+                                <td>
+                                    <a class="btn btn-sm btn-primary pull-right" href="{{ route('admin.countries.edit',$country->id) }}">
+                                        @lang('crud.edit')
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@stop

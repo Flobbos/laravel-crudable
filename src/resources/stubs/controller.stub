@@ -21,7 +21,7 @@ class DummyClass extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return view('admin.DummyViewPath.index')->with(['DummyServiceVar'=>$this->DummyServiceVar->get()]);
+        return view('admin.DummyViewPath.index')->with(['DummyServiceVars'=>$this->DummyServiceVar->get()]);
     }
 
     /**
