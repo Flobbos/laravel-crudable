@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.4.3
+
+- added a new command for generating views
+
 ### v. 2.4
 
 - added fixed bindings via configuration

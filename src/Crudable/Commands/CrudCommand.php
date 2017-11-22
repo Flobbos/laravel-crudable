@@ -104,6 +104,11 @@ class CrudCommand extends GeneratorCommand{
             }
             $this->call('crud:controller', ['name' => $controller_name]);
         }
+        
+        //Generate Views
+        if($this->confirm('Would you like to generate the views?',true)){
+            $this->call('crud:views', ['name' => $this->getNameInput()]);
+        }
 
     }
     
@@ -126,7 +131,7 @@ class CrudCommand extends GeneratorCommand{
             $controller_name = config('crudable.default_resource').'\\'.$this->getNameInput().'Controller';
         }
         $this->call('crud:controller', ['name' => $controller_name]);
-        
+        $this->call('crud:views', ['name' => $this->getNameInput()]);
     }
     
     

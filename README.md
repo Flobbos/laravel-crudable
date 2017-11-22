@@ -267,11 +267,24 @@ blank option like so:
 php artisan crud:controller --blank
 ```
 
+### View Generator
+
+You can generate basic views for create/edit/index based on the Bootstrap
+version that shipped with Laravel. 
+
+```php
+php artisan crud:views yourviewpath
+```
+
+The above command will generate a basic listing template, the form template for
+creating a new resource and of course the form template for editing. It is 
+assumed that your views live inside an "admin" folder in resources/views.
+
 
 ### Resource Generator
 
 If you're starting out fresh you may wish to generate the entire resource 
-including the model, service and resource controller.
+including the model, service, resource controller and views.
 
 ```php
 php artisan crud:resource Country

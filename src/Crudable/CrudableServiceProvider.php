@@ -23,7 +23,8 @@ class CrudableServiceProvider extends ServiceProvider{
             Commands\CrudCommand::class,
             Commands\ControllerCommand::class,
             Commands\ServiceCommand::class,
-            Commands\ContractCommand::class
+            Commands\ContractCommand::class,
+            Commands\ViewCommand::class,
         ]);
         //Merge config
         $this->mergeConfigFrom(

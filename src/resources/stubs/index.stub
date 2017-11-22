@@ -30,7 +30,7 @@
                             @foreach($DummyServiceVars as $DummyServiceVar)
                             <tr>
                                 <td>
-                                    <a class="btn btn-sm btn-primary pull-right" href="{{ route('admin.countries.edit',$country->id) }}">
+                                    <a class="btn btn-sm btn-primary pull-right" href="{{ route('admin.DummyViewPath.edit',$DummyServiceVar->id) }}">
                                         @lang('crud.edit')
                                     </a>
                                 </td>

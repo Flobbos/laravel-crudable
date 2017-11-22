@@ -24,6 +24,7 @@ class ViewCommand extends GeneratorCommand{
     protected $description = 'Generates Crud views';
     
     protected $type = 'Views';
+    private $current_stub;
     
     /**
      * Get the stub file for the generator.
@@ -32,9 +33,9 @@ class ViewCommand extends GeneratorCommand{
      */
     protected function getStub(){
         return [
-            __DIR__.'/../../resources/stubs/index.stub',
-            __DIR__.'/../../resources/stubs/create.stub',
-            __DIR__.'/../../resources/stubs/edit.stub'
+            'index.blade.php'=>__DIR__.'/../../resources/stubs/index.stub',
+            'create.blade.php'=>__DIR__.'/../../resources/stubs/create.stub',
+            'edit.blade.php'=>__DIR__.'/../../resources/stubs/edit.stub'
             ];
     }
     
@@ -50,16 +51,6 @@ class ViewCommand extends GeneratorCommand{
     
     protected function getDirectoryName($name){
         return  str_plural(strtolower($name));
-    }
-    
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace){
-        return $rootNamespace.'\\'.config('crudable.default_namespace');
     }
     
     /**
@@ -89,19 +80,20 @@ class ViewCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name, $stub){
+    protected function buildClass($name){
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
             'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
             'DummyViewPath' => snake_case($this->replaceViewPath($name)),
         ];
-        $stub = $this->files->get($this->getStub());
-
-        return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
-        //dd($replace);
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace), array_values($replace), $this->generateClass($name)
         );
+    }
+    
+    protected function generateClass($name){
+        $stub = $this->files->get($this->current_stub);
+        return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
     }
     
     /**
@@ -122,24 +114,20 @@ class ViewCommand extends GeneratorCommand{
     public function handle(){
         $this->comment('Building new Crudable views.');
         
-        $path = $this->getPath($this->getNameInput());
-        
+        $path = $this->getPath(strtolower($this->getNameInput()));
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exist!');
-
             return false;
         }
         
-        //dd($path);
         // Next, we will generate the path to the location where this class' file should get
         // written. Then, we will build the class and make the proper replacements on the
         // stub files so that it gets the correctly formatted namespace and class name.
-        $this->makeDirectory($path);
-        foreach($this->getStub() as $stub){
-            
+        foreach($this->getStub() as $name=>$stub){
+            $this->current_stub = $stub;
+            $this->makeDirectory($path.'/'.$name);
+            $this->files->put($path.'/'.$name, $this->buildClass($this->getNameInput()));
         }
-        $this->files->put($path, $this->buildClass($name));
-
         $this->info($this->type.' created successfully.');
     }
 }

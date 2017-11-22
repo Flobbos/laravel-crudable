@@ -44,7 +44,7 @@ class DummyClass extends Controller{
         
         try{
             $this->DummyServiceVar->create($request->all());
-            return redirect()->route('')->withMessage(trans('crud.record_created'));
+            return redirect()->route('admin.DummyViewPath.index')->withMessage(trans('crud.record_created'));
         } catch (Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
         }
