@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 2.4.4
+
+- added a new command for generating contracts
+- updated documentation
+
 ### v. 2.4.3
 
 - added a new command for generating views

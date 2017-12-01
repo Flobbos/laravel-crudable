@@ -298,6 +298,28 @@ everything without interruptions use silent mode:
 php artisan crud:resource Country --silent
 ```
 
+### Contract Generator
+
+If you want to use your own custom contract in combination with Crudable you
+can simply generate a boiler plate version.
+
+```php
+php artisan crud:contract YourContract
+```
+
+This command will put a contract into your App\Contracts folder with the 
+following content:
+
+```php
+namespace App\Contracts;
+
+use Flobbos\Crudable\Contracts\Crud;
+
+interface CountryContract extends Crud{
+    //your custom code here
+}
+```
+
 ## Usage
 
 ### Repository/Service implementation
