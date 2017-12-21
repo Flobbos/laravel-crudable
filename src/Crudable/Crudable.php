@@ -2,6 +2,8 @@
 
 namespace Flobbos\Crudable;
 
+use Flobbos\Crudable\Exceptions\MissingRelationDataException;
+
 trait Crudable {
     
     protected   $relation = [];
@@ -105,11 +107,11 @@ trait Crudable {
     public function create(array $data){
         $model = $this->model->create($data);
         //check for hasMany
-        if(!is_null($this->withHasMany)){
+        if($this->validateRelationData($this->withHasMany)){
             $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
         }
         //check for belongsToMany
-        if(!is_null($this->withBelongsToMany)){
+        if($this->validateRelationData($this->withBelongsToMany)){
             $model->{$this->withBelongsToMany['relation']}()->sync($this->withBelongsToMany['data']);
         }
         return $model;
@@ -194,6 +196,19 @@ trait Crudable {
         //Move file to location
         $request->file($fieldname)->storeAs($folder,$filename,$storage_disk);
         return $filename;
+    }
+    
+    private function validateRelationData($related_data){
+        //Check if data attribute was set
+        if(!is_null($this->withHasMany)){
+            if(!isset($this->withHasMany['relation']) || !isset($this->withHasMany['data']))
+                throw new MissingRelationDataException('HasMany Relation');
+        }
+        if(!is_null($this->withBelongsToMany)){
+            if(!isset($this->withBelongsToMany['relation']) || !isset($this->withBelongsToMany['data']))
+                throw new MissingRelationDataException('HasMany Relation');
+        }
+        return true;
     }
     
 }
