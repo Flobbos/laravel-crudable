@@ -16,6 +16,7 @@ can bind to your services via automated contextual binding.
 * [Installation](#installation)
 * [Configuration](#configuration)
 * [Generators](#generators)
+* [Translations](#translations)
 * [Usage](#usage)
 * [Functions](#functions)
 * [Laravel compatibility](#laravel-compatibility)
@@ -319,6 +320,138 @@ interface CountryContract extends Crud{
     //your custom code here
 }
 ```
+
+## Translations
+
+### How to use translations
+
+Basically you need to run your language options as a foreach loop and send
+the translated data as an array like so (example is based on Bootstrap):
+
+```php
+
+<div class="form-group">
+    <ul class="nav nav-tabs" role="tablist">
+        @foreach($languages as $k=>$lang)
+        <li role="presentation" @if($k == 0)class="active"@endif>
+            <a href="#{{$lang->code}}" aria-controls="{{$lang->code}}" role="tab" data-toggle="tab">{{$lang->name}}</a>
+        </li>
+        @endforeach
+    </ul>
+    <div class="tab-content">
+        @foreach($languages as $k=>$lang)
+        <div role="tabpanel" id="{{$lang->code}}" @if($k==0)class="tab-pane active" @else class="tab-pane" @endif id="{{$lang->code}}">
+            <input type="hidden" name="translations[{{$lang->id}}][language_id]" value="{{$lang->id}}" />
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name{{$lang->id}}" class="control-label">@lang('contentcategories.name') ({{$lang->code}})</label>
+                    <input id="name{{$lang->id}}" type="text" class="form-control" name="translations[{{$lang->id}}][name]" value="{{ old('translations.'.$lang->id.'.name') }}">
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>    
+</div>
+
+```
+The hidden input is used to setup the correct relation to the corresponding
+language. In the edit function you also need to reference the translation ID
+used to identify an existing translation:
+
+```php
+
+<ul class="nav nav-tabs" role="tablist">
+    @foreach($languages as $k=>$lang)
+    <li role="presentation" @if($k == 0)class="active"@endif>
+        <a href="#{{$lang->code}}" aria-controls="{{$lang->code}}" role="tab" data-toggle="tab">{{$lang->name}}</a>
+    </li>
+    @endforeach
+</ul>
+<div class="tab-content">
+    @foreach($languages as $k=>$lang)
+    <div role="tabpanel" id="{{$lang->code}}" @if($k==0)class="tab-pane active" @else class="tab-pane" @endif id="{{$lang->code}}">
+        <input type="hidden" name="translations[{{$lang->id}}][language_id]" value="{{$lang->id}}" />
+        <input type="hidden" name="translations[{{$lang->id}}][category_translation_id]" value="get the ID from the translation here" />
+        <div class="row">
+            <div class="col-md-6">
+                <label for="name{{$lang->id}}" class="control-label">@lang('contentcategories.name') ({{$lang->code}})</label>
+                <input id="name{{$lang->id}}" type="text" class="form-control" name="translations[{{$lang->id}}][name]" value="{{ old('translations.'.$lang->id.'.name',get_translation($category->translations,'name',$lang->id)) }}">
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
+```
+
+This way you can update existing translations and create new ones where
+necessary. 
+
+### Available functions for handling translations
+
+The following functions are available:
+
+```php
+
+public function processTranslations(
+            array $translations, 
+            $trans_key = null, 
+            $language_key = 'language_id');
+```
+
+This function will take the translations from an input array and process them
+into a usable array of data that you can attach to a model.
+
+You need to provide an array of translation data ($translations), the translation
+key name and the language key name;
+
+```php
+
+public function saveTranslations(
+            \Illuminate\Database\Eloquent\Model $model, 
+            array $translations, 
+            $relation_name = 'translations');
+
+```
+
+This function attaches the previously processed translations to an existing model.
+
+```php
+
+public function updateTranslations(
+            array $translations, 
+            \Illuminate\Database\Eloquent\Model $model, 
+            $translation_key, 
+            $translation_class);
+
+```
+
+This function updates translations and creates new ones if a translation isn't
+already present with the current model.
+
+```php
+
+public function checkRequired(array $arr);
+
+```
+
+You have the option to set required fields within your repository/service via
+using $this->required_trans so you always get the minimum translation data.
+
+```php
+
+public function filterNull(array $arr, $except = null);
+
+```
+
+Here you can simply filter out all fields that were left blank in the form if 
+you don't have required minimum fields mentioned above. 
 
 ## Usage
 
