@@ -107,11 +107,11 @@ trait Crudable {
     public function create(array $data){
         $model = $this->model->create($data);
         //check for hasMany
-        if($this->validateRelationData($this->withHasMany)){
+        if($this->validateRelationData($this->withHasMany,'many')){
             $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
         }
         //check for belongsToMany
-        if($this->validateRelationData($this->withBelongsToMany)){
+        if($this->validateRelationData($this->withBelongsToMany,'tomany')){
             $model->{$this->withBelongsToMany['relation']}()->sync($this->withBelongsToMany['data']);
         }
         return $model;
@@ -198,17 +198,19 @@ trait Crudable {
         return $filename;
     }
     
-    private function validateRelationData($related_data){
+    private function validateRelationData($related_data, $type){
         //Check if data attribute was set
-        if(!is_null($this->withHasMany)){
+        if(!is_null($this->withHasMany) && $type == 'many'){
             if(!isset($this->withHasMany['relation']) || !isset($this->withHasMany['data']))
                 throw new MissingRelationDataException('HasMany Relation');
+            return true;
         }
-        if(!is_null($this->withBelongsToMany)){
+        if(!is_null($this->withBelongsToMany) && $type == 'tomany'){
             if(!isset($this->withBelongsToMany['relation']) || !isset($this->withBelongsToMany['data']))
                 throw new MissingRelationDataException('HasMany Relation');
+            return true;
         }
-        return true;
+        return false;
     }
     
 }
