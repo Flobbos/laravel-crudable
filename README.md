@@ -325,7 +325,8 @@ interface CountryContract extends Crud{
 
 ### How to use translations
 
-Basically you need to run your language options as a foreach loop and send
+Handling translations is based on my other package [Laravel Translatable-DB](https://github.com/Flobbos/laravel-translatable)
+You need to run your language options as a foreach loop and send
 the translated data as an array like so (example is based on Bootstrap):
 
 ```php
@@ -343,12 +344,9 @@ the translated data as an array like so (example is based on Bootstrap):
         <div role="tabpanel" id="{{$lang->code}}" @if($k==0)class="tab-pane active" @else class="tab-pane" @endif id="{{$lang->code}}">
             <input type="hidden" name="translations[{{$lang->id}}][language_id]" value="{{$lang->id}}" />
             <div class="row">
-                <div class="col-md-6">
-                    <label for="name{{$lang->id}}" class="control-label">@lang('contentcategories.name') ({{$lang->code}})</label>
+                <div class="col-md-12">
+                    <label for="name{{$lang->id}}" class="control-label">Category Name ({{$lang->code}})</label>
                     <input id="name{{$lang->id}}" type="text" class="form-control" name="translations[{{$lang->id}}][name]" value="{{ old('translations.'.$lang->id.'.name') }}">
-                </div>
-                <div class="col-md-6">
-
                 </div>
             </div>
         </div>
@@ -376,12 +374,9 @@ used to identify an existing translation:
         <input type="hidden" name="translations[{{$lang->id}}][language_id]" value="{{$lang->id}}" />
         <input type="hidden" name="translations[{{$lang->id}}][category_translation_id]" value="get the ID from the translation here" />
         <div class="row">
-            <div class="col-md-6">
-                <label for="name{{$lang->id}}" class="control-label">@lang('contentcategories.name') ({{$lang->code}})</label>
+            <div class="col-md-12">
+                <label for="name{{$lang->id}}" class="control-label">Category Name ({{$lang->code}})</label>
                 <input id="name{{$lang->id}}" type="text" class="form-control" name="translations[{{$lang->id}}][name]" value="{{ old('translations.'.$lang->id.'.name',get_translation($category->translations,'name',$lang->id)) }}">
-            </div>
-            <div class="col-md-6">
-
             </div>
         </div>
     </div>
