@@ -19,6 +19,7 @@ can bind to your services via automated contextual binding.
 * [Translations](#translations)
 * [Usage](#usage)
 * [Functions](#functions)
+* [Exceptions](#exceptions)
 * [Laravel compatibility](#laravel-compatibility)
 
 ## Installation 
@@ -343,8 +344,10 @@ use Flobbos\Crudable\Contracts\Translation;
 class Category implements Crud,Translation{    
     
     use Crudable\Crudable;
+    use \Flobbos\Crudable\Translations\Translatable;
+
     protected $translation_name;
-    protected $required_trans; //optional
+    protected $required_trans; //optional array of fields
 
     public function __construct(){
         $this->translation_name = 'translations';//defines the relation name
@@ -648,6 +651,28 @@ below.
 ```php
     $yourService->handleUpload($request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true);
 ```
+
+## Exceptions
+
+### MissingRelationData
+
+This is thrown if your trying to save a hasMany or belongsToMany relationship
+with empty data. 
+
+### MissingRequiredFields
+
+This exception occurs when you're trying to call required_trans without setting
+the necessary data for it.
+
+### MissingTranslationName
+
+If you're using translations but don't set this option then the trait won't 
+know where to save the translation data.
+
+### MissingTranslations
+
+This exception is thrown in the case that no translations are present because
+all fields were empty or the required fields weren't filled out. 
 
 ## Laravel compatibility
 

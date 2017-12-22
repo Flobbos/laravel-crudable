@@ -1,5 +1,13 @@
 ## Version History
 
+### v. 2.5.0
+
+- added trait for handling translations
+- added basic custom exceptions
+- updated crudable trait for new exception
+- added new contract for translations
+- updated documentation
+
 ### v. 2.4.4
 
 - added a new command for generating contracts
