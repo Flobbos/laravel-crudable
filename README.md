@@ -323,9 +323,39 @@ interface CountryContract extends Crud{
 
 ## Translations
 
-### How to use translations
+### Translation info
 
-Handling translations is based on my other package [Laravel Translatable-DB](https://github.com/Flobbos/laravel-translatable)
+Handling translations is based on my other package [Laravel Translatable-DB](https://github.com/Flobbos/laravel-translatable),
+where the translations live in a separate table and are identified by either 
+a language ID or a language code.
+
+### Basic options for translations
+
+If you plan on using these functions for handling translations there are some
+basics you need to set:
+
+```php
+
+use Flobbos\Crudable\Contracts\Crud;
+use Flobbos\Crudable;
+use Flobbos\Crudable\Contracts\Translation;
+
+class Category implements Crud,Translation{    
+    
+    use Crudable\Crudable;
+    protected $translation_name;
+    protected $required_trans; //optional
+
+    public function __construct(){
+        $this->translation_name = 'translations';//defines the relation name
+    }
+
+}
+
+```
+
+### How to use translation functions
+
 You need to run your language options as a foreach loop and send
 the translated data as an array like so (example is based on Bootstrap):
 
@@ -356,7 +386,59 @@ the translated data as an array like so (example is based on Bootstrap):
 
 ```
 The hidden input is used to setup the correct relation to the corresponding
-language. In the edit function you also need to reference the translation ID
+language. 
+
+Data is then handled in a two step process. First the translation data is filtered and packaged
+into an array with this function:
+
+```php
+
+    public function processTranslations(
+            array $translations, 
+            $trans_key = null, 
+            $language_key = 'language_id'){
+        
+        $approved = [];
+        
+        foreach($translations as $trans){
+            //Check for translation key
+            if(!is_null($trans_key)){
+                unset($trans[$trans_key]);
+            }
+            //Filter out empty fields
+            if(!isset($this->required_trans) && !empty($this->filterNull($trans,$language_key))){
+                $approved[] = $trans;
+            }
+            //Check if required translations are present for saving
+            elseif(isset($this->required_trans) && $this->checkRequired($trans)){
+                $approved[] = $trans;
+            }
+        }
+        return $approved;
+    }
+
+```
+
+This function returns an array that is then put into the save function:
+
+```php
+
+    public function saveTranslations(
+            \Illuminate\Database\Eloquent\Model $model, 
+            array $translations){
+        
+        if(empty($translations))
+            throw new MissingTranslationsException;
+        
+        if(empty($this->translation_name))
+            throw new MissingTranslationNameException;
+        
+        return $model->{$this->translation_name}()->saveMany($translations);
+    }
+
+```
+
+In the edit function you also need to reference the translation ID
 used to identify an existing translation:
 
 ```php
