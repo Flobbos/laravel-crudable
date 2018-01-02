@@ -20,13 +20,11 @@ interface Translation {
      * Save translations to model
      * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $translations
-     * @param string $relation_name
      * @return Model
      */
     public function saveTranslations(
             \Illuminate\Database\Eloquent\Model $model, 
-            array $translations, 
-            $relation_name = 'translations');
+            array $translations);
     
     /**
      * Update existing translations from form input
