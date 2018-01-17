@@ -1,5 +1,17 @@
 ## Version History
 
+### v. 2.5.3
+
+- added null check for file uploads
+
+### v. 2.5.2
+
+- removed old code that created problems with translations
+
+### v. 2.5.1
+
+- fixed relationship validation
+
 ### v. 2.5.0
 
 - added trait for handling translations
