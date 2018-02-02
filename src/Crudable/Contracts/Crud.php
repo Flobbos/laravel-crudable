@@ -53,6 +53,11 @@ interface Crud {
     public function setRelation(array $relation);
     
     /**
+     * Synonymous for setRelation but accepts strings as well as arrays
+     * @param string|array $relations
+     */
+    public function with($relations);
+    /**
      * Use ordering in your query
      * @param string $field ordering field
      * @param string $order ordering direction asc is default

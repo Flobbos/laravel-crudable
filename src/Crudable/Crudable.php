@@ -31,10 +31,8 @@ trait Crudable {
     
     /**
      * Adds a chainable where statement
-     * @param string $column
-     * @param string $operator
-     * @param mixed $value
-     * @return self
+     * @param array|mixed $params
+     * @return $this self
      */
     public function where(...$params){
         $this->model = $this->model->where(...$params);
@@ -87,6 +85,15 @@ trait Crudable {
     public function setRelation(array $relation){
         $this->model = $this->model->with($relation);
         return $this;
+    }
+    
+    /**
+     * Same as setRelation but accepts strings and arrays
+     * @param string|array $relations
+     * @return type
+     */
+    public function with($relations){
+        return $this->setRelation(is_string($relations) ? func_get_args() : $relations);
     }
     
     /**

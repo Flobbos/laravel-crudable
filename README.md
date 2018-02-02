@@ -617,6 +617,14 @@ callbacks an everything else. Can also be chained.
     return $yourService->setRelation(['some_stuff'])->get();
 ```
 
+### with
+
+This works just like setRelation but you can either pass a string OR an array.
+
+```php
+    return $yourService->with('some_stuff')->get();
+```
+
 ### orderBy
 
 This method just passes along your orderBy statement to Eloquent.

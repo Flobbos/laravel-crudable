@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 2.5.4
+
+- added with() function as synonym for setRelation() accepts string|array
+- added null check in translation handler
+
 ### v. 2.5.3
 
 - added null check for file uploads

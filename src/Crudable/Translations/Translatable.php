@@ -23,6 +23,10 @@ trait Translatable{
         $approved = [];
         
         foreach($translations as $trans){
+            //Check if translation is array at and skip
+            if(!is_array($trans)){
+                continue;
+            }
             //Check for translation key
             if(!is_null($trans_key)){
                 unset($trans[$trans_key]);
