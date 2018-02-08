@@ -86,6 +86,12 @@ interface Crud {
     public function delete($id, $hardDelete = false);
     
     /**
+     * Restore a soft deleted model
+     * @param int $id
+     */
+    public function restore($id);
+    
+    /**
      * Set hasMany relationship by adding the related model, data and 
      * relation name
      * @param array $data

@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 2.5.5
+
+- updated delete method to handle soft deletes
+- added 'restore()' method for soft deleted models
+
 ### v. 2.5.4
 
 - added with() function as synonym for setRelation() accepts string|array

@@ -145,11 +145,19 @@ trait Crudable {
      * @return bool
      */
     public function delete($id, $hardDelete = false){
-        $model = $this->model->find($id);
         if($hardDelete){
-            return $model->forceDelete($id);
+            return $this->model->withTrashed()->find($id)->forceDelete($id);
         }
-        return $model->delete($id);
+        return $this->model->withTrashed()->find($id)->delete($id);
+    }
+    
+    /**
+     * Restore a previously soft deleted model
+     * @param int $id
+     * @return bool
+     */
+    public function restore($id){
+        return $this->model->withTrashed()->find($id)->restore();
     }
     
     /**

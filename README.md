@@ -647,6 +647,25 @@ name from your model as the second parameter.
     return $yourService->withBelongsToMany($data,'some_relation')->create($model);
 ```
 
+### delete
+
+Delete will remove a model from the database, unless soft deletes are in use.
+If you want to permanently delete a model you need to give it true as the 
+second parameter.
+
+```php
+    return $yourService->delete($id); //Normal delete
+    return $yourService->delete($id,true); //if you want to force delete
+```
+
+### restore
+
+The restore function simply recovers a previously soft deleted model. 
+
+```php
+    return $yourService->restore($id);
+```
+
 ### handleUpload
 
 Processing uploads is somewhat cumbersome so I thought I'd include an easy to
