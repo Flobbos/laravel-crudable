@@ -116,7 +116,7 @@ trait Translatable{
         //Update existing translations
         $remaining = [];
         foreach($translations as $trans){
-            if(!is_null($trans[$translation_id])){
+            if(isset($trans[$translation_id]) && !is_null($trans[$translation_id])){
                 $translation = $model->{$this->translation_name}()->where('id',$trans[$translation_id])->first();
                 $translation->update($trans);
             }
