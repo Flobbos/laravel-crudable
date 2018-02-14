@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.6
+
+- fixed a problem with form request arrays containing null entries
+
 ### v. 2.5.5
 
 - updated delete method to handle soft deletes
