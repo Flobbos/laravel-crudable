@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.7
+
+- fixed typo in delete method
+
 ### v. 2.5.6
 
 - fixed a problem with form request arrays containing null entries

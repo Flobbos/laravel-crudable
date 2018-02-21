@@ -148,7 +148,7 @@ trait Crudable {
         if($hardDelete){
             return $this->model->withTrashed()->find($id)->forceDelete($id);
         }
-        return $this->model->withTrashed()->find($id)->delete($id);
+        return $this->model->find($id)->delete($id);
     }
     
     /**
