@@ -1,5 +1,12 @@
 ## Version History
 
+### v. 2.5.8
+
+- option for including custom contract
+- option for generating model translation
+- updated index view with delete button in button group
+- changed view path/route path to be kebab case
+
 ### v. 2.5.7
 
 - fixed typo in delete method

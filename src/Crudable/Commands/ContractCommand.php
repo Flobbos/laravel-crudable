@@ -14,7 +14,7 @@ class ContractCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'crud:contract {name}';
+    protected $signature = 'crud:contract {name} {--translated}';
 
     /**
      * The console command description.
@@ -69,7 +69,7 @@ class ContractCommand extends GeneratorCommand{
      * @return mixed
      */
     public function handle(){
-        $this->comment('Building new Crudable service class.');
+        $this->comment('Building new Crudable contract interface.');
         
         $name = $this->qualifyClass($this->getNameInput());
         $path = $this->getPath($name);

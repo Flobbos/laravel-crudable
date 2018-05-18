@@ -14,7 +14,7 @@ class ControllerCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'crud:controller {name} {--blank}';
+    protected $signature = 'crud:controller {name} {--blank} {--contract}';
 
     /**
      * The console command description.
@@ -36,21 +36,26 @@ class ControllerCommand extends GeneratorCommand{
     }
     
     /**
-     * Replace the class name for the given stub.
+     * Replace the service variable in the stub
      *
      * @param  string  $stub
      * @param  string  $name
      * @return string
      */
     protected function replaceServiceVar($name){
-        //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $service_var = strtolower(str_replace('Controller', '', $class));
-        return snake_case($service_var);
+        return strtolower(snake_case(str_replace('Controller', '', $class)));
     }
     
     protected function replaceViewPath($name){
-        return str_plural($this->replaceServiceVar($name));
+        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        return str_plural(kebab_case(str_replace('Controller', '', $class)));
+    }
+    
+    protected function replaceDummyContract($name){
+        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        $class = str_replace('Controller', 'Contract', $class);
+        return $class;
     }
     
     /**
@@ -68,6 +73,7 @@ class ControllerCommand extends GeneratorCommand{
         $replace = array_merge($replace, [
             'DummyViewPath' => snake_case($this->replaceViewPath($name)),
             'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
+            'DummyContract' => $this->replaceDummyContract($name)
         ]);
         //dd($replace);
         return str_replace(
@@ -83,6 +89,9 @@ class ControllerCommand extends GeneratorCommand{
     protected function getStub(){
         if($this->option('blank')){
             return __DIR__.'/../../resources/stubs/controller.blank.stub';
+        }
+        if($this->option('contract')){
+            return __DIR__.'/../../resources/stubs/contract/controller.stub';
         }
         return __DIR__.'/../../resources/stubs/controller.stub';
     }

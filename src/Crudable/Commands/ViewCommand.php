@@ -50,7 +50,8 @@ class ViewCommand extends GeneratorCommand{
     }
     
     protected function getDirectoryName($name){
-        return  str_plural(strtolower($name));
+        //dd($name);
+        return  str_plural(strtolower(kebab_case($name)));
     }
     
     /**
@@ -69,7 +70,7 @@ class ViewCommand extends GeneratorCommand{
     }
     
     protected function replaceViewPath($name){
-        return str_plural($this->replaceServiceVar($name));
+        return str_plural(kebab_case(str_replace($this->getNamespace($name).'\\', '', $name)));
     }
     
     /**
@@ -114,7 +115,7 @@ class ViewCommand extends GeneratorCommand{
     public function handle(){
         $this->comment('Building new Crudable views.');
         
-        $path = $this->getPath(strtolower($this->getNameInput()));
+        $path = $this->getPath(strtolower(kebab_case($this->getNameInput())));
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exist!');
             return false;

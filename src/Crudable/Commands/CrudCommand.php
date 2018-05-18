@@ -14,7 +14,7 @@ class CrudCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'crud:resource {name} {--silent}';
+    protected $signature = 'crud:resource {name} {--silent} {--contract} {--translated}';
 
     /**
      * The console command description.
@@ -85,12 +85,21 @@ class CrudCommand extends GeneratorCommand{
         if (! class_exists($modelClass)) {
             if ($this->confirm("The {$modelClass} model does not exist. Do you want to generate it?", true)) {
                 $this->call('make:model', ['name' => $modelClass]);
+                //Check if model is translated
+                if($this->option('translated')){
+                    $this->call('make:model', ['name' => $modelClass.'Translation']);
+                }
             }
         }
         
         //Generate service
         if ($this->confirm("Would you like to generate the service class?", true)) {
-            $this->call('crud:service', ['name' => $this->getNameInput().'Service']);
+            if($this->option('contract')){
+                $this->call('crud:service', ['name' => $this->getNameInput().'Service','--contract'=>true]);
+            }
+            else{
+                $this->call('crud:service', ['name' => $this->getNameInput().'Service']);
+            }
         }
         
         //Generate controller
@@ -102,7 +111,17 @@ class CrudCommand extends GeneratorCommand{
             else{
                 $controller_name = $namespace.'\\'.$this->getNameInput().'Controller';
             }
-            $this->call('crud:controller', ['name' => $controller_name]);
+            if($this->option('contract')){
+                $this->call('crud:controller', ['name' => $controller_name,'--contract'=>true]);
+            }
+            else{
+                $this->call('crud:controller', ['name' => $controller_name]);
+            }
+        }
+        
+        //Generate custom contract
+        if($this->option('contract') && $this->confirm("Would you like to generate a custom contract?", true)){
+            $this->call('crud:contract', ['name'=>$this->getNameInput().'Contract']);
         }
         
         //Generate Views

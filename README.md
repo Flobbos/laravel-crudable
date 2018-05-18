@@ -144,6 +144,9 @@ class CountryService implements Crud {
 
 ```
 
+Adding the option --contract will load up the service class with a custom 
+contract named after the provided service class.
+
 ### Controller Generator
 
 You can generate either a blank controller or a complete resource controller. 
@@ -268,6 +271,9 @@ blank option like so:
 ```php
 php artisan crud:controller --blank
 ```
+
+Adding the option --contract will put a custom contract into the controller
+named after the controller class name provided. 
 
 ### View Generator
 

@@ -14,7 +14,7 @@ class ServiceCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'crud:service {name}';
+    protected $signature = 'crud:service {name} {--contract}';
 
     /**
      * The console command description.
@@ -31,6 +31,9 @@ class ServiceCommand extends GeneratorCommand{
      * @return string
      */
     protected function getStub(){
+        if($this->option('contract')){
+            return __DIR__.'/../../resources/stubs/contract/service.stub';
+        }
         return __DIR__.'/../../resources/stubs/service.stub';
     }
     
@@ -52,17 +55,19 @@ class ServiceCommand extends GeneratorCommand{
      * @return string
      */
     protected function replaceServiceVar($name){
-        //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $class = strtolower(str_replace('Service', '', $class));
-        //dd($class);
-        return snake_case($class);
+        return strtolower(snake_case(str_replace('Service', '', $class)));
     }
     
     protected function replaceDummyModel($name){
-        //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
         $class = str_replace('Service', '', $class);
+        return $class;
+    }
+    
+    protected function replaceDummyContract($name){
+        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        $class = str_replace('Service', 'Contract', $class);
         return $class;
     }
     
@@ -78,9 +83,9 @@ class ServiceCommand extends GeneratorCommand{
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
             'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
-            'DummyModel' => $this->replaceDummyModel($name)
+            'DummyModel' => $this->replaceDummyModel($name),
+            'DummyContract' => $this->replaceDummyContract($name)
         ];
-        //dd($replace);
         return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
         );
@@ -101,7 +106,6 @@ class ServiceCommand extends GeneratorCommand{
 
             return false;
         }
-        //dd($path);
         // Next, we will generate the path to the location where this class' file should get
         // written. Then, we will build the class and make the proper replacements on the
         // stub files so that it gets the correctly formatted namespace and class name.
