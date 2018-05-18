@@ -363,6 +363,9 @@ class Category implements Crud,Translation{
 
 ```
 
+If you add the --translated option when generating a resource the package will
+automatically generate a model translation class. 
+
 ### How to use translation functions
 
 You need to run your language options as a foreach loop and send
