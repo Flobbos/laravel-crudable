@@ -66,8 +66,8 @@ return [
     */
     'bindings' => [
         //[
-        //    'contract' => \App\Contracts\YourContract,
-        //    'target' => \App\Services\YourService
+        //    'contract' => \App\Contracts\YourContract::class,
+        //    'target' => \App\Services\YourService::class
         //],
         
     ],
