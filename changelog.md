@@ -1,5 +1,13 @@
 ## Version History
 
+### v. 2.5.11 (in progress)
+
+- fixed missing ::class attribute in example config
+
+### v. 2.5.10
+
+- fixed typo/pluralisation in custom contract controller stub
+
 ### v. 2.5.9
 
 - fixed typos
