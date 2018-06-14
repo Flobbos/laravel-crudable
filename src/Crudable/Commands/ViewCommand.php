@@ -55,7 +55,7 @@ class ViewCommand extends GeneratorCommand{
     }
     
     /**
-     * Replace the service variable in the stub
+     * Replace the service variable in the stub using pluralization
      *
      * @param  string  $stub
      * @param  string  $name
@@ -64,9 +64,22 @@ class ViewCommand extends GeneratorCommand{
     protected function replaceServiceVar($name){
         //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $class = strtolower(str_replace('Service', '', $class));
+        $class = strtolower(snake_case(str_replace('Service', '', $class)));
         //dd($class);
-        return snake_case($class);
+        return str_plural($class);
+    }
+    
+    /**
+     * Replace the service variable in stubs in singular
+     * @param type $name
+     * @return type
+     */
+    protected function replaceSingularServiceVar($name){
+        //dd($name);
+        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        $class = strtolower(snake_case(str_replace('Service', '', $class)));
+        //dd($class);
+        return $class;
     }
     
     protected function replaceViewPath($name){
@@ -84,8 +97,9 @@ class ViewCommand extends GeneratorCommand{
     protected function buildClass($name){
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
-            'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
-            'DummyViewPath' => snake_case($this->replaceViewPath($name)),
+            'DummyServiceVar' => $this->replaceServiceVar($name),
+            'DummyViewPath' => $this->replaceViewPath($name),
+            'DummySingularServiceVar' => $this->replaceSingularServiceVar($name)
         ];
         return str_replace(
             array_keys($replace), array_values($replace), $this->generateClass($name)

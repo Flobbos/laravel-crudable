@@ -20,22 +20,22 @@
 
                 <div class="panel-body">
                     {{-- @include('admin.notifications') --}}
-                    @if($DummyServiceVars->isEmpty())
+                    @if($DummyServiceVar->isEmpty())
                     @lang('crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
                         </thead>
                         <tbody>
-                            @foreach($DummyServiceVars as $DummyServiceVar)
+                            @foreach($DummyServiceVar as $DummySingularServiceVar)
                             <tr>
                                 <td>
                                     <div class="btn-group pull-right" role="group">
-                                        <a class="btn btn-sm btn-primary" href="{{ route('admin.DummyViewPath.edit',$DummyServiceVar->id) }}">
+                                        <a class="btn btn-sm btn-primary" href="{{ route('admin.DummyViewPath.edit',$DummySingularServiceVar->id) }}">
                                             <i class="glyphicon glyphicon-pencil"></i> @lang('crud.edit')
                                         </a>
                                         <form class="btn-group"
-                                            action="{{ route('admin.DummyViewPath.edit',$DummyServiceVar->id) }}"
+                                            action="{{ route('admin.DummyViewPath.edit',$DummySingularServiceVar->id) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}

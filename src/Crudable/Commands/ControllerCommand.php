@@ -44,7 +44,20 @@ class ControllerCommand extends GeneratorCommand{
      */
     protected function replaceServiceVar($name){
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        return strtolower(snake_case(str_replace('Controller', '', $class)));
+        return str_plural(strtolower(snake_case(str_replace('Controller', '', $class))));
+    }
+    
+    /**
+     * Replace the service variable in stubs in singular
+     * @param type $name
+     * @return type
+     */
+    protected function replaceSingularServiceVar($name){
+        //dd($name);
+        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        $class = strtolower(snake_case(str_replace('Controller', '', $class)));
+        //dd($class);
+        return $class;
     }
     
     protected function replaceViewPath($name){
@@ -71,8 +84,9 @@ class ControllerCommand extends GeneratorCommand{
 
         $replace["use {$controllerNamespace}\Controller;\n"] = '';
         $replace = array_merge($replace, [
-            'DummyViewPath' => snake_case($this->replaceViewPath($name)),
-            'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
+            'DummyViewPath' => $this->replaceViewPath($name),
+            'DummyServiceVar' => $this->replaceServiceVar($name),
+            'DummySingularServiceVar' => $this->replaceSingularServiceVar($name),
             'DummyContract' => $this->replaceDummyContract($name)
         ]);
         //dd($replace);

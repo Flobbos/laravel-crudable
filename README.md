@@ -281,7 +281,7 @@ You can generate basic views for create/edit/index based on the Bootstrap
 version that shipped with Laravel. 
 
 ```php
-php artisan crud:views yourviewpath
+php artisan crud:views YourModelName
 ```
 
 The above command will generate a basic listing template, the form template for

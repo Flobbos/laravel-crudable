@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 2.5.9
+
+- fixed typos
+- fixed pluralisation 
+
 ### v. 2.5.8
 
 - option for including custom contract

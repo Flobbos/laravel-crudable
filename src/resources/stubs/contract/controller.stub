@@ -4,7 +4,7 @@ namespace DummyNamespace;
 
 use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
-use Apps\Contracts\DummyContract;
+use App\Contracts\DummyContract;
 use Exception;
 
 class DummyClass extends Controller{
