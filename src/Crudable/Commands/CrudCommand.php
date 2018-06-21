@@ -41,6 +41,28 @@ class CrudCommand extends GeneratorCommand{
     }
     
     /**
+     * Parse the class name and format according to the root namespace.
+     * Added from Laravel to fix issue in L5.3
+     * @param  string  $name
+     * @return string
+     */
+    protected function qualifyClass($name){
+        $name = ltrim($name, '\\/');
+
+        $rootNamespace = $this->rootNamespace();
+
+        if (Str::startsWith($name, $rootNamespace)) {
+            return $name;
+        }
+
+        $name = str_replace('/', '\\', $name);
+
+        return $this->qualifyClass(
+            $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
+        );
+    }
+    
+    /**
      * Get the fully-qualified model class name.
      *
      * @param  string  $model
