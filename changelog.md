@@ -3,6 +3,7 @@
 ### v. 2.5.11 (in progress)
 
 - fixed missing ::class attribute in example config
+- - added qualifyClass method, which is missing in L5.3
 
 ### v. 2.5.10
 
