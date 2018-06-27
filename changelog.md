@@ -1,6 +1,9 @@
 ## Version History
 
-### v. 2.5.12 (in progress)
+### v. 2.5.12
+
+- removed fix for L5.3 because it didn't work
+- added fix for deleting content of existing translation fields
 
 ### v. 2.5.11 
 
