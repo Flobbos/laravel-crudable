@@ -118,6 +118,15 @@ trait Translatable{
         foreach($translations as $trans){
             if(isset($trans[$translation_id]) && !is_null($trans[$translation_id])){
                 $translation = $model->{$this->translation_name}()->where('id',$trans[$translation_id])->first();
+                //Check if parent model is available
+                if(isset($this->model)){
+                    //Add keys that exist with deleted values
+                    foreach($this->model->translatedAttributes as $key){
+                        if(!array_key_exists($key, $trans)){
+                            $trans[$key] = null;
+                        }
+                    }
+                }
                 $translation->update($trans);
             }
             else{
