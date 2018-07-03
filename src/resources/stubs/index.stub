@@ -35,7 +35,7 @@
                                             <i class="glyphicon glyphicon-pencil"></i> @lang('crud.edit')
                                         </a>
                                         <form class="btn-group"
-                                            action="{{ route('admin.DummyViewPath.edit',$DummySingularServiceVar->id) }}"
+                                            action="{{ route('admin.DummyViewPath.destroy',$DummySingularServiceVar->id) }}"
                                             method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
