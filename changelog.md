@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.13
+
+- fixed typo in index.stub (edit instead of destroy)
+
 ### v. 2.5.12
 
 - removed fix for L5.3 because it didn't work
