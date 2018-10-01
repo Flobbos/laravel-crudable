@@ -127,7 +127,13 @@ trait Translatable{
                         }
                     }
                 }
-                $translation->update($trans);
+                //Delete translations, when empty data is received. 
+                if(empty(array_intersect($this->model->translatedAttributes,array_keys($this->filterNull($trans))))){
+                    $translation->delete();
+                }
+                else{
+                    $translation->update($trans);
+                }
             }
             else{
                 $remaining[] = $trans;

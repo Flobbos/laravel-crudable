@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.14
+
+- changed translation handler to allow deletion of translations when empty data is sent.
+
 ### v. 2.5.13
 
 - fixed typo in index.stub (edit instead of destroy)
