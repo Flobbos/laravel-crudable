@@ -11,7 +11,8 @@
                     {{method_field('PUT')}}
 
                     <div class="panel-heading panel-default">
-                        @lang('crud.create_headline')
+                        <h3 class="panel-title"><!-- insert title here --></h3>
+                        @lang('crud.edit_headline')
                     </div>
 
                     <div class="panel-body">
