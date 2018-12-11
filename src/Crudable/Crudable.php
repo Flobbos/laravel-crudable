@@ -30,6 +30,14 @@ trait Crudable {
     }
     
     /**
+     * Returns the first row of the selected resource
+     * @return Model
+     */
+    public function first(){
+        return $this->model->first();
+    }
+
+    /**
      * Adds a chainable where statement
      * @param array|mixed $params
      * @return $this self

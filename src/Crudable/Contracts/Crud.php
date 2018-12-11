@@ -23,6 +23,12 @@ interface Crud {
     public function get($id = null);
     
     /**
+     * Returns the first row of the selected resource
+     * @return Model
+     */
+    public function first();
+    
+    /**
      * Get a single item
      * @param int $id 
      */

@@ -607,6 +607,32 @@ needing to redeclare everything that Crudable already provides.
 
 ## Functions
 
+### get
+
+This will perform a simple get call on the model resource. You can optionally
+pass an ID to the function and it will do the same thing as find.
+
+```php
+    return $yourService->get();
+```
+
+### find
+
+This will get the resource with the given ID. 
+
+```php
+    return $yourService->find($id);
+```
+
+### first
+
+First will get you the very first row from from your resource, it works the same
+as the original Laravel version pretty much with the added Crudable benefits.
+
+```php
+    return $yourService->first();
+```
+
 ### Where
 
 The where function accepts parameters and passes them along to the Eloquent
