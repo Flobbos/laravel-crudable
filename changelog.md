@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.14
+- added first() to Crudable
+- updated readme
+
 ### v. 2.5.13
 
 - fixed typo in index.stub (edit instead of destroy)
