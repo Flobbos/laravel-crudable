@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.0
+
+- switched to Bootstrap 4
+
 ### v. 2.5.14
 - added first() to Crudable
 - updated readme

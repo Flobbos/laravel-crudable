@@ -4,27 +4,30 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="panel-title"><!-- insert title here --></h3>
+                            <!-- insert title here -->
                         </div>
                         <div class="col-sm-6">
-                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-default btn-small pull-right">
-                                <i class="glyphicon glyphicon-plus"></i> @lang('crud.create_button')
+                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-light btn-sm pull-right">
+                                @lang('crud.create_button')
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="panel-body">
+                <div class="card-body">
                     {{-- @include('admin.notifications') --}}
                     @if($DummyServiceVar->isEmpty())
                     @lang('crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
+                            <tr>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach($DummyServiceVar as $DummySingularServiceVar)

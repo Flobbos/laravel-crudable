@@ -740,6 +740,8 @@ all fields were empty or the required fields weren't filled out.
 
  Laravel  | Crudable
 :---------|:----------
+ 5.7      | >3.*
+ 5.6      | >3.*
  5.5      | >2.*
  5.4      | >2.*
  5.3      | >2.*
