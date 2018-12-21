@@ -11,13 +11,13 @@
                     {{method_field('PUT')}}
 
                     <div class="card-header">
-                        <!-- insert title here -->
+                        <h5><!-- insert title here --></h5>
                         @lang('crud.edit_headline')
                     </div>
 
                     <div class="card-body">
                         
-                        {{-- @include('admin.notifications') --}}
+                        @include('crudable::notifications')
                         
                     </div>
 

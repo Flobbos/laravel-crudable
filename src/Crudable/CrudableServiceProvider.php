@@ -12,6 +12,8 @@ class CrudableServiceProvider extends ServiceProvider{
             __DIR__.'/../config/crudable.php' => config_path('crudable.php'),
             __DIR__.'/../resources/lang' => resource_path('lang')
         ]);
+        //Add views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'crudable');
     }
 
     /**

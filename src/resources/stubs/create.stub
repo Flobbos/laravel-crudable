@@ -10,13 +10,13 @@
                     {{ csrf_field() }}
 
                     <div class="card-header">
-                        <!-- insert title here -->
+                        <h5><!-- insert title here --></h5>
                         @lang('crud.create_headline')
                     </div>
 
                     <div class="card-body">
                         
-                        {{--@include('admin.notifications')--}}
+                        @include('crudable::notifications')
                     
                     </div>
 

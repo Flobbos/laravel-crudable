@@ -8,10 +8,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <!-- insert title here -->
+                            <h5><!-- insert title here --></h5>
                         </div>
-                        <div class="col-sm-6">
-                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-light btn-sm pull-right">
+                        <div class="col-sm-6 text-right">
+                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-light btn-sm">
                                 @lang('crud.create_button')
                             </a>
                         </div>
@@ -19,21 +19,21 @@
                 </div>
 
                 <div class="card-body">
-                    {{-- @include('admin.notifications') --}}
+                    @include('crudable::notifications')
                     @if($DummyServiceVar->isEmpty())
                     @lang('crud.no_entries')
                     @else
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($DummyServiceVar as $DummySingularServiceVar)
                             <tr>
-                                <td>
-                                    <div class="btn-group pull-right" role="group">
+                                <td class="text-right">
+                                    <div class="btn-group" role="group">
                                         <a class="btn btn-sm btn-primary" href="{{ route('admin.DummyViewPath.edit',$DummySingularServiceVar->id) }}">
                                             <i class="glyphicon glyphicon-pencil"></i> @lang('crud.edit')
                                         </a>
