@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.1
+
+- fixed missing auto discover in composer.json
+
 ### v. 3.0.0
 
 - switched to Bootstrap 4
