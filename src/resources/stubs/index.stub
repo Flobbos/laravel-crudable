@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="panel-body">
-                    {{-- @include('admin.notifications') --}}
+                    @include('admin.notifications')
                     @if($DummyServiceVar->isEmpty())
                     @lang('crud.no_entries')
                     @else
