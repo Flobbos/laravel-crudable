@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.2
+
+- fixed auto discovery again
+
 ### v. 3.0.1
 
 - fixed missing auto discover in composer.json
