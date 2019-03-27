@@ -1,9 +1,12 @@
 ## Version History
 
+### v. 3.0.4
+
+- another attempt at fixing auto discover
+
 ### v. 3.0.3
 
 - notifications partial is no part of the package
-- another attempt at fixing auto discover
 
 ### v. 3.0.2
 
