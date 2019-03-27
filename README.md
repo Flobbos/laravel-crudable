@@ -306,6 +306,8 @@ everything without interruptions use silent mode:
 php artisan crud:resource Country --silent
 ```
 
+You can also use the --contract option for a custom contract version. 
+
 ### Contract Generator
 
 If you want to use your own custom contract in combination with Crudable you
