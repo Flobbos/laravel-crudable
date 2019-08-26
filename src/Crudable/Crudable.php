@@ -211,7 +211,7 @@ trait Crudable {
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(),'.'.$request->file($fieldname)->getClientOriginalExtension());
         if($randomize){
-            $filename = uniqid().'_'.str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
+            $filename = str_slug($basename).'_'.uniqid().'.'.$request->file($fieldname)->getClientOriginalExtension();
         }
         else{
             $filename = str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
