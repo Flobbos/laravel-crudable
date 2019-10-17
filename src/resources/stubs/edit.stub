@@ -4,24 +4,24 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default">
+            <div class="card">
 
                 <form action="{{ route('admin.DummyViewPath.update',$DummySingularServiceVar->id) }}" role="form" method="POST"  enctype="multipart/form-data">
                     {{ csrf_field() }}
                     {{method_field('PUT')}}
 
-                    <div class="panel-heading panel-default">
-                        <h3 class="panel-title"><!-- insert title here --></h3>
+                    <div class="card-header">
+                        <h5><!-- insert title here --></h5>
                         @lang('crud.edit_headline')
                     </div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         
-                        {{-- @include('admin.notifications') --}}
+                        @include('crudable::notifications')
                         
                     </div>
 
-                    <div class="panel-footer">
+                    <div class="card-footer">
 
                         <div class="row">
 

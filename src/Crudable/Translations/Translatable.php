@@ -4,10 +4,15 @@ namespace Flobbos\Crudable\Translations;
 
 use Flobbos\Crudable\Exceptions\MissingTranslationsException;
 use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
-use Flobbos\Crudable\Exceptions\MissingTranslationNameException;
 
 trait Translatable{
     
+    /**
+     * If you custom named your translations you can set this here
+     * @var string name of your translations 
+     */
+    protected $translation_name = 'translations';
+
     /**
      * Process translation input data for saving them.
      * @param array $translations
@@ -54,9 +59,6 @@ trait Translatable{
         
         if(empty($translations))
             throw new MissingTranslationsException;
-        
-        if(empty($this->translation_name))
-            throw new MissingTranslationNameException;
         
         return $model->{$this->translation_name}()->saveMany($translations);
     }

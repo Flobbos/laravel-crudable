@@ -1,5 +1,38 @@
 ## Version History
 
+### v. 3.0.7
+
+- added laravel helpers dependency
+
+### v. 3.0.6
+
+- added support for Laravel 6
+- switched upload randomizer to the end of the original filename
+
+### v. 3.0.5
+
+- removed obsolete exceptions
+
+### v. 3.0.4
+
+- another attempt at fixing auto discover
+
+### v. 3.0.3
+
+- notifications partial is now part of the package
+
+### v. 3.0.2
+
+- fixed auto discovery again
+
+### v. 3.0.1
+
+- fixed missing auto discover in composer.json
+
+### v. 3.0.0
+
+- switched to Bootstrap 4
+
 ### v. 2.5.14
 - added first() to Crudable
 - updated readme

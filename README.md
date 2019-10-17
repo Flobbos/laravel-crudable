@@ -306,6 +306,8 @@ everything without interruptions use silent mode:
 php artisan crud:resource Country --silent
 ```
 
+You can also use the --contract option for a custom contract version. 
+
 ### Contract Generator
 
 If you want to use your own custom contract in combination with Crudable you
@@ -339,7 +341,7 @@ a language ID or a language code.
 ### Basic options for translations
 
 If you plan on using these functions for handling translations there are some
-basics you need to set:
+basics you need to set in your service class:
 
 ```php
 
@@ -347,17 +349,16 @@ use Flobbos\Crudable\Contracts\Crud;
 use Flobbos\Crudable;
 use Flobbos\Crudable\Contracts\Translation;
 
-class Category implements Crud,Translation{    
+class CategoryService implements Crud,Translation{    
     
     use Crudable\Crudable;
     use \Flobbos\Crudable\Translations\Translatable;
 
-    protected $translation_name;
-    protected $required_trans; //optional array of fields
-
-    public function __construct(){
-        $this->translation_name = 'translations';//defines the relation name
-    }
+    //only necessary if your translation relation is named something else
+    //than 'translations' in your model
+    protected $translation_name = 'my_translations';
+    //optional array of fields that HAVE to be present to save a translation
+    protected $required_trans; 
 
 }
 
@@ -441,9 +442,6 @@ This function returns an array that is then put into the save function:
         
         if(empty($translations))
             throw new MissingTranslationsException;
-        
-        if(empty($this->translation_name))
-            throw new MissingTranslationNameException;
         
         return $model->{$this->translation_name}()->saveMany($translations);
     }
@@ -740,6 +738,8 @@ all fields were empty or the required fields weren't filled out.
 
  Laravel  | Crudable
 :---------|:----------
+ 5.7      | >3.*
+ 5.6      | >3.*
  5.5      | >2.*
  5.4      | >2.*
  5.3      | >2.*
