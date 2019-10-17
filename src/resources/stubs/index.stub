@@ -17,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card-body">
                     @include('crudable::notifications')
                     @if($DummyServiceVar->isEmpty())
