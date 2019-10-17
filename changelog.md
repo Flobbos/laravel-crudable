@@ -1,5 +1,17 @@
 ## Version History
 
+### v. 3.0.7
+
+- added laravel helpers dependency
+
+### v. 3.0.6
+
+- added support for Laravel 6
+
+### v. 3.0.5
+
+- removed obsolete exceptions
+
 ### v. 3.0.4
 
 - another attempt at fixing auto discover
