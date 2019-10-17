@@ -7,6 +7,7 @@
 ### v. 3.0.6
 
 - added support for Laravel 6
+- switched upload randomizer to the end of the original filename
 
 ### v. 3.0.5
 
@@ -18,7 +19,7 @@
 
 ### v. 3.0.3
 
-- notifications partial is no part of the package
+- notifications partial is now part of the package
 
 ### v. 3.0.2
 

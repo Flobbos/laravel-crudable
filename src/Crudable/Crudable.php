@@ -230,7 +230,7 @@ trait Crudable {
         }
         if(!is_null($this->withBelongsToMany) && $type == 'tomany'){
             if(!isset($this->withBelongsToMany['relation']) || !isset($this->withBelongsToMany['data']))
-                throw new MissingRelationDataException('HasMany Relation');
+                throw new MissingRelationDataException('BelongsToMany Relation');
             return true;
         }
         return false;
