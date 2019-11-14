@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.8
+
+- added slugger contract and slugable trait for handling URL slugs
+
 ### v. 3.0.7
 
 - added laravel helpers dependency
