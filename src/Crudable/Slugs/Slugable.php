@@ -13,8 +13,8 @@ trait Slugable {
         throw new SlugNotFoundException;
     }
     
-    public function getTranslatedSlugFromResourceId(int $id, string $related_id): string{
-        if($model = $this->model->translations()->select('slug')->where($related_id,$id)->where('language_id',request()->get('language_id'))->first()){
+    public function getTranslatedSlugFromResourceId(int $id, string $related_id, int $language_id = null): string{
+        if($model = $this->model->translations()->select('slug')->where($related_id,$id)->where('language_id',$language_id)->first()){
             return $model->slug;
         }
         return '';
