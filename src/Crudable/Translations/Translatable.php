@@ -177,7 +177,7 @@ trait Translatable{
             throw new MissingSlugFieldException;
         }
         //Check if current translation contains a sluggable field
-        if(in_array($this->slug_field, $trans)){
+        if(array_key_exists($this->slug_field, $trans)){
             $trans[$this->slug_name ?? 'slug'] = $this->generateSlug($trans[$this->slug_field]);
         }
         return $trans;

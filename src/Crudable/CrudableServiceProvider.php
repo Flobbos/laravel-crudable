@@ -47,5 +47,7 @@ class CrudableServiceProvider extends ServiceProvider{
                 $this->app->bind($binding['contract'],$binding['target']);
             }
         }
+        //Register translation helper
+        require_once(__DIR__.'/Helpers/get_translation.php');
     }
 }
