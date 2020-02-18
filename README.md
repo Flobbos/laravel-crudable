@@ -17,6 +17,7 @@ can bind to your services via automated contextual binding.
 * [Configuration](#configuration)
 * [Generators](#generators)
 * [Translations](#translations)
+* [Slugs](#slugs)
 * [Usage](#usage)
 * [Functions](#functions)
 * [Exceptions](#exceptions)
@@ -539,6 +540,28 @@ public function filterNull(array $arr, $except = null);
 
 Here you can simply filter out all fields that were left blank in the form if 
 you don't have required minimum fields mentioned above. 
+
+## Slugs
+
+### Handle slugs with ease
+
+If you want a service class to handle slugs for you automatically, all you need to
+do is set the following variable to the field you would like to be transformed
+into a slug:
+
+```php
+protected $slug_field = 'title';
+```
+
+In this scenario the field 'title' will be transformed into a URL slug and saved
+to the 'slug' field in the database. 
+
+If you wish to name the slug field differently you need to set the following 
+variable to the field name you prefer:
+
+```php
+protected $slug_name = 'url_slug';
+```
 
 ## Usage
 

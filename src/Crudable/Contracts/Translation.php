@@ -56,4 +56,11 @@ interface Translation {
      */
     public function filterNull(array $arr, $except = null);
     
+    /**
+     * Generate URL slug from given string
+     * @param string $name
+     * @return string
+     */
+    public function generateSlug(string $name): string;
+    
 }
