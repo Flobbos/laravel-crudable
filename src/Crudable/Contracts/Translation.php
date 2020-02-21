@@ -13,8 +13,8 @@ interface Translation {
      */
     public function processTranslations(
             array $translations, 
-            $trans_key = null, 
-            $language_key = 'language_id');
+            string $trans_key = null, 
+            string $language_key = 'language_id');
     
     /**
      * Save translations to model
@@ -37,8 +37,8 @@ interface Translation {
     public function updateTranslations(
             array $translations, 
             \Illuminate\Database\Eloquent\Model $model, 
-            $translation_key, 
-            $translation_class);
+            string $translation_key, 
+            string $translation_class);
     
     /**
      * If you set the required fields in your service class
@@ -51,10 +51,17 @@ interface Translation {
     /**
      * Filter fields with null input
      * @param array $arr
-     * @param type $except
+     * @param string $except
      * @return array
      */
-    public function filterNull(array $arr, $except = null);
+    public function filterNull(array $arr, string $except = null);
+    
+    /**
+     * Check if a translated slug already exists in the DB
+     * @param string $slug
+     * @return bool
+     */
+    public function translatedSlugExists(string $slug): bool;
     
     /**
      * Generate URL slug from given string

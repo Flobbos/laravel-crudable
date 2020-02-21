@@ -25,15 +25,19 @@ trait Translatable{
      */
     public function processTranslations(
             array $translations, 
-            $trans_key = null, 
-            $language_key = 'language_id'){
+            string $trans_key = null, 
+            string $language_key = 'language_id'){
         
         $approved = [];
         
         foreach($translations as $trans){
-            //Check if translation is array at and skip
+            //Check if translation is array and skip if not
             if(!is_array($trans)){
                 continue;
+            }
+            //Check if translated slugs are used and validate against the DB
+            if(config('crudable.translated_slugs') && isset($trans[config('crudable.slug_field_name')])){
+                
             }
             //Check for translation key
             if(!is_null($trans_key)){
@@ -76,7 +80,7 @@ trait Translatable{
         //Filter out null values
         $filtered = $this->filterNull($arr);
         
-        if(isset($this->required_trans))
+        if(!isset($this->required_trans))
             throw new MissingRequiredFieldsException;
         
         //check if all required fields are present
@@ -86,10 +90,10 @@ trait Translatable{
     /**
      * 
      * @param array $arr
-     * @param type $except
+     * @param string $except
      * @return type
      */
-    public function filterNull(array $arr, $except = null){
+    public function filterNull(array $arr, string $except = null){
         if(is_null($except)){
             return array_filter($arr, function($var){
                 return !is_null($var);
@@ -106,17 +110,17 @@ trait Translatable{
     
     /**
      * 
-     * @param type $translations
+     * @param array $translations
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $translation_id
-     * @param type $translation_class
+     * @param string $translation_key
+     * @param string $translation_class
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateTranslations(
             array $translations, 
             \Illuminate\Database\Eloquent\Model $model, 
-            $translation_id, 
-            $translation_class){
+            string $translation_key, 
+            string $translation_class){
         
         //Update existing translations
         $remaining = [];

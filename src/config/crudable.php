@@ -10,7 +10,7 @@ return [
     | With this setting you can enable the use of auto binding or disable it.
     | The auto bindings need to be set below
     */
-    'use_auto_binding' => false,
+    'use_auto_binding' => true,
     
     /*
     |--------------------------------------------------------------------------
@@ -71,5 +71,18 @@ return [
         //],
         
     ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Translated slugs
+    |--------------------------------------------------------------------------
+    |
+    | In some cases you may want to use the translation component together with
+    | translated URL slugs. If this is the case, set the following setting to
+    | true. 
+    |
+    */
+    'translated_slugs' => true,
+    'slug_field_name' => 'slug',
     
 ];

@@ -4,6 +4,8 @@
 
 - removed dependency for Laravel helpers
 - added slug contract and functionality
+- set auto binding to true in config
+- fixed required translations evaluation bug
 
 ### v. 3.0.7
 
