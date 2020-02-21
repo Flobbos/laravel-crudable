@@ -57,13 +57,6 @@ interface Translation {
     public function filterNull(array $arr, string $except = null);
     
     /**
-     * Check if a translated slug already exists in the DB
-     * @param string $slug
-     * @return bool
-     */
-    public function translatedSlugExists(string $slug): bool;
-    
-    /**
      * Generate URL slug from given string
      * @param string $name
      * @return string
