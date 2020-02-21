@@ -63,4 +63,11 @@ interface Translation {
      */
     public function translatedSlugExists(string $slug): bool;
     
+    /**
+     * Generate URL slug from given string
+     * @param string $name
+     * @return string
+     */
+    public function generateSlug(string $name): string;
+    
 }

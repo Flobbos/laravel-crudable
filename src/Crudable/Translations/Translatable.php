@@ -4,6 +4,9 @@ namespace Flobbos\Crudable\Translations;
 
 use Flobbos\Crudable\Exceptions\MissingTranslationsException;
 use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
+use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
+use Flobbos\Crudable\Contracts\Sluggable;
+use Illuminate\Support\Str;
 
 trait Translatable{
     
@@ -41,10 +44,10 @@ trait Translatable{
                 unset($trans[$trans_key]);
             }
             if(!isset($this->required_trans) && !empty($this->filterNull($trans,$language_key))){
-                $approved[] = $trans;
+                $approved[] = $this->checkForSlug($trans);
             }
             elseif(isset($this->required_trans) && $this->checkRequired($trans)){
-                $approved[] = $trans;
+                $approved[] = $this->checkForSlug($trans);
             }
         }
         return $approved;
@@ -138,11 +141,11 @@ trait Translatable{
                     $translation->delete();
                 }
                 else{
-                    $translation->update($trans);
+                    $translation->update($this->checkForSlug($trans));
                 }
             }
             else{
-                $remaining[] = $trans;
+                $remaining[] = $this->checkForSlug($trans);
             }
         }
         
@@ -159,8 +162,29 @@ trait Translatable{
         return $model;
     }
     
-    public function translatedSlugExists(string $slug): bool{
-        //if($slug = $this->mo)
+    /**
+     * Generate URL slug from given string
+     * @param string $name
+     * @return string
+     */
+    public function generateSlug(string $name): string{
+        return Str::slug($name);
+    }
+    
+    private function checkForSlug(array $trans): array{
+        //Don't use slugs
+        if(!$this instanceof Sluggable){
+            return $trans;
+        }
+        //Check if slug field is set
+        if(!isset($this->slug_field)){
+            throw new MissingSlugFieldException;
+        }
+        //Check if current translation contains a sluggable field
+        if(array_key_exists($this->slug_field, $trans)){
+            $trans[$this->slug_name ?? 'slug'] = $this->generateSlug($trans[$this->slug_field]);
+        }
+        return $trans;
     }
     
 }

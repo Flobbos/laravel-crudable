@@ -44,7 +44,7 @@ class ControllerCommand extends GeneratorCommand{
      */
     protected function replaceServiceVar($name){
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        return str_plural(strtolower(snake_case(str_replace('Controller', '', $class))));
+        return Str::plural(strtolower(Str::snake(str_replace('Controller', '', $class))));
     }
     
     /**
@@ -55,14 +55,14 @@ class ControllerCommand extends GeneratorCommand{
     protected function replaceSingularServiceVar($name){
         //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $class = strtolower(snake_case(str_replace('Controller', '', $class)));
+        $class = strtolower(Str::snake(str_replace('Controller', '', $class)));
         //dd($class);
         return $class;
     }
     
     protected function replaceViewPath($name){
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        return str_plural(kebab_case(str_replace('Controller', '', $class)));
+        return Str::plural(Str::kebab(str_replace('Controller', '', $class)));
     }
     
     protected function replaceDummyContract($name){

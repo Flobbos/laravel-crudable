@@ -56,7 +56,7 @@ class ServiceCommand extends GeneratorCommand{
      */
     protected function replaceServiceVar($name){
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        return strtolower(snake_case(str_replace('Service', '', $class)));
+        return strtolower(Str::snake(str_replace('Service', '', $class)));
     }
     
     protected function replaceDummyModel($name){
@@ -82,7 +82,7 @@ class ServiceCommand extends GeneratorCommand{
     protected function buildClass($name){
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
-            'DummyServiceVar' => snake_case($this->replaceServiceVar($name)),
+            'DummyServiceVar' => Str::snake($this->replaceServiceVar($name)),
             'DummyModel' => $this->replaceDummyModel($name),
             'DummyContract' => $this->replaceDummyContract($name)
         ];

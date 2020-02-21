@@ -1,14 +1,11 @@
 ## Version History
 
-### v. 3.0.9
-
-- set auto binding to true in config
-- fixed required translations evaluation bug
-- updated minimum PHP requirement to 7.2
-
 ### v. 3.0.8
 
-- added slugger contract and slugable trait for handling URL slugs
+- removed dependency for Laravel helpers
+- added slug contract and functionality
+- set auto binding to true in config
+- fixed required translations evaluation bug
 
 ### v. 3.0.7
 

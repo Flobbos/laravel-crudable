@@ -51,7 +51,7 @@ class ViewCommand extends GeneratorCommand{
     
     protected function getDirectoryName($name){
         //dd($name);
-        return  str_plural(strtolower(kebab_case($name)));
+        return  Str::plural(strtolower(Str::kebab($name)));
     }
     
     /**
@@ -64,9 +64,9 @@ class ViewCommand extends GeneratorCommand{
     protected function replaceServiceVar($name){
         //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $class = strtolower(snake_case(str_replace('Service', '', $class)));
+        $class = strtolower(Str::snake(str_replace('Service', '', $class)));
         //dd($class);
-        return str_plural($class);
+        return Str::plural($class);
     }
     
     /**
@@ -77,13 +77,13 @@ class ViewCommand extends GeneratorCommand{
     protected function replaceSingularServiceVar($name){
         //dd($name);
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
-        $class = strtolower(snake_case(str_replace('Service', '', $class)));
+        $class = strtolower(Str::snake(str_replace('Service', '', $class)));
         //dd($class);
         return $class;
     }
     
     protected function replaceViewPath($name){
-        return str_plural(kebab_case(str_replace($this->getNamespace($name).'\\', '', $name)));
+        return Str::plural(Str::kebab(str_replace($this->getNamespace($name).'\\', '', $name)));
     }
     
     /**
@@ -129,7 +129,7 @@ class ViewCommand extends GeneratorCommand{
     public function handle(){
         $this->comment('Building new Crudable views.');
         
-        $path = $this->getPath(strtolower(kebab_case($this->getNameInput())));
+        $path = $this->getPath(strtolower(Str::kebab($this->getNameInput())));
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exist!');
             return false;
