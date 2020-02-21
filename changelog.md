@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 3.0.8
+
+- removed dependency for Laravel helpers
+- added slug contract and functionality
+
 ### v. 3.0.7
 
 - added laravel helpers dependency

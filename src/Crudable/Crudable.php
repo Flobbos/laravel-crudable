@@ -3,6 +3,8 @@
 namespace Flobbos\Crudable;
 
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
+use Illuminate\Support\Str;
+use Exception;
 
 trait Crudable {
     
@@ -206,15 +208,15 @@ trait Crudable {
      */
     public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true){
         if(is_null($request->file($fieldname)) || !$request->file($fieldname)->isValid()){
-            throw new \Exception(trans('crud.invalid_file_upload'));
+            throw new Exception(trans('crud.invalid_file_upload'));
         }
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(),'.'.$request->file($fieldname)->getClientOriginalExtension());
         if($randomize){
-            $filename = str_slug($basename).'_'.uniqid().'.'.$request->file($fieldname)->getClientOriginalExtension();
+            $filename = Str::slug($basename).'_'.uniqid().'.'.$request->file($fieldname)->getClientOriginalExtension();
         }
         else{
-            $filename = str_slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
+            $filename = Str::slug($basename).'.'.$request->file($fieldname)->getClientOriginalExtension();
         }
         //Move file to location
         $request->file($fieldname)->storeAs($folder,$filename,$storage_disk);
