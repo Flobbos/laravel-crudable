@@ -10,7 +10,7 @@
                     {{ csrf_field() }}
 
                     <div class="card-header">
-                        <h5><!-- insert title here --></h5>
+                        <h5 class="card-title"><!-- insert title here --></h5>
                         @lang('crud.create_headline')
                     </div>
 
