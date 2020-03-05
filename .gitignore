@@ -3,3 +3,4 @@ composer.lock
 coverage/
 /nbproject/private/
 /nbproject
+/.idea
