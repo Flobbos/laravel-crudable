@@ -6,12 +6,12 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
+                    <div class="row d-flex align-items-center">
                         <div class="col-sm-6">
-                            <h5><!-- insert title here --></h5>
+                            <h5 class="card-title"><!-- insert title here --></h5>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-light btn-sm">
+                            <a href="{{ route('admin.DummyViewPath.create') }}" class="btn btn-primary btn-sm">
                                 @lang('crud.create_button')
                             </a>
                         </div>
