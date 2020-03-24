@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.9
+
+- removed stray function from Translation contract
+
 ### v. 3.0.8
 
 - removed dependency for Laravel helpers

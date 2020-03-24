@@ -112,7 +112,7 @@ trait Translatable{
      * 
      * @param array $translations
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @param string $translation_key
+     * @param string $translation_key name of the translation id field
      * @param string $translation_class
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -125,8 +125,8 @@ trait Translatable{
         //Update existing translations
         $remaining = [];
         foreach($translations as $trans){
-            if(isset($trans[$translation_id]) && !is_null($trans[$translation_id])){
-                $translation = $model->{$this->translation_name}()->where('id',$trans[$translation_id])->first();
+            if(isset($trans[$translation_key]) && !is_null($trans[$translation_key])){
+                $translation = $model->{$this->translation_name}()->where('id',$trans[$translation_key])->first();
                 //Check if parent model is available
                 if(isset($this->model)){
                     //Add keys that exist with deleted values
@@ -150,7 +150,7 @@ trait Translatable{
         }
         
         //Create new translations
-        $new_translations = $this->processTranslations($remaining,$translation_id);
+        $new_translations = $this->processTranslations($remaining,$translation_key);
         if(!empty($new_translations)){
             $new_trans = [];
             foreach($new_translations as $n_t){
