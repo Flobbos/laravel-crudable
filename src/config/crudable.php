@@ -72,17 +72,4 @@ return [
         
     ],
     
-    /*
-    |--------------------------------------------------------------------------
-    | Translated slugs
-    |--------------------------------------------------------------------------
-    |
-    | In some cases you may want to use the translation component together with
-    | translated URL slugs. If this is the case, set the following setting to
-    | true. 
-    |
-    */
-    'translated_slugs' => true,
-    'slug_field_name' => 'slug',
-    
 ];

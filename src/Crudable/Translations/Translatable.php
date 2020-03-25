@@ -35,10 +35,6 @@ trait Translatable{
             if(!is_array($trans)){
                 continue;
             }
-            //Check if translated slugs are used and validate against the DB
-            if(config('crudable.translated_slugs') && isset($trans[config('crudable.slug_field_name')])){
-                
-            }
             //Check for translation key
             if(!is_null($trans_key)){
                 unset($trans[$trans_key]);

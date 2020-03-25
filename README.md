@@ -747,20 +747,28 @@ with empty data.
 This exception occurs when you're trying to call required_trans without setting
 the necessary data for it.
 
-### MissingTranslationName
-
-If you're using translations but don't set this option then the trait won't 
-know where to save the translation data.
-
 ### MissingTranslations
 
 This exception is thrown in the case that no translations are present because
 all fields were empty or the required fields weren't filled out. 
 
+### MissingSlugField
+
+This exception is thrown when you forgot to define your slug field in the service
+class. 
+
+### SlugNotFound 
+
+The SlugNotFoundException is thrown when you're trying to get a resource ID from
+a normal or a translated slug.
+
 ## Laravel compatibility
 
  Laravel  | Crudable
 :---------|:----------
+ 7.x      | >3.*
+ 6.x      | >3.*
+ 5.8      | >3.*
  5.7      | >3.*
  5.6      | >3.*
  5.5      | >2.*

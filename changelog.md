@@ -1,5 +1,22 @@
 ## Version History
 
+### v. 3.0.12
+
+- added slugs and translated slugs
+- fixed issues from previous release
+- removed stray contract function declaration
+- updated stubs for better Bootstrap 4 output
+- removed unnecessary config settings
+- updated documentation with new info on handling slugs
+
+### v. 3.0.11
+
+- added support for Laravel 7
+
+### v. 3.0.10
+
+- fixed wrong variable name in Translatable
+
 ### v. 3.0.9
 
 - removed stray function from Translation contract
