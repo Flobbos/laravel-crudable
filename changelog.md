@@ -6,6 +6,8 @@
 - fixed issues from previous release
 - removed stray contract function declaration
 - updated stubs for better Bootstrap 4 output
+- removed unnecessary config settings
+- updated documentation with new info on handling slugs
 
 ### v. 3.0.11
 
