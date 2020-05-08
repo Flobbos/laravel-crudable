@@ -4,3 +4,5 @@ coverage/
 /nbproject/private/
 /nbproject
 /.idea
+.vscode
+.history
