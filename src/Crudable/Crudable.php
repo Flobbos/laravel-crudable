@@ -24,7 +24,7 @@ trait Crudable
     /**
      * Get a single item or collection
      * @param int $id
-     * @return Model/Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
     public function get($id = null)
     {
@@ -36,7 +36,7 @@ trait Crudable
 
     /**
      * Returns the first row of the selected resource
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function first()
     {
@@ -66,7 +66,7 @@ trait Crudable
     /**
      * Alias of model find
      * @param int $id
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id)
     {
@@ -76,7 +76,7 @@ trait Crudable
     /**
      * Retrieve single trashed item or all
      * @param int $id
-     * @return Model/Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
     public function getTrash($id = null)
     {
@@ -151,7 +151,7 @@ trait Crudable
     /**
      * Update Model
      * @param array $data
-     * @return bool
+     * @return bool|\Illuminate\Database\Eloquent\Model
      */
     public function update($id, array $data, $return_model = false)
     {
@@ -220,9 +220,9 @@ trait Crudable
     /**
      * Handle a file upload
      * @param \Illuminate\Http\Request $request
-     * @param type $fieldname
-     * @param type $folder
-     * @param type $storage_disk
+     * @param string $fieldname
+     * @param string $folder
+     * @param string $storage_disk
      * @return string filename
      */
     public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true)

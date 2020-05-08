@@ -2,8 +2,8 @@
 
 namespace Flobbos\Crudable\Contracts;
 
-interface Translation {
-    
+interface Translation
+{
     /**
      * Process translations array from form input
      * @param array $translations
@@ -12,34 +12,37 @@ interface Translation {
      * @return array
      */
     public function processTranslations(
-            array $translations, 
-            string $trans_key = null, 
-            string $language_key = 'language_id');
-    
+        array $translations,
+        string $trans_key = null,
+        string $language_key = 'language_id'
+    );
+
     /**
      * Save translations to model
      * @param \Illuminate\Database\Eloquent\Model $model
      * @param array $translations
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function saveTranslations(
-            \Illuminate\Database\Eloquent\Model $model, 
-            array $translations);
-    
+        \Illuminate\Database\Eloquent\Model $model,
+        array $translations
+    );
+
     /**
      * Update existing translations from form input
      * @param array $translations from form
      * @param \Illuminate\Database\Eloquent\Model $model existing model
      * @param string $translation_key name of translation key field 
      * @param string $translation_class name of related translation class
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateTranslations(
-            array $translations, 
-            \Illuminate\Database\Eloquent\Model $model, 
-            string $translation_key, 
-            string $translation_class);
-    
+        array $translations,
+        \Illuminate\Database\Eloquent\Model $model,
+        string $translation_key,
+        string $translation_class
+    );
+
     /**
      * If you set the required fields in your service class
      * you can check if these fields were set. 
@@ -47,7 +50,7 @@ interface Translation {
      * @return bool
      */
     public function checkRequired(array $arr);
-    
+
     /**
      * Filter fields with null input
      * @param array $arr
@@ -55,12 +58,11 @@ interface Translation {
      * @return array
      */
     public function filterNull(array $arr, string $except = null);
-    
+
     /**
      * Generate URL slug from given string
      * @param string $name
      * @return string
      */
     public function generateSlug(string $name): string;
-    
 }
