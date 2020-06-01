@@ -25,7 +25,7 @@ class TranslationReflector
     private function reflectOn(Model $model)
     {
         try {
-            $this->reflector = new ReflectionClass($this->model);
+            $this->reflector = new ReflectionClass($model);
         } catch (ReflectionException $ex) {
             throw new BindingResolutionException('Target class does not exist.', 0, $ex);
         }
