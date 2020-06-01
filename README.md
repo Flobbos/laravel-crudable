@@ -1,29 +1,27 @@
 # Laravel-Crudable
 
-
 ![Laravel Crudable](img/laravel-crudable.png)
 
 **If you want to save time on your crud operations**
 
-This Laravel package is for saving time on CRUD operations when used in 
+This Laravel package is for saving time on CRUD operations when used in
 combination with Repositories or Services. The trait covers the basics needed
 for running simple CRUD operations. It also comes with a Contract that you
-can bind to your services via automated contextual binding. 
-
+can bind to your services via automated contextual binding.
 
 ### Docs
 
-* [Installation](#installation)
-* [Configuration](#configuration)
-* [Generators](#generators)
-* [Translations](#translations)
-* [Slugs](#slugs)
-* [Usage](#usage)
-* [Functions](#functions)
-* [Exceptions](#exceptions)
-* [Laravel compatibility](#laravel-compatibility)
+-   [Installation](#installation)
+-   [Configuration](#configuration)
+-   [Generators](#generators)
+-   [Translations](#translations)
+-   [Slugs](#slugs)
+-   [Usage](#usage)
+-   [Functions](#functions)
+-   [Exceptions](#exceptions)
+-   [Laravel compatibility](#laravel-compatibility)
 
-## Installation 
+## Installation
 
 ### Install package
 
@@ -44,9 +42,10 @@ Flobbos\Crudable\CrudableServiceProvider::class,
 
 ### Publish configuration file
 
-Laravel 5.*
+Laravel 5.\*
+
 ```bash
-php artisan vendor:publish 
+php artisan vendor:publish
 ```
 
 ### Auto binding
@@ -94,6 +93,7 @@ return [
     ]
 ];
 ```
+
 ### Fixed bindings
 
 If you are using your own contracts you may want to use fixed bindings instead
@@ -116,7 +116,7 @@ implementation to your specifically designed contract.
 ### Service Generator
 
 You can generate your own service/repository classes that implement the model
-and already use the Crudable trait. So easy. 
+and already use the Crudable trait. So easy.
 
 ```php
 php artisan crud:service CountryService
@@ -134,29 +134,30 @@ use Flobbos\Crudable\Contracts\Crud;
 use Flobbos\Crudable;
 
 class CountryService implements Crud {
-    
+
     use Crudable\Crudable;
-    
+
     public function __construct(Country $country) {
         $this->model = $country;
     }
-    
+
 }
 
 ```
 
-Adding the option --contract will load up the service class with a custom 
+Adding the option --contract will load up the service class with a custom
 contract named after the provided service class.
 
 ### Controller Generator
 
-You can generate either a blank controller or a complete resource controller. 
+You can generate either a blank controller or a complete resource controller.
 
 ```php
-php artisan crud:controller 
+php artisan crud:controller
 ```
+
 This will generate the resource controllers with all necessary basic functions
-already filled in for you based on the Crudable functionality. 
+already filled in for you based on the Crudable functionality.
 
 ```php
 namespace App\Http\Controllers;
@@ -166,7 +167,7 @@ use Flobbos\Crudable\Contracts\Crud;
 use Exception;
 
 class CountryController extends Controller{
-    
+
     protected $country;
 
     public function __construct(Crud $country) {
@@ -199,7 +200,7 @@ class CountryController extends Controller{
      */
     public function store(Request $request){
         $this->validate($request, []);
-        
+
         try{
             $this->country->create($request->all());
             return redirect()->route('')->withMessage(trans('crud.record_created'));
@@ -237,7 +238,7 @@ class CountryController extends Controller{
      */
     public function update(Request $request, $id){
         $this->validate($request, []);
-        
+
         try{
             $this->country->update($id, $request->all());
             return redirect()->route('admin.countries.index')->withMessage(trans('crud.record_updated'));
@@ -263,8 +264,8 @@ class CountryController extends Controller{
 }
 ```
 
-This of course only covers the very basic functions but saves you from 
-writing the same boiler plate code over and over again. 
+This of course only covers the very basic functions but saves you from
+writing the same boiler plate code over and over again.
 
 If you just need a blank controller with just the services implemented use the
 blank option like so:
@@ -274,25 +275,24 @@ php artisan crud:controller --blank
 ```
 
 Adding the option --contract will put a custom contract into the controller
-named after the controller class name provided. 
+named after the controller class name provided.
 
 ### View Generator
 
 You can generate basic views for create/edit/index based on the Bootstrap
-version that shipped with Laravel. 
+version that shipped with Laravel.
 
 ```php
 php artisan crud:views YourModelName
 ```
 
 The above command will generate a basic listing template, the form template for
-creating a new resource and of course the form template for editing. It is 
+creating a new resource and of course the form template for editing. It is
 assumed that your views live inside an "admin" folder in resources/views.
-
 
 ### Resource Generator
 
-If you're starting out fresh you may wish to generate the entire resource 
+If you're starting out fresh you may wish to generate the entire resource
 including the model, service, resource controller and views.
 
 ```php
@@ -300,14 +300,14 @@ php artisan crud:resource Country
 ```
 
 All necessary suffixes (Controller, Service) will be added automatically. The
-generator will ask you which parts to create. If you just want to generate 
+generator will ask you which parts to create. If you just want to generate
 everything without interruptions use silent mode:
 
 ```php
 php artisan crud:resource Country --silent
 ```
 
-You can also use the --contract option for a custom contract version. 
+You can also use the --contract option for a custom contract version.
 
 ### Contract Generator
 
@@ -318,7 +318,7 @@ can simply generate a boiler plate version.
 php artisan crud:contract YourContract
 ```
 
-This command will put a contract into your App\Contracts folder with the 
+This command will put a contract into your App\Contracts folder with the
 following content:
 
 ```php
@@ -336,7 +336,7 @@ interface CountryContract extends Crud{
 ### Translation info
 
 Handling translations is based on my other package [Laravel Translatable-DB](https://github.com/Flobbos/laravel-translatable),
-where the translations live in a separate table and are identified by either 
+where the translations live in a separate table and are identified by either
 a language ID or a language code.
 
 ### Basic options for translations
@@ -350,8 +350,8 @@ use Flobbos\Crudable\Contracts\Crud;
 use Flobbos\Crudable;
 use Flobbos\Crudable\Contracts\Translation;
 
-class CategoryService implements Crud,Translation{    
-    
+class CategoryService implements Crud,Translation{
+
     use Crudable\Crudable;
     use \Flobbos\Crudable\Translations\Translatable;
 
@@ -359,14 +359,14 @@ class CategoryService implements Crud,Translation{
     //than 'translations' in your model
     protected $translation_name = 'my_translations';
     //optional array of fields that HAVE to be present to save a translation
-    protected $required_trans; 
+    protected $required_trans;
 
 }
 
 ```
 
 If you add the --translated option when generating a resource the package will
-automatically generate a model translation class. 
+automatically generate a model translation class.
 
 ### How to use translation functions
 
@@ -395,12 +395,13 @@ the translated data as an array like so (example is based on Bootstrap):
             </div>
         </div>
         @endforeach
-    </div>    
+    </div>
 </div>
 
 ```
+
 The hidden input is used to setup the correct relation to the corresponding
-language. 
+language.
 
 Data is then handled in a two step process. First the translation data is filtered and packaged
 into an array with this function:
@@ -408,12 +409,12 @@ into an array with this function:
 ```php
 
     public function processTranslations(
-            array $translations, 
-            $trans_key = null, 
+            array $translations,
+            $trans_key = null,
             $language_key = 'language_id'){
-        
+
         $approved = [];
-        
+
         foreach($translations as $trans){
             //Check for translation key
             if(!is_null($trans_key)){
@@ -438,12 +439,12 @@ This function returns an array that is then put into the save function:
 ```php
 
     public function saveTranslations(
-            \Illuminate\Database\Eloquent\Model $model, 
+            \Illuminate\Database\Eloquent\Model $model,
             array $translations){
-        
+
         if(empty($translations))
             throw new MissingTranslationsException;
-        
+
         return $model->{$this->translation_name}()->saveMany($translations);
     }
 
@@ -479,7 +480,7 @@ used to identify an existing translation:
 ```
 
 This way you can update existing translations and create new ones where
-necessary. 
+necessary.
 
 ### Available functions for handling translations
 
@@ -488,22 +489,22 @@ The following functions are available:
 ```php
 
 public function processTranslations(
-            array $translations, 
-            $trans_key = null, 
+            array $translations,
+            $trans_key = null,
             $language_key = 'language_id');
 ```
 
 This function will take the translations from an input array and process them
 into a usable array of data that you can attach to a model.
 
-You need to provide an array of translation data ($translations), the translation
+You need to provide an array of translation data (\$translations), the translation
 key name and the language key name;
 
 ```php
 
 public function saveTranslations(
-            \Illuminate\Database\Eloquent\Model $model, 
-            array $translations, 
+            \Illuminate\Database\Eloquent\Model $model,
+            array $translations,
             $relation_name = 'translations');
 
 ```
@@ -513,9 +514,9 @@ This function attaches the previously processed translations to an existing mode
 ```php
 
 public function updateTranslations(
-            array $translations, 
-            \Illuminate\Database\Eloquent\Model $model, 
-            $translation_key, 
+            array $translations,
+            \Illuminate\Database\Eloquent\Model $model,
+            $translation_key,
             $translation_class);
 
 ```
@@ -530,7 +531,7 @@ public function checkRequired(array $arr);
 ```
 
 You have the option to set required fields within your repository/service via
-using $this->required_trans so you always get the minimum translation data.
+using \$this->required_trans so you always get the minimum translation data.
 
 ```php
 
@@ -538,8 +539,8 @@ public function filterNull(array $arr, $except = null);
 
 ```
 
-Here you can simply filter out all fields that were left blank in the form if 
-you don't have required minimum fields mentioned above. 
+Here you can simply filter out all fields that were left blank in the form if
+you don't have required minimum fields mentioned above.
 
 ## Slugs
 
@@ -553,15 +554,55 @@ into a slug:
 protected $slug_field = 'title';
 ```
 
-In this scenario the field 'title' will be transformed into a URL slug and saved
-to the 'slug' field in the database. 
+Also implement the Sluggable interface like so:
 
-If you wish to name the slug field differently you need to set the following 
+```php
+use Flobbos\Crudable\Contracts\Sluggable;
+
+class YourServiceClass implements Crud,Sluggable{}
+```
+
+### Creating slugs
+
+In the example scenario the field 'title' will be transformed into a URL slug and saved
+to the default 'slug' field in the database.
+
+If you wish to name the slug field differently you need to set the following
 variable to the field name you prefer:
 
 ```php
 protected $slug_name = 'url_slug';
 ```
+
+### Retrieving resources with slugs
+
+Of course you need to be able to retrieve database resources from their respective tranlated
+slugs. No worries, we already thought of that. Use the interface and trait:
+
+```php
+use Flobbos\Crudable\Contracts\Sluggable;
+use Flobbos\Crudable\Contracts\Slugger;
+
+class YourServiceClass implements Crud,Sluggable,Slugger{}
+
+use Crudable\Slugs\Slugger;
+```
+
+This will give you access to the following functions:
+
+```php
+public function getResourceIdFromTranslatedSlug(string $slug): int;
+```
+
+With this function you can retrieve the requested resource ID from the given translated URL slug.
+
+```php
+public function getTranslatedSlugFromResourceId(int $id, int $language_id): string;
+```
+
+If you need to get the URL slug of a specific resource in a specific language just use this function.
+
+The same functions also exist for non translated slugs. Just in case.
 
 ## Usage
 
@@ -573,9 +614,9 @@ Add the package to the repository or service where you want the trait to be used
 use App\Country;
 
 class CountryService {
-    
+
     use \Flobbos\Crudable\Crudable;
-    
+
     //protected $model; in version 2.0 and higher this no longer needs to be set
 
     public function __construct(Country $country){
@@ -585,8 +626,8 @@ class CountryService {
 }
 ```
 
-By injecting the model into the service or repository and assigning it to 
-the protected $this->model, the trait now has access to your model and can work
+By injecting the model into the service or repository and assigning it to
+the protected \$this->model, the trait now has access to your model and can work
 its magic.
 
 ### Auto binding explained
@@ -608,7 +649,7 @@ class SomeController extends Controller {
 }
 ```
 
-The ServiceProvider automatically binds the Crud interface to the 
+The ServiceProvider automatically binds the Crud interface to the
 implementation you specified in the config as explained below.
 
 ### Use your own contracts
@@ -624,7 +665,7 @@ interface MyOwnContract extends Crud{
 ```
 
 By simply extending the Crud contract you can define your own logic without
-needing to redeclare everything that Crudable already provides. 
+needing to redeclare everything that Crudable already provides.
 
 ## Functions
 
@@ -639,7 +680,7 @@ pass an ID to the function and it will do the same thing as find.
 
 ### find
 
-This will get the resource with the given ID. 
+This will get the resource with the given ID.
 
 ```php
     return $yourService->find($id);
@@ -657,7 +698,7 @@ as the original Laravel version pretty much with the added Crudable benefits.
 ### Where
 
 The where function accepts parameters and passes them along to the Eloquent
-where method. It returns $this so you can chain it onto other methods.
+where method. It returns \$this so you can chain it onto other methods.
 
 ```php
     return $yourService->where('some_field','some_value');
@@ -687,7 +728,7 @@ This method just passes along your orderBy statement to Eloquent.
 
 ### withHasMany
 
-The method adds hasMany data to your create statement. 
+The method adds hasMany data to your create statement.
 
 ```php
     return $yourService->withHasMany($data,'App\YourRelatedModel','related_model')->create($model);
@@ -706,7 +747,7 @@ name from your model as the second parameter.
 ### delete
 
 Delete will remove a model from the database, unless soft deletes are in use.
-If you want to permanently delete a model you need to give it true as the 
+If you want to permanently delete a model you need to give it true as the
 second parameter.
 
 ```php
@@ -716,7 +757,7 @@ second parameter.
 
 ### restore
 
-The restore function simply recovers a previously soft deleted model. 
+The restore function simply recovers a previously soft deleted model.
 
 ```php
     return $yourService->restore($id);
@@ -725,11 +766,11 @@ The restore function simply recovers a previously soft deleted model.
 ### handleUpload
 
 Processing uploads is somewhat cumbersome so I thought I'd include an easy to
-use function for handling single file image uploads. You just pass in the 
-request object, the fieldname for the photo upload, the folder where the 
+use function for handling single file image uploads. You just pass in the
+request object, the fieldname for the photo upload, the folder where the
 photo is supposed to go, the storage disk and you can optionally have the photo
-name randomized by that function so files don't get overwritten. Defaults are 
-below. 
+name randomized by that function so files don't get overwritten. Defaults are
+below.
 
 ```php
     $yourService->handleUpload($request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true);
@@ -740,7 +781,7 @@ below.
 ### MissingRelationData
 
 This is thrown if your trying to save a hasMany or belongsToMany relationship
-with empty data. 
+with empty data.
 
 ### MissingRequiredFields
 
@@ -750,32 +791,32 @@ the necessary data for it.
 ### MissingTranslations
 
 This exception is thrown in the case that no translations are present because
-all fields were empty or the required fields weren't filled out. 
+all fields were empty or the required fields weren't filled out.
 
 ### MissingSlugField
 
 This exception is thrown when you forgot to define your slug field in the service
-class. 
+class.
 
-### SlugNotFound 
+### SlugNotFound
 
 The SlugNotFoundException is thrown when you're trying to get a resource ID from
 a normal or a translated slug.
 
 ## Laravel compatibility
 
- Laravel  | Crudable
-:---------|:----------
- 7.x      | >3.*
- 6.x      | >3.*
- 5.8      | >3.*
- 5.7      | >3.*
- 5.6      | >3.*
- 5.5      | >2.*
- 5.4      | >2.*
- 5.3      | >2.*
+| Laravel | Crudable |
+| :------ | :------- |
+| 7.x     | >3.\*    |
+| 6.x     | >3.\*    |
+| 5.8     | >3.\*    |
+| 5.7     | >3.\*    |
+| 5.6     | >3.\*    |
+| 5.5     | >2.\*    |
+| 5.4     | >2.\*    |
+| 5.3     | >2.\*    |
 
-**Notice**: If you're planning on using automated binding in Laravel <5.3 you 
+**Notice**: If you're planning on using automated binding in Laravel <5.3 you
 need to update the config file to reflect the correct usage. Please refer to
 the Laravel [documentation](https://laravel.com/docs/5.2/container).
 
