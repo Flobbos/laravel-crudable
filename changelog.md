@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.15
+
+-   fixed camel case conversion in slugger
+
 ### v. 3.0.14
 
 -   finished Slugger integration for easy slug based resource retrieval

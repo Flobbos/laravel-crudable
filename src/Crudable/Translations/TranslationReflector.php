@@ -4,6 +4,7 @@ namespace Flobbos\Crudable\Translations;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
 
@@ -52,6 +53,6 @@ class TranslationReflector
      */
     public function foreignKeyName(): string
     {
-        return strtolower($this->reflector->getShortName()) . '_id';
+        return Str::snake($this->reflector->getShortName()) . '_id';
     }
 }
