@@ -4,6 +4,6 @@ namespace Flobbos\Crudable\Exceptions;
 
 use Exception;
 
-class SlugNotFoundException extends Exception{
-    
+class SlugNotFoundException extends Exception
+{
 }
