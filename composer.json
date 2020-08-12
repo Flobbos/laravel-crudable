@@ -1,7 +1,11 @@
 {
     "name": "flobbos/laravel-crudable",
     "description": "A Laravel package for saving time on crud operations",
-    "keywords": ["laravel", "crud", "database"],
+    "keywords": [
+        "laravel",
+        "crud",
+        "database"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -12,7 +16,8 @@
     ],
     "require": {
         "php": ">=7.1.3",
-        "illuminate/support": "5.6.*|5.7.*|5.8.*|6.*|7.*"
+        "illuminate/support": "5.6.*|5.7.*|5.8.*|6.*|7.*",
+        "cocur/slugify": "^4.0"
     },
     "extra": {
         "laravel": {
@@ -26,14 +31,6 @@
             "Flobbos\\Crudable\\": "src/Crudable/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Flobbos\\Crudable\\CrudableServiceProvider"
-            ]
-        }
-    },
-
     "minimum-stability": "dev",
     "prefer-stable": true
 }

@@ -7,6 +7,7 @@ use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
 use Flobbos\Crudable\Contracts\Sluggable;
 use Illuminate\Support\Str;
+use Cocur\Slugify\Slugify;
 
 trait Translatable
 {
@@ -165,6 +166,11 @@ trait Translatable
      */
     public function generateSlug(string $name): string
     {
+        if (config('crudable.localized_slugs')) {
+            $slugify = new Slugify();
+            $slugify->activateRuleSet(config('crudable.localization_rule'));
+            return $slugify->slugify($name);
+        }
         return Str::slug($name);
     }
 

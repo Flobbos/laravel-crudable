@@ -4,6 +4,7 @@ namespace Flobbos\Crudable\Exceptions;
 
 use Exception;
 
-class MissingSlugFieldException extends Exception{
+class MissingSlugFieldException extends Exception
+{
     //
 }
