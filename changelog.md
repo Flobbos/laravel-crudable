@@ -1,5 +1,14 @@
 ## Version History
 
+### v. 3.0.17
+
+-   replaced is_null with empty in Translatable to account for empty arrays
+-   added support for Laravel 8.x
+
+### v. 3.0.16
+
+-   added Slugify as a dependency for locale based slug creation
+
 ### v. 3.0.15
 
 -   fixed camel case conversion in slugger

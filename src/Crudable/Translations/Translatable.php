@@ -97,7 +97,7 @@ trait Translatable
     {
         if (is_null($except)) {
             return array_filter($arr, function ($var) {
-                return !is_null($var);
+                return !empty($var);
             });
         }
         if (!is_null($except)) {
@@ -182,7 +182,7 @@ trait Translatable
         }
         //Check if slug field is set
         if (!isset($this->slug_field)) {
-            throw new MissingSlugFieldException;
+            throw new MissingSlugFieldException('The slug_field is required');
         }
         //Check if current translation contains a sluggable field
         if (array_key_exists($this->slug_field, $trans)) {
