@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.18
+
+-   fixed PSR-4 typo in exceptions
+
 ### v. 3.0.17
 
 -   replaced is_null with empty in Translatable to account for empty arrays
