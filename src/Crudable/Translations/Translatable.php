@@ -43,9 +43,9 @@ trait Translatable
                 unset($trans[$trans_key]);
             }
             if (!isset($this->required_trans) && !empty($this->filterNull($trans, $language_key))) {
-                $approved[] = $this->checkForSlug($trans);
+                $approved[] = $this->checkForTranslatedSlug($trans);
             } elseif (isset($this->required_trans) && $this->checkRequired($trans)) {
-                $approved[] = $this->checkForSlug($trans);
+                $approved[] = $this->checkForTranslatedSlug($trans);
             }
         }
         return $approved;
@@ -139,10 +139,10 @@ trait Translatable
                 if (empty(array_intersect($model->translatedAttributes, array_keys($this->filterNull($trans))))) {
                     $translation->delete();
                 } else {
-                    $translation->update($this->checkForSlug($trans));
+                    $translation->update($this->checkForTranslatedSlug($trans));
                 }
             } else {
-                $remaining[] = $this->checkForSlug($trans);
+                $remaining[] = $this->checkForTranslatedSlug($trans);
             }
         }
 
@@ -164,7 +164,7 @@ trait Translatable
      * @param string $name
      * @return string
      */
-    public function generateSlug(string $name): string
+    public function generateTranslatedSlug(string $name): string
     {
         if (config('crudable.localized_slugs')) {
             $slugify = new Slugify();
@@ -174,7 +174,7 @@ trait Translatable
         return Str::slug($name);
     }
 
-    private function checkForSlug(array $trans): array
+    private function checkForTranslatedSlug(array $trans): array
     {
         //Don't use slugs
         if (!$this instanceof Sluggable) {
@@ -186,7 +186,7 @@ trait Translatable
         }
         //Check if current translation contains a sluggable field
         if (array_key_exists($this->slug_field, $trans)) {
-            $trans[$this->slug_name ?? 'slug'] = $this->generateSlug($trans[$this->slug_field]);
+            $trans[$this->slug_name ?? 'slug'] = $this->generateTranslatedSlug($trans[$this->slug_field]);
         }
         return $trans;
     }
