@@ -283,6 +283,21 @@ trait Crudable
         return false;
     }
 
+    /**
+     * Generate URL slug from given string
+     * @param string $name
+     * @return string
+     */
+    public function generateSlug(string $name): string
+    {
+        if (config('crudable.localized_slugs')) {
+            $slugify = new Slugify();
+            $slugify->activateRuleSet(config('crudable.localization_rule'));
+            return $slugify->slugify($name);
+        }
+        return Str::slug($name);
+    }
+
     private function checkForSlug(array $data): array
     {
         //Don't use slugs
