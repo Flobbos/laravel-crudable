@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.19
+
+-   added automated slug processing to non-translated data
+
 ### v. 3.0.18
 
 -   fixed PSR-4 typo in exceptions

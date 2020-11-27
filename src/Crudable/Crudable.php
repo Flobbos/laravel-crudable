@@ -2,9 +2,12 @@
 
 namespace Flobbos\Crudable;
 
-use Flobbos\Crudable\Exceptions\MissingRelationDataException;
-use Illuminate\Support\Str;
 use Exception;
+use Cocur\Slugify\Slugify;
+use Illuminate\Support\Str;
+use Flobbos\Crudable\Contracts\Sluggable;
+use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
+use Flobbos\Crudable\Exceptions\MissingRelationDataException;
 
 trait Crudable
 {
@@ -136,7 +139,7 @@ trait Crudable
      */
     public function create(array $data)
     {
-        $model = $this->model->create($data);
+        $model = $this->model->create($this->checkForSlug($data));
         //check for hasMany
         if ($this->validateRelationData($this->withHasMany, 'many')) {
             $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
@@ -157,10 +160,10 @@ trait Crudable
     {
         $model = $this->find($id);
         if ($return_model) {
-            $model->update($data);
+            $model->update($this->checkForSlug($data));
             return $model;
         }
-        return $model->update($data);
+        return $model->update($this->checkForSlug($data));
     }
 
     /**
@@ -279,5 +282,37 @@ trait Crudable
             return true;
         }
         return false;
+    }
+
+    /**
+     * Generate URL slug from given string
+     * @param string $name
+     * @return string
+     */
+    public function generateSlug(string $name): string
+    {
+        if (config('crudable.localized_slugs')) {
+            $slugify = new Slugify();
+            $slugify->activateRuleSet(config('crudable.localization_rule'));
+            return $slugify->slugify($name);
+        }
+        return Str::slug($name);
+    }
+
+    private function checkForSlug(array $data): array
+    {
+        //Don't use slugs
+        if (!$this instanceof Sluggable) {
+            return $data;
+        }
+        //Check if slug field is set
+        if (!isset($this->slug_field)) {
+            throw new MissingSlugFieldException('The slug_field is required');
+        }
+        //Check if current translation contains a sluggable field
+        if (array_key_exists($this->slug_field, $data)) {
+            $data[$this->slug_name ?? 'slug'] = $this->generateSlug($data[$this->slug_field]);
+        }
+        return $data;
     }
 }
