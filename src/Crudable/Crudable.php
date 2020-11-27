@@ -3,6 +3,7 @@
 namespace Flobbos\Crudable;
 
 use Exception;
+use Cocur\Slugify\Slugify;
 use Illuminate\Support\Str;
 use Flobbos\Crudable\Contracts\Sluggable;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
@@ -310,8 +311,8 @@ trait Crudable
         }
         //Check if current translation contains a sluggable field
         if (array_key_exists($this->slug_field, $data)) {
-            $trans[$this->slug_name ?? 'slug'] = $this->generateSlug($data[$this->slug_field]);
+            $data[$this->slug_name ?? 'slug'] = $this->generateSlug($data[$this->slug_field]);
         }
-        return $trans;
+        return $data;
     }
 }
