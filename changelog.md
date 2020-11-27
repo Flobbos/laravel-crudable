@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 3.0.20
+
+-   fixed function naming collision
+
 ### v. 3.0.19
 
 -   added automated slug processing to non-translated data
