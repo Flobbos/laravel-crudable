@@ -1,5 +1,9 @@
 ## Version History
 
+### v. 2.5.16
+
+-   More PSR-4 fixes
+
 ### v. 2.5.15
 
 -   Fixed PSR-4 problems
