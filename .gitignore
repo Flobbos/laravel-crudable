@@ -3,3 +3,5 @@ composer.lock
 coverage/
 /nbproject/private/
 /nbproject
+.vscode
+.history
