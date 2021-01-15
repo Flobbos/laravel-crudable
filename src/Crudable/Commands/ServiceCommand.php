@@ -54,6 +54,13 @@ class ServiceCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
+    protected function replaceDummyModelNamespace($name){
+        $namespace = $this->replaceDummyModel($name);
+        if ($this->laravel->version() >=8){
+            return $this->rootNamespace().'Models\\'.$namespace;
+        }
+        return $this->rootNamespace().$namespace;
+    }
     protected function replaceServiceVar($name){
         $class = str_replace($this->getNamespace($name).'\\', '', $name);
         return strtolower(Str::snake(str_replace('Service', '', $class)));
@@ -80,8 +87,8 @@ class ServiceCommand extends GeneratorCommand{
      * @return string
      */
     protected function buildClass($name){
-        $controllerNamespace = $this->getNamespace($name);
         $replace = [
+            'DummyModelNamespace' => $this->replaceDummyModelNamespace($name),
             'DummyServiceVar' => Str::snake($this->replaceServiceVar($name)),
             'DummyModel' => $this->replaceDummyModel($name),
             'DummyContract' => $this->replaceDummyContract($name)

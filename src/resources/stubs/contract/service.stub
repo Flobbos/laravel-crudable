@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use DummyRootNamespaceDummyModel;
+use DummyModelNamespace;
 use App\Contracts\DummyContract;
 use Flobbos\Crudable;
 
