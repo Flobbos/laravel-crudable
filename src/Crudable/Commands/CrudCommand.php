@@ -54,7 +54,11 @@ class CrudCommand extends GeneratorCommand{
         $model = trim(str_replace('/', '\\', $model), '\\');
 
         if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
-            $model = $rootNamespace.$model;
+            if ($this->laravel->version() >= 8){
+                $model = $rootNamespace.'Models\\'.$model;
+            }else{
+                $model = $rootNamespace.$model;
+            }
         }
 
         return $model;
