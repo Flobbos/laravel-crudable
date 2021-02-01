@@ -14,7 +14,7 @@ class CrudCommand extends GeneratorCommand{
      *
      * @var string
      */
-    protected $signature = 'crud:resource {name} {--silent} {--contract} {--translated}';
+    protected $signature = 'crud:resource {name} {--silent} {--contract} {--translated} {--migration}';
 
     /**
      * The console command description.
@@ -88,7 +88,7 @@ class CrudCommand extends GeneratorCommand{
         $modelClass = $this->parseModel($this->getNameInput());
         if (! class_exists($modelClass)) {
             if ($this->confirm("The {$modelClass} model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:model', ['name' => $modelClass]);
+                $this->call('make:model', ['name' => $modelClass,'--migration' => $this->option('migration')]);
                 //Check if model is translated
                 if($this->option('translated')){
                     $this->call('make:model', ['name' => $modelClass.'Translation']);
