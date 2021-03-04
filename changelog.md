@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 4.0.0
+
+-   added views for tailwind
+-   fixed smaller issues
+
 ### v. 3.0.20
 
 -   fixed function naming collision
