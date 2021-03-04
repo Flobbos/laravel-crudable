@@ -74,6 +74,16 @@ Which will be used when in silent mode in the resource generator.
 'default_resource' => 'Admin',
 ```
 
+### Select CSS Framework
+
+Since Laravel 8 switched to Tailwind CSS there are two options of views that can
+be generated. Just set the config to bootstrap or tailwind, depending on what you
+need.
+
+```php
+'css_framework' => 'tailwind',
+```
+
 ### Implementations
 
 Update the configuration according to your needs. A sample configuration is
@@ -807,7 +817,7 @@ a normal or a translated slug.
 
 | Laravel | Crudable |
 | :------ | :------- |
-| 8.x     | >3.\*    |
+| 8.x     | >4.\*    |
 | 7.x     | >3.\*    |
 | 6.x     | >3.\*    |
 | 5.8     | >3.\*    |

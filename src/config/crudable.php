@@ -96,5 +96,17 @@ return [
     */
     'localization_rule' => 'german',
 
+    /*
+    |--------------------------------------------------------------------------
+    | CSS Framework
+    |--------------------------------------------------------------------------
+    |
+    | You can choose if you want to continue using Bootstrap4 in Laravel 8
+    | or go with the flow and use tailwind for the views. We have both options
+    | for you. Either use tailwind or bootstrap.
+    |
+    */
+    'css_framework' => 'tailwind',
+
 
 ];
