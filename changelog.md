@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 3.0.21
+
+-   removed support for Laravel 8 in favor of new version
+-   moved Laravel 8 support to version 4.x
+
 ### v. 3.0.20
 
 -   fixed function naming collision
