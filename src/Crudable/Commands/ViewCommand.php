@@ -54,7 +54,6 @@ class ViewCommand extends GeneratorCommand
 
     protected function getDirectoryName($name)
     {
-        //dd($name);
         return  Str::plural(strtolower(Str::kebab($name)));
     }
 
@@ -67,10 +66,8 @@ class ViewCommand extends GeneratorCommand
      */
     protected function replaceServiceVar($name)
     {
-        //dd($name);
         $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         $class = strtolower(Str::snake(str_replace('Service', '', $class)));
-        //dd($class);
         return Str::plural($class);
     }
 
