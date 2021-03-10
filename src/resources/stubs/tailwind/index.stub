@@ -7,7 +7,7 @@
    <div class="py-12">
        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="flex-auto p-5 text-right">
+                <div class="flex-auto p-5 text-right bg-gray-200">
                     <a href="{{ route('admin.DummyViewPath.create') }}" class="inline-block font-normal text-center px-2 py-1 text-md leading-normal text-base rounded cursor-pointer text-white bg-blue-500 hover:text-white hover:bg-blue-400 hover:text-blue-100">
                         @lang('crud.create_button')
                     </a>
