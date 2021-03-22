@@ -5,3 +5,4 @@ coverage/
 /nbproject
 .vscode
 .history
+.push.settings.jsonc
