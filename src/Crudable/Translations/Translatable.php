@@ -42,11 +42,11 @@ trait Translatable
             if (!is_null($trans_key)) {
                 unset($trans[$trans_key]);
             }
-            
+
             if (!isset($this->required_trans) && !empty($this->filterNull($trans, $language_key))) {
-                //$approved[] = $this->checkForTranslatedSlug($trans);
+                $approved[] = $this->checkForTranslatedSlug($trans);
             } elseif (isset($this->required_trans) && $this->checkRequired($trans)) {
-                //$approved[] = $this->checkForTranslatedSlug($trans);
+                $approved[] = $this->checkForTranslatedSlug($trans);
             }
         }
 
