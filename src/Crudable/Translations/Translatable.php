@@ -14,7 +14,7 @@ trait Translatable
 
     /**
      * If you custom named your translations you can set this here
-     * @var string name of your translations 
+     * @var string name of your translations
      */
     protected $translation_name = 'translations';
 
@@ -42,12 +42,14 @@ trait Translatable
             if (!is_null($trans_key)) {
                 unset($trans[$trans_key]);
             }
+            
             if (!isset($this->required_trans) && !empty($this->filterNull($trans, $language_key))) {
-                $approved[] = $this->checkForTranslatedSlug($trans);
+                //$approved[] = $this->checkForTranslatedSlug($trans);
             } elseif (isset($this->required_trans) && $this->checkRequired($trans)) {
-                $approved[] = $this->checkForTranslatedSlug($trans);
+                //$approved[] = $this->checkForTranslatedSlug($trans);
             }
         }
+
         return $approved;
     }
 
@@ -71,7 +73,7 @@ trait Translatable
 
     /**
      * If you set the required fields in your service class
-     * you can check if these fields were set. 
+     * you can check if these fields were set.
      * @param array $arr
      * @return bool
      */
@@ -88,7 +90,7 @@ trait Translatable
     }
 
     /**
-     * 
+     *
      * @param array $arr
      * @param string $except
      * @return array $filtered
@@ -97,11 +99,17 @@ trait Translatable
     {
         if (is_null($except)) {
             return array_filter($arr, function ($var) {
-                return !empty($var);
+                return is_array($var) ? !empty($this->filterNull($var)) : !empty($var);
             });
         }
         if (!is_null($except)) {
             $filtered = $this->filterNull($arr);
+            //Check for array content
+            foreach($filtered as $key=>$item){
+                if(is_array($item)){
+                    $filtered[$key] = $this->filterNull($item);
+                }
+            }
             if (isset($filtered[$except]) && count($filtered) == 1) {
                 return [];
             }
@@ -110,7 +118,7 @@ trait Translatable
     }
 
     /**
-     * 
+     *
      * @param array $translations
      * @param \Illuminate\Database\Eloquent\Model $model
      * @param string $translation_key name of the translation id field
@@ -135,7 +143,7 @@ trait Translatable
                         $trans[$key] = null;
                     }
                 }
-                //Delete translations, when empty data is received. 
+                //Delete translations, when empty data is received.
                 if (empty(array_intersect($model->translatedAttributes, array_keys($this->filterNull($trans))))) {
                     $translation->delete();
                 } else {
