@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/support": "8.*",
+        "illuminate/support": "8.*|9.*",
         "cocur/slugify": "^4.0"
     },
     "extra": {
