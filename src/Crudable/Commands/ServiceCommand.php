@@ -8,7 +8,8 @@ use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ServiceCommand extends GeneratorCommand{
+class ServiceCommand extends GeneratorCommand
+{
     /**
      * The name and signature of the console command.
      *
@@ -22,31 +23,33 @@ class ServiceCommand extends GeneratorCommand{
      * @var string
      */
     protected $description = 'Generates a Crud Service class';
-    
+
     protected $type = 'Service';
-    
+
     /**
      * Get the stub file for the generator.
      *
      * @return string
      */
-    protected function getStub(){
-        if($this->option('contract')){
-            return __DIR__.'/../../resources/stubs/contract/service.stub';
+    protected function getStub()
+    {
+        if ($this->option('contract')) {
+            return __DIR__ . '/../../resources/stubs/contract/service.stub';
         }
-        return __DIR__.'/../../resources/stubs/service.stub';
+        return __DIR__ . '/../../resources/stubs/service.stub';
     }
-    
+
     /**
      * Get the default namespace for the class.
      *
      * @param  string  $rootNamespace
      * @return string
      */
-    protected function getDefaultNamespace($rootNamespace){
-        return $rootNamespace.'\\'.config('crudable.default_namespace');
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace . '\\' . config('crudable.default_namespace');
     }
-    
+
     /**
      * Replace the service variable in the stub
      *
@@ -54,30 +57,34 @@ class ServiceCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function replaceDummyModelNamespace($name){
+    protected function replaceDummyModelNamespace($name)
+    {
         $namespace = $this->replaceDummyModel($name);
-        if ($this->laravel->version() >=8){
-            return $this->rootNamespace().'Models\\'.$namespace;
+        if ($this->laravel->version() >= 8) {
+            return $this->rootNamespace() . 'Models\\' . $namespace;
         }
-        return $this->rootNamespace().$namespace;
+        return $this->rootNamespace() . $namespace;
     }
-    protected function replaceServiceVar($name){
-        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+    protected function replaceServiceVar($name)
+    {
+        $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         return strtolower(Str::snake(str_replace('Service', '', $class)));
     }
-    
-    protected function replaceDummyModel($name){
-        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+
+    protected function replaceDummyModel($name)
+    {
+        $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         $class = str_replace('Service', '', $class);
         return $class;
     }
-    
-    protected function replaceDummyContract($name){
-        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+
+    protected function replaceDummyContract($name)
+    {
+        $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         $class = str_replace('Service', 'Contract', $class);
         return $class;
     }
-    
+
     /**
      * Build the class with the given name.
      *
@@ -86,7 +93,8 @@ class ServiceCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name){
+    protected function buildClass($name)
+    {
         $replace = [
             'DummyModelNamespace' => $this->replaceDummyModelNamespace($name),
             'DummyServiceVar' => Str::snake($this->replaceServiceVar($name)),
@@ -94,22 +102,25 @@ class ServiceCommand extends GeneratorCommand{
             'DummyContract' => $this->replaceDummyContract($name)
         ];
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name)
         );
     }
-    
+
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle(){
+    public function handle()
+    {
         $this->comment('Building new Crudable service class.');
-        
+
         $name = $this->qualifyClass($this->getNameInput());
         $path = $this->getPath($name);
         if ($this->alreadyExists($this->getNameInput())) {
-            $this->error($this->type.' already exists!');
+            $this->error($this->type . ' already exists!');
 
             return false;
         }
@@ -119,6 +130,6 @@ class ServiceCommand extends GeneratorCommand{
         $this->makeDirectory($path);
         $this->files->put($path, $this->buildClass($name));
 
-        $this->info($this->type.' created successfully.');
+        $this->info($this->type . ' created successfully.');
     }
 }

@@ -105,8 +105,8 @@ trait Translatable
         if (!is_null($except)) {
             $filtered = $this->filterNull($arr);
             //Check for array content
-            foreach($filtered as $key=>$item){
-                if(is_array($item)){
+            foreach ($filtered as $key => $item) {
+                if (is_array($item)) {
                     $filtered[$key] = $this->filterNull($item);
                 }
             }

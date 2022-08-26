@@ -6,11 +6,13 @@ use DummyModelNamespace;
 use App\Contracts\DummyContract;
 use Flobbos\Crudable;
 
-class DummyClass implements DummyContract {
+class DummyClass implements DummyContract 
+{
     
     use Crudable\Crudable;
     
-    public function __construct(DummyModel $DummyServiceVar) {
+    public function __construct(DummyModel $DummyServiceVar) 
+    {
         $this->model = $DummyServiceVar;
     }
     
