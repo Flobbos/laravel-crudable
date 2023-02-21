@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 5.0.0
+
+-   min. PHP 8
+-   support for Laravel 10
+
 ### v. 4.0.0
 
 -   added views for tailwind
