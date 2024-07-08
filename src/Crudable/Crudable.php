@@ -137,17 +137,37 @@ trait Crudable
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function create(array $data)
-    {
-        $model = $this->model->create($this->checkForSlug($data));
-        //check for hasMany
-        if ($this->validateRelationData($this->withHasMany, 'many')) {
-            $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
-        }
-        //check for belongsToMany
-        if ($this->validateRelationData($this->withBelongsToMany, 'tomany')) {
-            $model->{$this->withBelongsToMany['relation']}()->sync($this->withBelongsToMany['data']);
-        }
+public function create(array $data)
+{
+    try {
+        $model = $this->createModel($data);
+        $this->handleHasManyRelation($model);
+        $this->handleBelongsToManyRelation($model);
+        return $model;
+    } catch (Exception $e) {
+        Log::error("Error creating model: " . $e->getMessage());
+        throw $e;
+    }
+}
+
+private function createModel(array $data)
+{
+    return $this->model->create($this->checkForSlug($data));
+}
+
+private function handleHasManyRelation($model)
+{
+    if ($this->validateRelationData($this->withHasMany, 'many')) {
+        $model->{$this->withHasMany['relation']}()->saveMany($this->withHasMany['data']);
+    }
+}
+
+private function handleBelongsToManyRelation($model)
+{
+    if ($this->validateRelationData($this->withBelongsToMany, 'tomany')) {
+        $model->{$this->withBelongsToMany['relation']}()->sync($this->withBelongsToMany['data']);
+    }
+}
         return $model;
     }
 
