@@ -2,6 +2,10 @@
 
 ### v. 5.0.0
 
+-   support for Laravel 11
+
+### v. 5.0.0
+
 -   min. PHP 8
 -   support for Laravel 10
 
