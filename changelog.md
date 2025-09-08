@@ -1,6 +1,10 @@
 ## Version History
 
-### v. 5.0.0
+### v. 6.1.0
+
+-   added support for Laravel 12
+
+### v. 6.0.0
 
 -   support for Laravel 11
 

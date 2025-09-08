@@ -817,6 +817,7 @@ a normal or a translated slug.
 
 | Laravel | Crudable |
 | :------ | :------- |
+| 12.x    | >6.1     |
 | 11.x    | >6.\*    |
 | 10.x    | >5.\*    |
 | 9.x     | >4.\*    |
