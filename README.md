@@ -32,11 +32,26 @@ composer require flobbos/laravel-crudable
 ```
 
 Next, if you plan on using the Contract with automated binding,
-add the service provider to `app/config/app.php`
+add the service provider.
+
+# Laravel 5 to 10
+
+Add
 
 ```
 Flobbos\Crudable\CrudableServiceProvider::class,
 ```
+to `app/config/app.php`
+
+# Laravel 11+
+
+Add
+
+```
+Flobbos\Crudable\CrudableServiceProvider::class,
+```
+
+to `app/bootstrap/providers.php`
 
 ## Configuration
 
