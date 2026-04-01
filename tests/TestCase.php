@@ -2,8 +2,8 @@
 
 namespace Flobbos\Crudable\Tests;
 
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Flobbos\Crudable\CrudableServiceProvider;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
 {

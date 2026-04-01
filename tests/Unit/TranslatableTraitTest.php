@@ -2,9 +2,9 @@
 
 namespace Flobbos\Crudable\Tests\Unit;
 
+use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 use Flobbos\Crudable\Tests\TestCase;
 use Flobbos\Crudable\Translations\Translatable;
-use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 
 class TranslatableTraitTest extends TestCase
 {

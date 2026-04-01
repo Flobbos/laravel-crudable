@@ -2,11 +2,8 @@
 
 namespace Flobbos\Crudable\Commands;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 
 class ControllerCommand extends GeneratorCommand
 {
@@ -40,7 +37,6 @@ class ControllerCommand extends GeneratorCommand
     /**
      * Replace the service variable in the stub
      *
-     * @param  string  $stub
      * @param  string  $name
      * @return string
      */
@@ -52,15 +48,13 @@ class ControllerCommand extends GeneratorCommand
 
     /**
      * Replace the service variable in stubs in singular
-     * @param type $name
-     * @return type
+     * @param string $name
+     * @return string
      */
     protected function replaceSingularServiceVar($name)
     {
-        //dd($name);
         $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         $class = strtolower(Str::snake(str_replace('Controller', '', $class)));
-        //dd($class);
         return $class;
     }
 

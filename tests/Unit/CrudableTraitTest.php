@@ -2,10 +2,8 @@
 
 namespace Flobbos\Crudable\Tests\Unit;
 
-use Flobbos\Crudable\Tests\TestCase;
 use Flobbos\Crudable\Crudable;
-use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
-use Illuminate\Support\Str;
+use Flobbos\Crudable\Tests\TestCase;
 
 class CrudableTraitTest extends TestCase
 {

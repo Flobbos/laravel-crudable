@@ -2,13 +2,10 @@
 
 namespace Flobbos\Crudable\Commands;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
-class ContractCommand extends GeneratorCommand{
+class ContractCommand extends GeneratorCommand
+{
     /**
      * The name and signature of the console command.
      *
@@ -22,25 +19,27 @@ class ContractCommand extends GeneratorCommand{
      * @var string
      */
     protected $description = 'Generates a Crudable contract interface';
-    
+
     protected $type = 'Contract';
-    
+
     /**
      * Get the stub file for the generator.
      *
      * @return string
      */
-    protected function getStub(){
+    protected function getStub()
+    {
         return __DIR__.'/../../resources/stubs/contract.stub';
     }
-    
+
     /**
      * Get the default namespace for the class.
      *
      * @param  string  $rootNamespace
      * @return string
      */
-    protected function getDefaultNamespace($rootNamespace){
+    protected function getDefaultNamespace($rootNamespace)
+    {
         return $rootNamespace.'\\Contracts';
     }
 
@@ -52,25 +51,29 @@ class ContractCommand extends GeneratorCommand{
      * @param  string  $name
      * @return string
      */
-    protected function buildClass($name){
+    protected function buildClass($name)
+    {
         $controllerNamespace = $this->getNamespace($name);
         $replace = [
             'DummyContract' => $this->getNameInput(),
         ];
         //dd($replace);
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name)
         );
     }
-    
+
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle(){
+    public function handle()
+    {
         $this->comment('Building new Crudable contract interface.');
-        
+
         $name = $this->qualifyClass($this->getNameInput());
         $path = $this->getPath($name);
         if ($this->alreadyExists($this->getNameInput())) {

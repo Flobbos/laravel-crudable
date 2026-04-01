@@ -2,12 +2,12 @@
 
 namespace Flobbos\Crudable\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
 use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
 use Flobbos\Crudable\Exceptions\MissingTranslationsException;
 use Flobbos\Crudable\Exceptions\SlugNotFoundException;
+use PHPUnit\Framework\TestCase;
 
 class ExceptionsTest extends TestCase
 {

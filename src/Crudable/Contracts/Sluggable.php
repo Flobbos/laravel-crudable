@@ -2,6 +2,7 @@
 
 namespace Flobbos\Crudable\Contracts;
 
-interface Sluggable {
+interface Sluggable
+{
     //
 }

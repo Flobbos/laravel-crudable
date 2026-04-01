@@ -2,11 +2,8 @@
 
 namespace Flobbos\Crudable\Commands;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 
 class ServiceCommand extends GeneratorCommand
 {
@@ -53,7 +50,6 @@ class ServiceCommand extends GeneratorCommand
     /**
      * Replace the service variable in the stub
      *
-     * @param  string  $stub
      * @param  string  $name
      * @return string
      */

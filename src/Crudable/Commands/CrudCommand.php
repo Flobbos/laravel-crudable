@@ -2,11 +2,9 @@
 
 namespace Flobbos\Crudable\Commands;
 
+use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class CrudCommand extends GeneratorCommand
 {
@@ -39,7 +37,7 @@ class CrudCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return;
+        return '';
     }
 
     /**
@@ -81,6 +79,8 @@ class CrudCommand extends GeneratorCommand
         }
         $this->info($this->type . ' created successfully.');
         $this->info('Do not forget to register any bindings.');
+
+        return null;
     }
 
     protected function handleVerbose()

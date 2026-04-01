@@ -2,12 +2,10 @@
 
 namespace Flobbos\Crudable\Translations;
 
-use Flobbos\Crudable\Translations\TranslationReflector;
 use Flobbos\Crudable\Exceptions\SlugNotFoundException;
 
 trait Slugger
 {
-
     /**
      * Get a resource ID from a translated URL slug
      *
@@ -61,7 +59,7 @@ trait Slugger
         if ($model = $this->model->select('id')->where('slug', $slug)->first()) {
             return $model->id;
         }
-        throw new SlugNotFoundException;
+        throw new SlugNotFoundException();
     }
 
     /**
