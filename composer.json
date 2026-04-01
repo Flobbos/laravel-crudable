@@ -16,8 +16,15 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/support": "11.*|12.*",
+        "illuminate/support": "11.*|12.*|13.*",
         "cocur/slugify": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "phpstan/phpstan": "^1.10",
+        "larastan/larastan": "^2.0|^3.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "extra": {
         "laravel": {
@@ -30,6 +37,17 @@
         "psr-4": {
             "Flobbos\\Crudable\\": "src/Crudable/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flobbos\\Crudable\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "analyse": "vendor/bin/phpstan analyse",
+        "lint": "vendor/bin/php-cs-fixer fix --dry-run --diff"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

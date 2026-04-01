@@ -1,0 +1,17 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+
+    ignoreErrors:
+        # Trait properties are set by the consuming class
+        - '#Access to an undefined property [a-zA-Z\\]+::\$model#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$slug_field#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$slug_name#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$withHasMany#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$withBelongsToMany#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$translation_name#'
+        - '#Access to an undefined property [a-zA-Z\\]+::\$required_trans#'

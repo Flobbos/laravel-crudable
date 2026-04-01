@@ -27,7 +27,7 @@ trait Translatable
      */
     public function processTranslations(
         array $translations,
-        string $trans_key = null,
+        ?string $trans_key = null,
         string $language_key = 'language_id'
     ) {
 
@@ -95,7 +95,7 @@ trait Translatable
      * @param string $except
      * @return array $filtered
      */
-    public function filterNull(array $arr, string $except = null)
+    public function filterNull(array $arr, ?string $except = null)
     {
         if (is_null($except)) {
             return array_filter($arr, function ($var) {
