@@ -4,7 +4,6 @@ namespace Flobbos\Crudable\Contracts;
 
 interface Crud
 {
-
     /**
      * Return the Eloquent model from the service
      * @return \Illuminate\Database\Eloquent\Model
@@ -33,7 +32,7 @@ interface Crud
 
     /**
      * Get a single item
-     * @param int $id 
+     * @param int $id
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id);
@@ -79,7 +78,7 @@ interface Crud
     public function orderBy($field, $order = 'asc');
 
     /**
-     * Create new entry 
+     * Create new entry
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -110,7 +109,7 @@ interface Crud
     public function restore($id);
 
     /**
-     * Set hasMany relationship by adding the related model, data and 
+     * Set hasMany relationship by adding the related model, data and
      * relation name
      * @param array $data
      * @param string $relatedModel

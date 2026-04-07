@@ -1,6 +1,7 @@
 # Laravel-Crudable
 
 ![Laravel Crudable](img/laravel-crudable.png)
+![Tests](https://github.com/Flobbos/laravel-crudable/actions/workflows/tests.yml/badge.svg)
 
 **If you want to save time on your crud operations**
 
@@ -8,6 +9,8 @@ This Laravel package is for saving time on CRUD operations when used in
 combination with Repositories or Services. The trait covers the basics needed
 for running simple CRUD operations. It also comes with a Contract that you
 can bind to your services via automated contextual binding.
+
+Supports **Laravel 11, 12, and 13** on **PHP 8.2+**.
 
 ### Docs
 
@@ -19,6 +22,9 @@ can bind to your services via automated contextual binding.
 -   [Usage](#usage)
 -   [Functions](#functions)
 -   [Exceptions](#exceptions)
+-   [Security](#security)
+-   [Performance](#performance)
+-   [Troubleshooting](#troubleshooting)
 -   [Laravel compatibility](#laravel-compatibility)
 
 ## Installation
@@ -57,10 +63,8 @@ to `app/bootstrap/providers.php`
 
 ### Publish configuration file
 
-Laravel 5.\*
-
 ```bash
-php artisan vendor:publish
+php artisan vendor:publish --provider="Flobbos\Crudable\CrudableServiceProvider"
 ```
 
 ### Auto binding
@@ -828,26 +832,75 @@ class.
 The SlugNotFoundException is thrown when you're trying to get a resource ID from
 a normal or a translated slug.
 
+## Security
+
+### File uploads
+
+`handleUpload()` and `handleUploadedFile()` store files using Laravel's filesystem abstraction.
+To keep your application secure:
+
+-   **Validate MIME types** before calling these methods. Never trust the client-provided extension alone.
+    ```php
+    $request->validate([
+        'photo' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
+    ]);
+    ```
+-   **Use a non-public disk** for sensitive uploads (e.g. `s3`, `local`) and generate signed URLs instead of exposing raw paths.
+-   **Set a maximum file size** at the framework and web-server level (e.g. `upload_max_filesize` in `php.ini`, `client_max_body_size` in nginx).
+-   Files are randomized by default (`$randomize = true`) to prevent enumeration; keep this enabled in production.
+
+### Mass assignment
+
+The `create()` and `update()` methods pass data directly to Eloquent. Always define `$fillable` (or `$guarded`) on your models and validate input at the controller/form-request layer before it reaches the service.
+
+### Slug generation
+
+Slugs are generated from user-supplied strings. Ensure the field used as the slug source (`$slug_field`) is validated and length-limited before processing.
+
+---
+
+## Performance
+
+-   **Eager-load relations** when displaying lists to avoid N+1 queries:
+    ```php
+    $service->with(['category', 'tags'])->get();
+    ```
+-   **Use `paginate()`** instead of `get()` for large datasets:
+    ```php
+    $service->orderBy('created_at', 'desc')->paginate(25);
+    ```
+-   **Batch operations**: for bulk inserts consider using Eloquent's `insert()` directly rather than calling `create()` in a loop.
+-   Keep `use_auto_binding` set to `false` if you are not using the contextual binding feature — it avoids the binding loop on every request.
+
+---
+
+## Troubleshooting
+
+**`MissingSlugFieldException`** — You implemented `Sluggable` but forgot to define `$slug_field` in your service class.
+```php
+protected string $slug_field = 'name'; // the field whose value becomes the slug
+protected string $slug_name  = 'slug'; // the column that stores the slug (default: 'slug')
+```
+
+**`MissingTranslationsException`** — `saveTranslations()` was called with an empty array. Make sure `processTranslations()` runs first and returns non-empty results.
+
+**`MissingRelationDataException`** — You called `withHasMany()` or `withBelongsToMany()` but did not provide both `data` and `relation`. Check that your relation array keys are set correctly.
+
+**`Class [config] does not exist` in tests** — Your test class does not boot a Laravel application container. Extend `Orchestra\Testbench\TestCase` (or this package's `Flobbos\Crudable\Tests\TestCase`) instead of `PHPUnit\Framework\TestCase`.
+
+**Service file not generated** — Pass the full intended class name including the `Service` suffix to `crud:service`, e.g. `php artisan crud:service PostService`.
+
+---
+
 ## Laravel compatibility
 
-| Laravel | Crudable |
-| :------ | :------- |
-| 12.x    | >6.1     |
-| 11.x    | >6.\*    |
-| 10.x    | >5.\*    |
-| 9.x     | >4.\*    |
-| 8.x     | >4.\*    |
-| 7.x     | >3.\*    |
-| 6.x     | >3.\*    |
-| 5.8     | >3.\*    |
-| 5.7     | >3.\*    |
-| 5.6     | >3.\*    |
-| 5.5     | >2.\*    |
-| 5.4     | >2.\*    |
-| 5.3     | >2.\*    |
-
-**Notice**: If you're planning on using automated binding in Laravel <5.3 you
-need to update the config file to reflect the correct usage. Please refer to
-the Laravel [documentation](https://laravel.com/docs/5.2/container).
+| Laravel | Crudable | PHP         |
+| :------ | :------- | :---------- |
+| 13.x    | >=6.2    | ^8.2        |
+| 12.x    | >=6.1    | ^8.2        |
+| 11.x    | >=6.*    | ^8.2        |
+| 10.x    | >5.*     | ^8.1        |
+| 9.x     | >4.*     | ^8.0        |
+| 8.x     | >4.*     | ^7.3\|^8.0  |
 
 Have fun CRUDding! :-)

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use ReflectionException;
 
 class TranslationReflector
 {
@@ -25,11 +24,7 @@ class TranslationReflector
      */
     private function reflectOn(Model $model)
     {
-        try {
-            $this->reflector = new ReflectionClass($model);
-        } catch (ReflectionException $ex) {
-            throw new BindingResolutionException('Target class does not exist.', 0, $ex);
-        }
+        $this->reflector = new ReflectionClass($model);
     }
 
     /**
@@ -43,7 +38,7 @@ class TranslationReflector
         if (!class_exists($translation_class)) {
             throw new BindingResolutionException($translation_class . ' does not exist.');
         }
-        return new $translation_class;
+        return new $translation_class();
     }
 
     /**

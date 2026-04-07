@@ -7,13 +7,13 @@ interface Translation
     /**
      * Process translations array from form input
      * @param array $translations
-     * @param null/string $trans_key
+     * @param string|null $trans_key
      * @param string $language_key
      * @return array
      */
     public function processTranslations(
         array $translations,
-        string $trans_key = null,
+        ?string $trans_key = null,
         string $language_key = 'language_id'
     );
 
@@ -32,7 +32,7 @@ interface Translation
      * Update existing translations from form input
      * @param array $translations from form
      * @param \Illuminate\Database\Eloquent\Model $model existing model
-     * @param string $translation_key name of translation key field 
+     * @param string $translation_key name of translation key field
      * @param string $translation_class name of related translation class
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -45,7 +45,7 @@ interface Translation
 
     /**
      * If you set the required fields in your service class
-     * you can check if these fields were set. 
+     * you can check if these fields were set.
      * @param array $arr
      * @return bool
      */
@@ -54,10 +54,10 @@ interface Translation
     /**
      * Filter fields with null input
      * @param array $arr
-     * @param string $except
+     * @param string|null $except
      * @return array
      */
-    public function filterNull(array $arr, string $except = null);
+    public function filterNull(array $arr, ?string $except = null);
 
     /**
      * Generate URL slug from given string

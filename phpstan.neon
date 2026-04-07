@@ -1,0 +1,11 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+
+    ignoreErrors:
+        # Package traits are consumed by user code outside the analysed paths
+        - identifier: trait.unused

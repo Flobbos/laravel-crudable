@@ -2,18 +2,19 @@
 
 namespace Flobbos\Crudable;
 
-use Exception;
 use Cocur\Slugify\Slugify;
-use Illuminate\Support\Str;
+use Exception;
 use Flobbos\Crudable\Contracts\Sluggable;
-use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
+use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
+use Illuminate\Support\Str;
 
 trait Crudable
 {
-
-    protected   $relation = [];
-    protected   $withHasMany, $withBelongsToMany, $model;
+    protected $relation = [];
+    protected $withHasMany;
+    protected $withBelongsToMany;
+    protected $model;
 
     /**
      * Retrieve the Eloquent model
@@ -272,13 +273,15 @@ trait Crudable
     {
         //Check if data attribute was set
         if (!is_null($this->withHasMany) && $type == 'many') {
-            if (!isset($this->withHasMany['relation']) || !isset($this->withHasMany['data']))
+            if (!isset($this->withHasMany['relation']) || !isset($this->withHasMany['data'])) {
                 throw new MissingRelationDataException('HasMany Relation');
+            }
             return true;
         }
         if (!is_null($this->withBelongsToMany) && $type == 'tomany') {
-            if (!isset($this->withBelongsToMany['relation']) || !isset($this->withBelongsToMany['data']))
+            if (!isset($this->withBelongsToMany['relation']) || !isset($this->withBelongsToMany['data'])) {
                 throw new MissingRelationDataException('BelongsToMany Relation');
+            }
             return true;
         }
         return false;

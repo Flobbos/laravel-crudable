@@ -1,6 +1,6 @@
 <?php
 
-//Standard CRUD 
+//Standard CRUD
 //English - EN
 
 return [

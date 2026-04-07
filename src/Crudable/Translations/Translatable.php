@@ -2,16 +2,15 @@
 
 namespace Flobbos\Crudable\Translations;
 
-use Flobbos\Crudable\Exceptions\MissingTranslationsException;
+use Cocur\Slugify\Slugify;
+use Flobbos\Crudable\Contracts\Sluggable;
 use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
-use Flobbos\Crudable\Contracts\Sluggable;
+use Flobbos\Crudable\Exceptions\MissingTranslationsException;
 use Illuminate\Support\Str;
-use Cocur\Slugify\Slugify;
 
 trait Translatable
 {
-
     /**
      * If you custom named your translations you can set this here
      * @var string name of your translations
@@ -27,7 +26,7 @@ trait Translatable
      */
     public function processTranslations(
         array $translations,
-        string $trans_key = null,
+        ?string $trans_key = null,
         string $language_key = 'language_id'
     ) {
 
@@ -65,8 +64,9 @@ trait Translatable
         array $translations
     ) {
 
-        if (empty($translations))
-            throw new MissingTranslationsException;
+        if (empty($translations)) {
+            throw new MissingTranslationsException();
+        }
 
         return $model->{$this->translation_name}()->saveMany($translations);
     }
@@ -82,8 +82,9 @@ trait Translatable
         //Filter out null values
         $filtered = $this->filterNull($arr);
 
-        if (!isset($this->required_trans))
-            throw new MissingRequiredFieldsException;
+        if (!isset($this->required_trans)) {
+            throw new MissingRequiredFieldsException();
+        }
 
         //check if all required fields are present
         return count(array_intersect_key(array_flip($this->required_trans), $filtered)) === count($this->required_trans);
@@ -95,7 +96,7 @@ trait Translatable
      * @param string $except
      * @return array $filtered
      */
-    public function filterNull(array $arr, string $except = null)
+    public function filterNull(array $arr, ?string $except = null)
     {
         if (is_null($except)) {
             return array_filter($arr, function ($var) {

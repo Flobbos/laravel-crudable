@@ -1,5 +1,11 @@
 ## Version History
 
+### v. 6.2.0
+
+-   added official support for Laravel 13
+-   minimum PHP version bumped to 8.2 (required by Laravel 13)
+-   added PHPUnit 12 support for testbench 11 compatibility
+
 ### v. 6.1.0
 
 -   added support for Laravel 12

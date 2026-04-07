@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class CrudableServiceProvider extends ServiceProvider
 {
-
     public function boot()
     {
         //Publish config and translations

@@ -2,11 +2,8 @@
 
 namespace Flobbos\Crudable\Commands;
 
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 
 class ViewCommand extends GeneratorCommand
 {
@@ -34,10 +31,20 @@ class ViewCommand extends GeneratorCommand
      */
     protected function getStub()
     {
+        return __DIR__ . '/../../resources/stubs/' . config('crudable.css_framework') . '/index.stub';
+    }
+
+    /**
+     * Get all view stub files mapped by blade filename.
+     *
+     * @return array<string, string>
+     */
+    protected function getStubs()
+    {
         return [
             'index.blade.php' => __DIR__ . '/../../resources/stubs/' . config('crudable.css_framework') . '/index.stub',
             'create.blade.php' => __DIR__ . '/../../resources/stubs/' . config('crudable.css_framework') . '/create.stub',
-            'edit.blade.php' => __DIR__ . '/../../resources/stubs/' . config('crudable.css_framework') . '/edit.stub'
+            'edit.blade.php' => __DIR__ . '/../../resources/stubs/' . config('crudable.css_framework') . '/edit.stub',
         ];
     }
 
@@ -54,13 +61,12 @@ class ViewCommand extends GeneratorCommand
 
     protected function getDirectoryName($name)
     {
-        return  Str::plural(strtolower(Str::kebab($name)));
+        return Str::plural(strtolower(Str::kebab($name)));
     }
 
     /**
      * Replace the service variable in the stub using pluralization
      *
-     * @param  string  $stub
      * @param  string  $name
      * @return string
      */
@@ -73,15 +79,13 @@ class ViewCommand extends GeneratorCommand
 
     /**
      * Replace the service variable in stubs in singular
-     * @param type $name
-     * @return type
+     * @param string $name
+     * @return string
      */
     protected function replaceSingularServiceVar($name)
     {
-        //dd($name);
         $class = str_replace($this->getNamespace($name) . '\\', '', $name);
         $class = strtolower(Str::snake(str_replace('Service', '', $class)));
-        //dd($class);
         return $class;
     }
 
@@ -100,11 +104,10 @@ class ViewCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
-        $controllerNamespace = $this->getNamespace($name);
         $replace = [
             'DummyServiceVar' => $this->replaceServiceVar($name),
             'DummyViewPath' => $this->replaceViewPath($name),
-            'DummySingularServiceVar' => $this->replaceSingularServiceVar($name)
+            'DummySingularServiceVar' => $this->replaceSingularServiceVar($name),
         ];
         return str_replace(
             array_keys($replace),
@@ -145,10 +148,7 @@ class ViewCommand extends GeneratorCommand
             return false;
         }
 
-        // Next, we will generate the path to the location where this class' file should get
-        // written. Then, we will build the class and make the proper replacements on the
-        // stub files so that it gets the correctly formatted namespace and class name.
-        foreach ($this->getStub() as $name => $stub) {
+        foreach ($this->getStubs() as $name => $stub) {
             $this->current_stub = $stub;
             $this->makeDirectory($path . '/' . $name);
             $this->files->put($path . '/' . $name, $this->buildClass($this->getNameInput()));
