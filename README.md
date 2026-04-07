@@ -10,7 +10,7 @@ combination with Repositories or Services. The trait covers the basics needed
 for running simple CRUD operations. It also comes with a Contract that you
 can bind to your services via automated contextual binding.
 
-Supports **Laravel 11, 12, and 13** on **PHP 8.1–8.4**.
+Supports **Laravel 11, 12, and 13** on **PHP 8.2+**.
 
 ### Docs
 
@@ -881,11 +881,11 @@ protected string $slug_name  = 'slug'; // the column that stores the slug (defau
 
 | Laravel | Crudable | PHP         |
 | :------ | :------- | :---------- |
-| 13.x    | >6.1     | ^8.2        |
-| 12.x    | >6.1     | ^8.2        |
-| 11.x    | >6.\*    | ^8.1        |
-| 10.x    | >5.\*    | ^8.1        |
-| 9.x     | >4.\*    | ^8.0        |
-| 8.x     | >4.\*    | ^7.3\|^8.0  |
+| 13.x    | >=6.2    | ^8.2        |
+| 12.x    | >=6.1    | ^8.2        |
+| 11.x    | >=6.*    | ^8.2        |
+| 10.x    | >5.*     | ^8.1        |
+| 9.x     | >4.*     | ^8.0        |
+| 8.x     | >4.*     | ^7.3\|^8.0  |
 
 Have fun CRUDding! :-)
