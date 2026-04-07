@@ -881,7 +881,7 @@ protected string $slug_name  = 'slug'; // the column that stores the slug (defau
 
 | Laravel | Crudable | PHP         |
 | :------ | :------- | :---------- |
-| 13.x    | >=6.2    | ^8.2        |
+| 13.x    | >=6.2    | ^8.3        |
 | 12.x    | >=6.1    | ^8.2        |
 | 11.x    | >=6.*    | ^8.2        |
 | 10.x    | >5.*     | ^8.1        |
