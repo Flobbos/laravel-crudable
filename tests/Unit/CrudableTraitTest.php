@@ -92,6 +92,27 @@ class CrudableTraitTest extends TestCase
         $this->assertSoftDeleted('stub_models', ['id' => $model->id]);
     }
 
+    public function test_delete_hard_deletes_record(): void
+    {
+        $model = StubModel::create(['name' => 'ToHardDelete']);
+        $service = $this->getService();
+        $service->delete($model->id, true);
+
+        $this->assertDatabaseMissing('stub_models', ['id' => $model->id]);
+    }
+
+    public function test_delete_hard_deletes_already_trashed_record(): void
+    {
+        $model = StubModel::create(['name' => 'ToForceDelete']);
+        $model->delete();
+        $this->assertSoftDeleted('stub_models', ['id' => $model->id]);
+
+        $service = $this->getService();
+        $service->delete($model->id, true);
+
+        $this->assertDatabaseMissing('stub_models', ['id' => $model->id]);
+    }
+
     public function test_restore_undeletes_record(): void
     {
         $model = StubModel::create(['name' => 'ToRestore']);
