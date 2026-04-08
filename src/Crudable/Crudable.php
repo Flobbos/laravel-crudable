@@ -176,9 +176,9 @@ trait Crudable
     public function delete($id, $hardDelete = false)
     {
         if ($hardDelete) {
-            return $this->model->withTrashed()->find($id)->forceDelete($id);
+            return $this->model->withTrashed()->find($id)->forceDelete();
         }
-        return $this->model->find($id)->delete($id);
+        return $this->model->find($id)->delete();
     }
 
     /**
