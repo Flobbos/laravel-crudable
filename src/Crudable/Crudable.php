@@ -17,6 +17,15 @@ trait Crudable
     protected $model;
 
     /**
+     * Pending query builder for chained methods. Reset after each
+     * terminal call so chained state never leaks across method
+     * invocations on the same service instance.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder|null
+     */
+    protected $query = null;
+
+    /**
      * Retrieve the Eloquent model
      * @return \Illuminate\Database\Eloquent\Model
      */
@@ -28,23 +37,23 @@ trait Crudable
     /**
      * Get a single item or collection
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
      */
     public function get($id = null)
     {
         if (!is_null($id)) {
             return $this->find($id);
         }
-        return $this->model->get();
+        return $this->consumeQuery()->get();
     }
 
     /**
      * Returns the first row of the selected resource
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function first()
     {
-        return $this->model->first();
+        return $this->consumeQuery()->first();
     }
 
     /**
@@ -54,50 +63,51 @@ trait Crudable
      */
     public function where(...$params)
     {
-        $this->model = $this->model->where(...$params);
+        $this->getQuery()->where(...$params);
         return $this;
-    }
-    /**
-     * Get paginated collection
-     * @param int $perPage
-     * @return Collection
-     */
-    public function paginate($perPage)
-    {
-        return $this->model->paginate($perPage);
     }
 
     /**
-     * Alias of model find
+     * Get paginated collection
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage)
+    {
+        return $this->consumeQuery()->paginate($perPage);
+    }
+
+    /**
+     * Alias of model find. Honors any pending chained query state.
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->consumeQuery()->find($id);
     }
 
     /**
      * Retrieve single trashed item or all
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null
      */
     public function getTrash($id = null)
     {
         if (!is_null($id)) {
             return $this->getTrashedItem($id);
         }
-        return $this->model->onlyTrashed()->get();
+        return $this->consumeQuery()->onlyTrashed()->get();
     }
 
     /**
      * Return single trashed item
      * @param int $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function getTrashedItem($id)
     {
-        return $this->model->withTrashed()->find($id);
+        return $this->consumeQuery()->withTrashed()->find($id);
     }
 
     /**
@@ -107,14 +117,14 @@ trait Crudable
      */
     public function setRelation(array $relation)
     {
-        $this->model = $this->model->with($relation);
+        $this->getQuery()->with($relation);
         return $this;
     }
 
     /**
      * Same as setRelation but accepts strings and arrays
      * @param string|array $relations
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return self
      */
     public function with($relations)
     {
@@ -129,7 +139,7 @@ trait Crudable
      */
     public function orderBy($field, $order = 'asc')
     {
-        $this->model = $this->model->orderBy(...func_get_args());
+        $this->getQuery()->orderBy(...func_get_args());
         return $this;
     }
 
@@ -140,6 +150,7 @@ trait Crudable
      */
     public function create(array $data)
     {
+        $this->resetQuery();
         $model = $this->model->create($this->checkForSlug($data));
         //check for hasMany
         if ($this->validateRelationData($this->withHasMany, 'many')) {
@@ -267,6 +278,47 @@ trait Crudable
         //Move file to location
         $file->storeAs($folder, $filename, $storage_disk);
         return $filename;
+    }
+
+    /**
+     * Get or lazily create the pending query builder. Subsequent
+     * chainable calls (where/with/orderBy) all build up the same
+     * builder until a terminal call consumes it.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    private function getQuery()
+    {
+        if ($this->query === null) {
+            $this->query = $this->model->newQuery();
+        }
+        return $this->query;
+    }
+
+    /**
+     * Return the pending query and reset, so the next call starts
+     * with a fresh builder. Called from terminal methods (get/first/
+     * find/paginate/getTrash/getTrashedItem).
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    private function consumeQuery()
+    {
+        $query = $this->getQuery();
+        $this->query = null;
+        return $query;
+    }
+
+    /**
+     * Discard any pending chained query state. Called from mutators
+     * that operate against $this->model directly so a stale chain
+     * cannot leak into a later terminal call.
+     *
+     * @return void
+     */
+    private function resetQuery()
+    {
+        $this->query = null;
     }
 
     private function validateRelationData($related_data, $type)
