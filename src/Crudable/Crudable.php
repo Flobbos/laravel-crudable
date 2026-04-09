@@ -186,6 +186,7 @@ trait Crudable
      */
     public function delete($id, $hardDelete = false)
     {
+        $this->resetQuery();
         if ($hardDelete) {
             return $this->model->withTrashed()->find($id)->forceDelete();
         }
@@ -199,6 +200,7 @@ trait Crudable
      */
     public function restore($id)
     {
+        $this->resetQuery();
         return $this->model->withTrashed()->find($id)->restore();
     }
 

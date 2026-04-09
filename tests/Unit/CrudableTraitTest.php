@@ -305,6 +305,59 @@ class CrudableTraitTest extends TestCase
         $all = $service->get();
         $this->assertCount(2, $all);
     }
+
+    public function test_delete_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+        StubModel::create(['name' => 'Gamma']);
+
+        $service = $this->getService();
+
+        // A pending where that we never terminate.
+        $service->where('id', 999);
+
+        // Delete should ignore the pending chain and operate on $alpha directly.
+        $service->delete($alpha->id);
+
+        // And the next get() should not be filtered by id=999.
+        $remaining = $service->get();
+        $this->assertCount(2, $remaining);
+    }
+
+    public function test_hard_delete_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+
+        $service->where('id', 999);
+        $service->delete($alpha->id, true);
+
+        $remaining = $service->get();
+        $this->assertCount(1, $remaining);
+        $this->assertSame('Beta', $remaining->first()->name);
+    }
+
+    public function test_restore_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+        $service->delete($alpha->id);
+
+        // Soft-deleted, so a regular get() should now show 1 row.
+        $this->assertCount(1, $service->get());
+
+        // A pending where the restore() must not honor.
+        $service->where('id', 999);
+        $service->restore($alpha->id);
+
+        // And the next get() should not be filtered by id=999.
+        $this->assertCount(2, $service->get());
+    }
 }
 
 // ─── Support classes ─────────────────────────────────────────────────────────
