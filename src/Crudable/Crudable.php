@@ -3,8 +3,8 @@
 namespace Flobbos\Crudable;
 
 use Cocur\Slugify\Slugify;
-use Exception;
 use Flobbos\Crudable\Contracts\Sluggable;
+use Flobbos\Crudable\Exceptions\InvalidUploadException;
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
 use Illuminate\Support\Str;
@@ -232,7 +232,7 @@ trait Crudable
     public function handleUpload(\Illuminate\Http\Request $request, $fieldname = 'photo', $folder = 'images', $storage_disk = 'public', $randomize = true)
     {
         if (is_null($request->file($fieldname)) || !$request->file($fieldname)->isValid()) {
-            throw new Exception(trans('crud.invalid_file_upload'));
+            throw new InvalidUploadException(trans('crud.invalid_file_upload'));
         }
         //Get filename
         $basename = basename($request->file($fieldname)->getClientOriginalName(), '.' . $request->file($fieldname)->getClientOriginalExtension());

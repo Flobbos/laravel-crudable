@@ -3,7 +3,9 @@
 namespace Flobbos\Crudable\Tests\Unit;
 
 use Flobbos\Crudable\Crudable;
+use Flobbos\Crudable\Exceptions\InvalidUploadException;
 use Flobbos\Crudable\Tests\TestCase;
+use Illuminate\Http\Request;
 
 class CrudableTraitTest extends TestCase
 {
@@ -188,6 +190,30 @@ class CrudableTraitTest extends TestCase
         $results = $service->orderBy('name')->get();
 
         $this->assertSame('Apple', $results->first()->name);
+    }
+
+    public function test_handle_upload_throws_invalid_upload_exception_when_no_file_present(): void
+    {
+        $service = $this->getService();
+        $request = Request::create('/upload', 'POST');
+
+        $this->expectException(InvalidUploadException::class);
+        $service->handleUpload($request, 'photo');
+    }
+
+    public function test_handle_upload_exception_remains_catchable_as_base_exception(): void
+    {
+        $service = $this->getService();
+        $request = Request::create('/upload', 'POST');
+
+        $caught = false;
+        try {
+            $service->handleUpload($request, 'photo');
+        } catch (\Exception $e) {
+            $caught = true;
+        }
+
+        $this->assertTrue($caught, 'handleUpload exception must remain catchable as \Exception');
     }
 }
 
