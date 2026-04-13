@@ -3,7 +3,9 @@
 namespace Flobbos\Crudable\Tests\Unit;
 
 use Flobbos\Crudable\Crudable;
+use Flobbos\Crudable\Exceptions\InvalidUploadException;
 use Flobbos\Crudable\Tests\TestCase;
+use Illuminate\Http\Request;
 
 class CrudableTraitTest extends TestCase
 {
@@ -188,6 +190,173 @@ class CrudableTraitTest extends TestCase
         $results = $service->orderBy('name')->get();
 
         $this->assertSame('Apple', $results->first()->name);
+    }
+
+    public function test_handle_upload_throws_invalid_upload_exception_when_no_file_present(): void
+    {
+        $service = $this->getService();
+        $request = Request::create('/upload', 'POST');
+
+        $this->expectException(InvalidUploadException::class);
+        $service->handleUpload($request, 'photo');
+    }
+
+    public function test_handle_upload_exception_remains_catchable_as_base_exception(): void
+    {
+        $service = $this->getService();
+        $request = Request::create('/upload', 'POST');
+
+        $caught = false;
+        try {
+            $service->handleUpload($request, 'photo');
+        } catch (\Exception $e) {
+            $caught = true;
+        }
+
+        $this->assertTrue($caught, 'handleUpload exception must remain catchable as \Exception');
+    }
+
+    // ─── Query state isolation regression tests ─────────────────────────────
+
+    public function test_where_does_not_leak_state_across_calls(): void
+    {
+        StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+
+        $filtered = $service->where('name', 'Alpha')->get();
+        $this->assertCount(1, $filtered);
+
+        // Without the fix this would still filter by name=Alpha and return 1.
+        $all = $service->get();
+        $this->assertCount(2, $all);
+    }
+
+    public function test_orderby_does_not_leak_state_across_calls(): void
+    {
+        StubModel::create(['name' => 'Zebra']);
+        StubModel::create(['name' => 'Apple']);
+
+        $service = $this->getService();
+
+        $ascending = $service->orderBy('name', 'asc')->get();
+        $this->assertSame('Apple', $ascending->first()->name);
+
+        $descending = $service->orderBy('name', 'desc')->get();
+        $this->assertSame('Zebra', $descending->first()->name);
+    }
+
+    public function test_chained_where_orderby_get_works_together(): void
+    {
+        StubModel::create(['name' => 'Zebra']);
+        StubModel::create(['name' => 'Apple']);
+        StubModel::create(['name' => 'Charlie']);
+
+        $service = $this->getService();
+        $results = $service->where('id', '>', 0)->orderBy('name')->get();
+
+        $this->assertCount(3, $results);
+        $this->assertSame('Apple', $results->first()->name);
+    }
+
+    public function test_raw_returns_model_after_chained_terminal_call(): void
+    {
+        StubModel::create(['name' => 'Anything']);
+
+        $service = $this->getService();
+        $service->where('name', 'Anything')->get();
+
+        // Without the fix, $this->model would be a Builder by now.
+        $this->assertInstanceOf(StubModel::class, $service->raw());
+    }
+
+    public function test_find_uses_pending_chain_when_present(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        $beta = StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+
+        // Restricting by name='Beta' should make find($alpha->id) return null,
+        // because the row with that id has name='Alpha'.
+        $found = $service->where('name', 'Beta')->find($alpha->id);
+        $this->assertNull($found);
+
+        // After consumption the chain is gone — find by id alone should work.
+        $foundAgain = $service->find($alpha->id);
+        $this->assertNotNull($foundAgain);
+        $this->assertSame($alpha->id, $foundAgain->id);
+    }
+
+    public function test_create_does_not_leak_pending_chain_state(): void
+    {
+        StubModel::create(['name' => 'Existing']);
+
+        $service = $this->getService();
+
+        // A pending where that we never terminate.
+        $service->where('id', 999);
+
+        // Create should ignore the pending chain.
+        $service->create(['name' => 'New']);
+
+        // And the next get() should not be filtered by id=999.
+        $all = $service->get();
+        $this->assertCount(2, $all);
+    }
+
+    public function test_delete_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+        StubModel::create(['name' => 'Gamma']);
+
+        $service = $this->getService();
+
+        // A pending where that we never terminate.
+        $service->where('id', 999);
+
+        // Delete should ignore the pending chain and operate on $alpha directly.
+        $service->delete($alpha->id);
+
+        // And the next get() should not be filtered by id=999.
+        $remaining = $service->get();
+        $this->assertCount(2, $remaining);
+    }
+
+    public function test_hard_delete_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+
+        $service->where('id', 999);
+        $service->delete($alpha->id, true);
+
+        $remaining = $service->get();
+        $this->assertCount(1, $remaining);
+        $this->assertSame('Beta', $remaining->first()->name);
+    }
+
+    public function test_restore_does_not_leak_pending_chain_state(): void
+    {
+        $alpha = StubModel::create(['name' => 'Alpha']);
+        StubModel::create(['name' => 'Beta']);
+
+        $service = $this->getService();
+        $service->delete($alpha->id);
+
+        // Soft-deleted, so a regular get() should now show 1 row.
+        $this->assertCount(1, $service->get());
+
+        // A pending where the restore() must not honor.
+        $service->where('id', 999);
+        $service->restore($alpha->id);
+
+        // And the next get() should not be filtered by id=999.
+        $this->assertCount(2, $service->get());
     }
 }
 
