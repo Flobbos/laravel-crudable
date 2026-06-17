@@ -1,5 +1,10 @@
 ## Version History
 
+### v. 6.3.0
+
+-   unknown methods are now forwarded to the underlying model/builder via `__call`, so query methods like `when()`, `whereHas()`, `whereIn()` and `limit()` chain directly on a service without falling back to `raw()`
+-   added `@mixin` annotation so IDE autocomplete and PHPStan see the forwarded builder methods
+
 ### v. 6.2.0
 
 -   added official support for Laravel 13

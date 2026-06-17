@@ -7,8 +7,13 @@ use Flobbos\Crudable\Contracts\Sluggable;
 use Flobbos\Crudable\Exceptions\InvalidUploadException;
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 trait Crudable
 {
     protected $relation = [];
@@ -32,6 +37,37 @@ trait Crudable
     public function raw()
     {
         return $this->model;
+    }
+
+    /**
+     * Forward any method not defined on the trait to the underlying
+     * model/builder. Chainable query calls keep the fluent wrapper
+     * intact; terminal calls return their result directly. This is what
+     * lets you use builder methods such as when(), whereHas(), limit(),
+     * etc. without dropping out to raw().
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return $this|mixed
+     */
+    public function __call($method, $parameters)
+    {
+        $result = $this->model->{$method}(...$parameters);
+
+        // Query-building op: capture the (possibly new) builder instance
+        // and keep returning the wrapper so the chain continues.
+        if ($result instanceof EloquentBuilder || $result instanceof QueryBuilder) {
+            $this->model = $result;
+            return $this;
+        }
+
+        // Some chainable calls return the same instance back.
+        if ($result === $this->model) {
+            return $this;
+        }
+
+        // Terminal result: Collection, model, scalar, bool, etc.
+        return $result;
     }
 
     /**

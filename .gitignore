@@ -8,3 +8,5 @@ coverage/
 .history
 .push.settings.jsonc
 RELEASE_NOTES.md
+.php-cs-fixer.cache
+.phpunit.result.cache

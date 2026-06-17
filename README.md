@@ -755,6 +755,26 @@ This works just like setRelation but you can either pass a string OR an array.
 
 This method just passes along your orderBy statement to Eloquent.
 
+### Passthrough to the model (when, whereHas, limit, …)
+
+Any method that isn't defined on the trait is forwarded to the underlying
+Eloquent model/builder via `__call`. That means you can use the full query
+builder — `when()`, `whereHas()`, `whereIn()`, `limit()`, `groupBy()` and so on
+— directly on your service without dropping out to `raw()`. Chainable calls keep
+returning the service, so you can mix them freely with the methods above:
+
+```php
+    return $yourService
+        ->when($request->filled('active'), fn ($q) => $q->where('active', true))
+        ->with('tags')
+        ->orderBy('name')
+        ->paginate(15);
+```
+
+Terminal calls such as `count()`, `exists()` or `pluck()` return their result
+directly. `raw()` is still available when you want the bare model/builder
+instance back.
+
 ### withHasMany
 
 The method adds hasMany data to your create statement.
