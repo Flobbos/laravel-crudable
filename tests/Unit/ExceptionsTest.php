@@ -2,6 +2,7 @@
 
 namespace Flobbos\Crudable\Tests\Unit;
 
+use Flobbos\Crudable\Exceptions\InvalidUploadException;
 use Flobbos\Crudable\Exceptions\MissingRelationDataException;
 use Flobbos\Crudable\Exceptions\MissingRequiredFieldsException;
 use Flobbos\Crudable\Exceptions\MissingSlugFieldException;
@@ -50,6 +51,7 @@ class ExceptionsTest extends TestCase
     public function test_all_exceptions_extend_base_exception(): void
     {
         $exceptions = [
+            InvalidUploadException::class,
             MissingRelationDataException::class,
             MissingRequiredFieldsException::class,
             MissingSlugFieldException::class,
@@ -63,5 +65,23 @@ class ExceptionsTest extends TestCase
                 "$class should extend Exception"
             );
         }
+    }
+
+    public function test_invalid_upload_exception_extends_runtime_exception(): void
+    {
+        $e = new InvalidUploadException('Invalid file upload.');
+        $this->assertInstanceOf(\RuntimeException::class, $e);
+        $this->assertSame('Invalid file upload.', $e->getMessage());
+    }
+
+    public function test_invalid_upload_exception_is_catchable_as_base_exception(): void
+    {
+        $caught = false;
+        try {
+            throw new InvalidUploadException('test');
+        } catch (\Exception $e) {
+            $caught = true;
+        }
+        $this->assertTrue($caught, 'InvalidUploadException must be catchable as \Exception for backwards compat');
     }
 }

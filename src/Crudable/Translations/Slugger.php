@@ -40,9 +40,10 @@ trait Slugger
         $reflector = new TranslationReflector($this->model);
         //Get the translation class from reflector
         $translation_class = $reflector->translationClass();
+        $slug_column = $this->slug_name ?? 'slug';
         //Find the slug by the given resource ID and language ID
-        if ($model = $translation_class->select('slug')->where($reflector->foreignKeyName(), $id)->where('language_id', $language_id)->first()) {
-            return $model->slug;
+        if ($model = $translation_class->select($slug_column)->where($reflector->foreignKeyName(), $id)->where('language_id', $language_id)->first()) {
+            return $model->{$slug_column};
         }
         throw new SlugNotFoundException($id . ' does not have a corresponding slug');
     }
@@ -56,7 +57,8 @@ trait Slugger
      */
     public function getResourceIdFromSlug(string $slug): int
     {
-        if ($model = $this->model->select('id')->where('slug', $slug)->first()) {
+        $slug_column = $this->slug_name ?? 'slug';
+        if ($model = $this->model->select('id')->where($slug_column, $slug)->first()) {
             return $model->id;
         }
         throw new SlugNotFoundException();
@@ -71,8 +73,9 @@ trait Slugger
      */
     public function getSlugFromResourceId(int $id): string
     {
-        if ($model = $this->model->select('slug')->find($id)) {
-            return $model->slug;
+        $slug_column = $this->slug_name ?? 'slug';
+        if ($model = $this->model->select($slug_column)->find($id)) {
+            return $model->{$slug_column};
         }
         throw new SlugNotFoundException($id . ' does not have a corresponding slug');
     }
