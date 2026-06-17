@@ -168,6 +168,65 @@ class CrudableTraitTest extends TestCase
 
         $this->assertSame('Apple', $results->first()->name);
     }
+
+    public function test_forwards_chainable_builder_method_and_keeps_wrapper(): void
+    {
+        StubModel::create(['name' => 'Active']);
+        StubModel::create(['name' => 'Inactive']);
+
+        $service = $this->getService();
+
+        // when() is not defined on the trait — it should be forwarded to the
+        // builder and still return the wrapper so the chain can continue.
+        $chained = $service->when(true, fn ($query) => $query->where('name', 'Active'));
+        $this->assertSame($service, $chained);
+
+        $results = $chained->get();
+        $this->assertCount(1, $results);
+        $this->assertSame('Active', $results->first()->name);
+    }
+
+    public function test_forwards_when_with_false_condition(): void
+    {
+        StubModel::create(['name' => 'One']);
+        StubModel::create(['name' => 'Two']);
+
+        $service = $this->getService();
+
+        // Falsy condition: callback is skipped, no filter applied.
+        $results = $service->when(false, fn ($query) => $query->where('name', 'One'))->get();
+
+        $this->assertCount(2, $results);
+    }
+
+    public function test_forwards_chain_after_trait_method_reassigns_builder(): void
+    {
+        StubModel::create(['name' => 'Keep']);
+        StubModel::create(['name' => 'Drop']);
+
+        $service = $this->getService();
+
+        // Trait method first (where reassigns $this->model to a Builder),
+        // then a forwarded builder method on top of it.
+        $results = $service->where('name', 'Keep')
+            ->when(true, fn ($query) => $query->orderBy('name'))
+            ->get();
+
+        $this->assertCount(1, $results);
+        $this->assertSame('Keep', $results->first()->name);
+    }
+
+    public function test_forwards_terminal_builder_method(): void
+    {
+        StubModel::create(['name' => 'A']);
+        StubModel::create(['name' => 'B']);
+        StubModel::create(['name' => 'C']);
+
+        $service = $this->getService();
+
+        // count() returns a scalar — it must come straight back, not the wrapper.
+        $this->assertSame(3, $service->count());
+    }
 }
 
 // ─── Support classes ─────────────────────────────────────────────────────────
